@@ -238,7 +238,7 @@ async function handler(m, { sock }) {
     f.totalEarned = (f.totalEarned || 0) + tv;
     f.inventory = [...(f.inventory || []), ...catches];
     const rlu = addRodExp(f, f.usedFishingRod || "basicrod", te);
-    const plu = addJugadorExp(f, te);
+    const plu = addPlayerExp(f, te);
     f.fishingPending = [];
     let txt = `*CAPTURAS RECOGIDAS!*\n\n+${formatMoney(tv)}\n+${te} EXP\n+${catches.length} peces\n`;
     if (nf.length > 0) txt += `\n*Pez nuevo:* ${nf.join(", ")}`;
