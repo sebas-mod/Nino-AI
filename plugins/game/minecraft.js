@@ -7,21 +7,13 @@ import {
   addPickExp,
   addPlayerExp,
   getUpgradedStats,
-  doGachaPull,
   getStreakBonus,
-  doSmelt,
-  doCraft,
-  getAvailableMobs,
-  healPlayer,
-  JACKPOT_POOLS,
 } from "../../src/lib/ourin-minecraft.js";
 
 import {
   biomes,
   pickaxes,
-  mobData,
   RARITY_EMOJI,
-  GACHA_COST_COINS,
 } from "../../src/lib/ourin-minecraft-data.js";
 
 import config from "../../config.js";
@@ -129,10 +121,8 @@ async function handler(m, { sock }) {
 📦 .mct collect
 💸 .mct sell
 👤 .mct me
-❤️ .mct heal
 🎒 .mct inv
 🎁 .mct daily
-🎰 .mct gacha
 🏆 .mct top`,
     );
   }
@@ -180,10 +170,17 @@ async function handler(m, { sock }) {
     const stats =
       getUpgradedStats(mc, pick);
 
+    const streak =
+      getStreakBonus(
+        mc.streak || 0,
+      );
+
     const ore = getRandomOre(
       {
         ...pick,
-        luck: stats?.luck || 0,
+        luck:
+          (stats?.luck || 0) +
+          (streak?.luckAdd || 0),
       },
       biome,
     );
@@ -194,8 +191,15 @@ async function handler(m, { sock }) {
       );
     }
 
+    ore.price = Math.floor(
+      ore.price *
+        (streak?.mult || 1),
+    );
+
     mc.miningPending = [ore];
     mc.lastMineTime = now;
+    mc.streak =
+      (mc.streak || 0) + 1;
 
     db.markDirty("users");
 
@@ -204,10 +208,18 @@ async function handler(m, { sock }) {
       m,
       `*⛏️ MINANDO...*
 
+🗺️ Bioma:
+${biomes?.[biome]?.name || biome}
+
 Mineral:
 ${ore.name}
 
+Rareza:
+${rc(ore.rarity)}
+
 💰 ${formatMoney(ore.price)}
+
+📦 x${ore.stack}
 
 Usa:
 .mct collect`,
@@ -224,33 +236,42 @@ Usa:
       );
     }
 
-    const ores = mc.miningPending;
+    const ores =
+      mc.miningPending;
 
     let total = 0;
     let exp = 0;
 
     for (const ore of ores) {
       total += ore.price || 0;
-      exp += Math.floor(
-        (ore.price || 0) / 50,
+
+      exp += Math.max(
+        5,
+        Math.floor(
+          (ore.price || 0) / 50,
+        ),
       );
     }
-
-    mc.money += total;
 
     mc.inventory.push(...ores);
 
-    if (addPickExp) {
-      addPickExp(
-        mc,
-        mc.usedPickaxe,
-        exp,
-      );
-    }
+    mc.blocksMined += ores.reduce(
+      (a, b) =>
+        a + (b.stack || 1),
+      0,
+    );
 
-    if (addPlayerExp) {
-      addPlayerExp(mc, exp);
-    }
+    mc.totalEarned =
+      (mc.totalEarned || 0) +
+      total;
+
+    addPickExp(
+      mc,
+      mc.usedPickaxe,
+      exp,
+    );
+
+    addPlayerExp(mc, exp);
 
     mc.miningPending = [];
 
@@ -262,7 +283,12 @@ Usa:
       `*📦 RECOLECTADO*
 
 💰 ${formatMoney(total)}
-⭐ ${exp} EXP`,
+
+⭐ ${exp} EXP
+
+🧱 ${
+        ores.length
+      } minerales guardados`,
     );
   }
 
@@ -283,6 +309,7 @@ Usa:
     }
 
     mc.money += total;
+
     mc.inventory = [];
 
     db.markDirty("users");
@@ -299,31 +326,42 @@ ${formatMoney(mc.money)}`,
     );
   }
 
-  if (sub === "heal") {
-    if (!healPlayer) {
+  if (
+    sub === "inv" ||
+    sub === "inventory"
+  ) {
+    if (
+      !mc.inventory ||
+      mc.inventory.length === 0
+    ) {
       return m.reply(
-        "_❌ healPlayer no existe en la librería_",
+        "_🎒 Inventario vacío_",
       );
     }
 
-    const result = healPlayer(mc);
+    let txt =
+      "*🎒 INVENTARIO*\n\n";
 
-    if (result?.error) {
-      return m.reply(
-        `_${result.error}_`,
-      );
+    let total = 0;
+
+    for (const item of mc.inventory) {
+      txt += `${item.name}
+
+📦 x${item.stack}
+
+💰 ${formatMoney(
+        item.price,
+      )}
+
+\n`;
+
+      total += item.price || 0;
     }
 
-    db.markDirty("users");
+    txt += `\n🏦 Valor Total:
+${formatMoney(total)}`;
 
-    return send(
-      sock,
-      m,
-      `*❤️ CURADO*
-
-❤️ HP:
-${mc.hp}/${mc.maxHp}`,
-    );
+    return send(sock, m, txt);
   }
 
   if (sub === "daily") {
@@ -351,35 +389,6 @@ ${mc.hp}/${mc.maxHp}`,
       `*🎁 DAILY*
 
 💰 +5,000`,
-    );
-  }
-
-  if (sub === "gacha") {
-    if (
-      mc.money <
-      GACHA_COST_COINS
-    ) {
-      return m.reply(
-        "_💸 Dinero insuficiente_",
-      );
-    }
-
-    mc.money -= GACHA_COST_COINS;
-
-    const result =
-      doGachaPull?.(mc);
-
-    db.markDirty("users");
-
-    return send(
-      sock,
-      m,
-      `*🎰 GACHA*
-
-🎁 ${
-        result?.item?.label ||
-        "Premio obtenido"
-      }`,
     );
   }
 
@@ -432,7 +441,8 @@ ${mc.hp}/${mc.maxHp}`,
       m,
       `*👤 PERFIL*
 
-⬆️ Nivel: ${mc.level}
+⬆️ Nivel:
+${mc.level}
 
 ⭐ EXP:
 ${mc.exp}/${mc.expToNextLevel}
@@ -450,7 +460,10 @@ ${mc.atk}
 ${mc.blocksMined}
 
 👑 Prestige:
-${mc.prestige}`,
+${mc.prestige}
+
+🪓 Pico:
+${mc.usedPickaxe}`,
     );
   }
 }
