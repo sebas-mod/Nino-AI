@@ -13,7 +13,6 @@ import {
   doSmelt,
   doCraft,
   doJackpotPull,
-  applyJackpotReward,
   getAvailableMobs,
   healPlayer,
   JACKPOT_POOLS,
@@ -31,7 +30,6 @@ import {
   TOKEN_SHOP,
   GACHA_COST_COINS,
   GACHA_PITY_LIMIT,
-  SMELT_RECIPES,
   CRAFT_RECIPES,
 } from "../../src/lib/ourin-minecraft-data.js";
 
@@ -42,17 +40,6 @@ import fs from "fs";
 const MC = 15;
 
 const rc = (r) => RARITY_EMOJI[r] || "⬜";
-
-const encCost = (r) =>
-  ({
-    common: 60000,
-    rare: 600000,
-    epic: 6e6,
-    legendary: 6e7,
-    mythic: 6e8,
-    godly: 6e9,
-    secret: 6e10,
-  })[r] || 60000;
 
 let thumbMC = null;
 
@@ -67,37 +54,17 @@ try {
   if (fs.existsSync(p)) {
     thumbMC = fs.readFileSync(p);
   }
-} catch (e) {}
-
-function ctx() {
-  const sId =
-    config.saluran?.id || "120363400911374213@newsletter";
-
-  const sName =
-    config.saluran?.name ||
-    config.bot?.name ||
-    "Nino AI";
-
-  return {
-    forwardingScore: 9999,
-    isForwarded: true,
-    forwardedNewsletterMessageInfo: {
-      newsletterJid: sId,
-      newsletterName: sName,
-      serverMessageId: 127,
-    },
-  };
-}
+} catch {}
 
 function send(sock, m, text) {
   const msgId = sock.sendPreview(
     m.chat,
     {
-      caption: `${config.info.website} ${text}`,
-      url: `${config.info.website}`,
-      title: `𝗠𝗜𝗡𝗘𝗖𝗥𝗔𝗙𝗧 𝗚𝗔𝗠𝗘`,
+      caption: `${config.info.website}\n\n${text}`,
+      url: config.info.website,
+      title: "𝗠𝗜𝗡𝗘𝗖𝗥𝗔𝗙𝗧",
       description:
-        `⛏️ mina, 🛠️ craftea y ⚔️ pelea mobs`,
+        "⛏️ Mina, 🛠️ craftea y ⚔️ pelea mobs",
       jpegThumbnail: thumbMC,
       previewType: 0,
     },
@@ -117,13 +84,9 @@ const pluginConfig = {
   name: "minecraft",
   alias: ["mct"],
   category: "game",
-  description: "Minecraft game plugin",
+  description: "Minecraft RPG",
   usage: ".mct help",
   example: ".mct mine",
-  isOwner: false,
-  isPremium: false,
-  isGroup: false,
-  isPrivate: false,
   cooldown: 3,
   energi: 0,
   isEnabled: true,
@@ -134,7 +97,9 @@ async function handler(m, { sock }) {
 
   const cmd =
     m.command ||
-    m.body?.split(" ")[0]?.slice(1)?.toLowerCase() ||
+    m.body?.split(" ")[0]
+      ?.slice(1)
+      ?.toLowerCase() ||
     "";
 
   const args =
@@ -147,14 +112,42 @@ async function handler(m, { sock }) {
 
   if (cmd !== "mct" && cmd !== "minecraft") return;
 
-  const user = getOrCreateMCUser(db, m.sender);
+  const user = getOrCreateMCUser(
+    db,
+    m.sender,
+  );
+
+  if (!user.minecraft) {
+    user.minecraft = {
+      level: 1,
+      exp: 0,
+      expToNextLevel: 100,
+      money: 0,
+      hp: 100,
+      maxHp: 100,
+      atk: 5,
+      blocksMined: 0,
+      prestige: 0,
+      gachaTickets: 0,
+      currentBiome: "plains",
+      usedPickaxe: "woodpick",
+      miningPending: [],
+      inventory: [],
+      pickaxes: {
+        woodpick: {
+          ...pickaxes.woodpick,
+        },
+      },
+    };
+  }
+
   const mc = user.minecraft;
 
   if (!sub || sub === "help") {
     return send(
       sock,
       m,
-      `*🧱 MINECRAFT GAME*
+      `*🧱 MINECRAFT MENU*
 
 ⛏️ .mct mine
 📦 .mct collect
@@ -166,7 +159,6 @@ async function handler(m, { sock }) {
 🎒 .mct inv
 🎁 .mct daily
 🎰 .mct gacha
-👑 .mct prestige
 🏆 .mct top`,
     );
   }
@@ -177,7 +169,7 @@ async function handler(m, { sock }) {
       mc.miningPending.length > 0
     ) {
       return m.reply(
-        "_📦 Usa `.mct collect` primero_",
+        "_📦 Usa .mct collect primero_",
       );
     }
 
@@ -185,7 +177,8 @@ async function handler(m, { sock }) {
 
     if (
       mc.lastMineTime &&
-      now - mc.lastMineTime < MC * 1000
+      now - mc.lastMineTime <
+        MC * 1000
     ) {
       return m.reply(
         `_⏳ Espera ${Math.ceil(
@@ -196,16 +189,22 @@ async function handler(m, { sock }) {
       );
     }
 
-    const pk = mc.usedPickaxe || "woodpick";
+    const pk =
+      mc.usedPickaxe || "woodpick";
+
     const pick = mc.pickaxes[pk];
 
     if (!pick) {
-      return m.reply("_🪓 No tienes pico_");
+      return m.reply(
+        "_🪓 No tienes pico_",
+      );
     }
 
-    const biome = mc.currentBiome || "plains";
+    const biome =
+      mc.currentBiome || "plains";
 
-    const stats = getUpgradedStats(mc, pick);
+    const stats =
+      getUpgradedStats(mc, pick);
 
     const ore = getRandomOre(
       {
@@ -216,7 +215,9 @@ async function handler(m, { sock }) {
     );
 
     if (!ore) {
-      return m.reply("_❌ No encontraste nada_");
+      return m.reply(
+        "_❌ No encontraste minerales_",
+      );
     }
 
     mc.miningPending = [ore];
@@ -229,7 +230,7 @@ async function handler(m, { sock }) {
       m,
       `*⛏️ MINANDO...*
 
-Mineral encontrado:
+Mineral:
 ${ore.name}
 
 💰 ${formatMoney(ore.price)}
@@ -245,7 +246,7 @@ Usa:
       mc.miningPending.length === 0
     ) {
       return m.reply(
-        "_📭 No hay minerales pendientes_",
+        "_📭 No hay minerales_",
       );
     }
 
@@ -255,17 +256,19 @@ Usa:
     let exp = 0;
 
     for (const ore of ores) {
-      total += ore.price;
-      exp += Math.floor(ore.price / 50);
+      total += ore.price || 0;
+      exp += Math.floor(
+        (ore.price || 0) / 50,
+      );
     }
 
-    mc.money = (mc.money || 0) + total;
+    mc.money += total;
 
     mc.inventory.push(...ores);
 
     addPickExp(
       mc,
-      mc.usedPickaxe || "woodpick",
+      mc.usedPickaxe,
       exp,
     );
 
@@ -278,10 +281,43 @@ Usa:
     return send(
       sock,
       m,
-      `*📦 RECOMPENSAS*
+      `*📦 RECOLECTADO*
 
 💰 ${formatMoney(total)}
 ⭐ ${exp} EXP`,
+    );
+  }
+
+  if (sub === "sell") {
+    if (
+      !mc.inventory ||
+      mc.inventory.length === 0
+    ) {
+      return m.reply(
+        "_🎒 Inventario vacío_",
+      );
+    }
+
+    let total = 0;
+
+    for (const item of mc.inventory) {
+      total += item.price || 0;
+    }
+
+    mc.money += total;
+    mc.inventory = [];
+
+    db.markDirty("users");
+
+    return send(
+      sock,
+      m,
+      `*💸 VENTA COMPLETA*
+
+💰 ${formatMoney(total)}
+
+🏦 Balance:
+${formatMoney(mc.money)}`,
     );
   }
 
@@ -289,7 +325,9 @@ Usa:
     const result = healPlayer(mc);
 
     if (result.error) {
-      return m.reply(`_${result.error}_`);
+      return m.reply(
+        `_${result.error}_`,
+      );
     }
 
     db.markDirty("users");
@@ -297,11 +335,165 @@ Usa:
     return send(
       sock,
       m,
-      `*❤️ VIDA RESTAURADA*
+      `*❤️ CURADO*
 
-HP:
+❤️ HP:
 ${result.hp}/${mc.maxHp}`,
     );
+  }
+
+  if (sub === "fight") {
+    if (!sa[0]) {
+      const mobs =
+        getAvailableMobs(mc);
+
+      let txt =
+        "*👹 MOBS DISPONIBLES*\n\n";
+
+      for (const mob of mobs) {
+        txt += `⚔️ ${mob.name}
+❤️ ${mob.hp}
+💥 ${mob.atk}
+
+`;
+      }
+
+      return send(sock, m, txt);
+    }
+
+    const mob =
+      sa[0].toLowerCase();
+
+    if (!mobData[mob]) {
+      return m.reply(
+        "_👹 Mob no existe_",
+      );
+    }
+
+    const result = doCombat(
+      mc,
+      mob,
+    );
+
+    if (result.error) {
+      return m.reply(
+        `_${result.error}_`,
+      );
+    }
+
+    db.markDirty("users");
+
+    return send(
+      sock,
+      m,
+      result.won
+        ? `*🏆 GANASTE*
+
+⚔️ ${result.mobName}
+⭐ +${result.expGain} EXP`
+        : `*💀 PERDISTE*
+
+⚔️ ${result.mobName}`,
+    );
+  }
+
+  if (sub === "daily") {
+    const now = Date.now();
+
+    if (
+      mc.lastDaily &&
+      now - mc.lastDaily <
+        86400000
+    ) {
+      return m.reply(
+        "_🎁 Ya reclamaste hoy_",
+      );
+    }
+
+    mc.lastDaily = now;
+
+    mc.money += 5000;
+    mc.gachaTickets += 1;
+
+    db.markDirty("users");
+
+    return send(
+      sock,
+      m,
+      `*🎁 DAILY*
+
+💰 +5,000
+🎟️ +1 Ticket`,
+    );
+  }
+
+  if (sub === "gacha") {
+    if (
+      mc.money <
+      GACHA_COST_COINS
+    ) {
+      return m.reply(
+        "_💸 Dinero insuficiente_",
+      );
+    }
+
+    mc.money -= GACHA_COST_COINS;
+
+    const result =
+      doGachaPull(mc);
+
+    db.markDirty("users");
+
+    return send(
+      sock,
+      m,
+      `*🎰 GACHA*
+
+🎁 ${result.item.label}`,
+    );
+  }
+
+  if (sub === "top") {
+    const users =
+      db.db.data.users || {};
+
+    const ranking = [];
+
+    for (const [
+      jid,
+      data,
+    ] of Object.entries(users)) {
+      if (data.minecraft) {
+        ranking.push({
+          jid,
+          blocks:
+            data.minecraft
+              .blocksMined || 0,
+        });
+      }
+    }
+
+    ranking.sort(
+      (a, b) =>
+        b.blocks - a.blocks,
+    );
+
+    let txt =
+      "*🏆 TOP MINEROS*\n\n";
+
+    ranking
+      .slice(0, 10)
+      .forEach((u, i) => {
+        txt += `${i + 1}. @${
+          u.jid
+        }
+
+🧱 ${u.blocks} bloques
+
+`;
+      });
+
+    return send(sock, m, txt);
   }
 
   if (sub === "me") {
@@ -311,38 +503,23 @@ ${result.hp}/${mc.maxHp}`,
       `*👤 PERFIL*
 
 ⬆️ Nivel: ${mc.level}
-💰 Dinero: ${formatMoney(mc.money)}
-❤️ HP: ${mc.hp}/${mc.maxHp}
-⚔️ ATK: ${mc.atk}
-🧱 Bloques: ${mc.blocksMined}
-👑 Prestige: ${mc.prestige || 0}`,
+⭐ EXP: ${mc.exp}/${mc.expToNextLevel}
+
+💰 Dinero:
+${formatMoney(mc.money)}
+
+❤️ HP:
+${mc.hp}/${mc.maxHp}
+
+⚔️ ATK:
+${mc.atk}
+
+🧱 Bloques:
+${mc.blocksMined}
+
+👑 Prestige:
+${mc.prestige}`,
     );
-  }
-
-  if (sub === "top") {
-    const users = db.db.data.users || {};
-
-    const ranking = [];
-
-    for (const [jid, data] of Object.entries(users)) {
-      if (data.minecraft) {
-        ranking.push({
-          jid,
-          blocks: data.minecraft.blocksMined || 0,
-        });
-      }
-    }
-
-    ranking.sort((a, b) => b.blocks - a.blocks);
-
-    let txt = "*🏆 TOP MINEROS*\n\n";
-
-    ranking.slice(0, 10).forEach((u, i) => {
-      txt += `${i + 1}. @${u.jid}
-🧱 ${u.blocks} bloques\n\n`;
-    });
-
-    return send(sock, m, txt);
   }
 }
 
