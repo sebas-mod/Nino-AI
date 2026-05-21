@@ -4,7 +4,7 @@ import {
   getRandomFish,
   formatMoney,
   addRodExp,
-  addJugadorExp,
+  addPlayerExp,
   getUpgradedStats,
   doGachaPull,
   getStreakBonus,
