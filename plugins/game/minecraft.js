@@ -9,10 +9,8 @@ import {
   getUpgradedStats,
   doGachaPull,
   getStreakBonus,
-  doCombat,
   doSmelt,
   doCraft,
-  doJackpotPull,
   getAvailableMobs,
   healPlayer,
   JACKPOT_POOLS,
@@ -20,17 +18,10 @@ import {
 
 import {
   biomes,
-  travelRequirements,
   pickaxes,
-  pickEnchants,
   mobData,
   RARITY_EMOJI,
-  UPGRADES,
-  DAILY_REWARDS,
-  TOKEN_SHOP,
   GACHA_COST_COINS,
-  GACHA_PITY_LIMIT,
-  CRAFT_RECIPES,
 } from "../../src/lib/ourin-minecraft-data.js";
 
 import config from "../../config.js";
@@ -39,7 +30,7 @@ import fs from "fs";
 
 const MC = 15;
 
-const rc = (r) => RARITY_EMOJI[r] || "⬜";
+const rc = (r) => RARITY_EMOJI?.[r] || "⬜";
 
 let thumbMC = null;
 
@@ -57,27 +48,14 @@ try {
 } catch {}
 
 function send(sock, m, text) {
-  const msgId = sock.sendPreview(
+  return sock.sendMessage(
     m.chat,
     {
-      caption: `${config.info.website}\n\n${text}`,
-      url: config.info.website,
-      title: "𝗠𝗜𝗡𝗘𝗖𝗥𝗔𝗙𝗧",
-      description:
-        "⛏️ Mina, 🛠️ craftea y ⚔️ pelea mobs",
-      jpegThumbnail: thumbMC,
-      previewType: 0,
+      image: thumbMC,
+      caption: text,
     },
     { quoted: m },
   );
-
-  return {
-    key: {
-      id: msgId,
-      remoteJid: m.chat,
-      fromMe: true,
-    },
-  };
 }
 
 const pluginConfig = {
@@ -108,7 +86,6 @@ async function handler(m, { sock }) {
     [];
 
   const sub = args[0]?.toLowerCase() || "";
-  const sa = args.slice(1);
 
   if (cmd !== "mct" && cmd !== "minecraft") return;
 
@@ -128,7 +105,6 @@ async function handler(m, { sock }) {
       atk: 5,
       blocksMined: 0,
       prestige: 0,
-      gachaTickets: 0,
       currentBiome: "plains",
       usedPickaxe: "woodpick",
       miningPending: [],
@@ -153,8 +129,6 @@ async function handler(m, { sock }) {
 📦 .mct collect
 💸 .mct sell
 👤 .mct me
-📊 .mct stats
-⚔️ .mct fight
 ❤️ .mct heal
 🎒 .mct inv
 🎁 .mct daily
@@ -189,10 +163,10 @@ async function handler(m, { sock }) {
       );
     }
 
-    const pk =
-      mc.usedPickaxe || "woodpick";
-
-    const pick = mc.pickaxes[pk];
+    const pick =
+      mc.pickaxes[
+        mc.usedPickaxe || "woodpick"
+      ];
 
     if (!pick) {
       return m.reply(
@@ -209,7 +183,7 @@ async function handler(m, { sock }) {
     const ore = getRandomOre(
       {
         ...pick,
-        luck: stats.luck,
+        luck: stats?.luck || 0,
       },
       biome,
     );
@@ -246,7 +220,7 @@ Usa:
       mc.miningPending.length === 0
     ) {
       return m.reply(
-        "_📭 No hay minerales_",
+        "_📭 No hay minerales pendientes_",
       );
     }
 
@@ -266,13 +240,17 @@ Usa:
 
     mc.inventory.push(...ores);
 
-    addPickExp(
-      mc,
-      mc.usedPickaxe,
-      exp,
-    );
+    if (addPickExp) {
+      addPickExp(
+        mc,
+        mc.usedPickaxe,
+        exp,
+      );
+    }
 
-    addPlayerExp(mc, exp);
+    if (addPlayerExp) {
+      addPlayerExp(mc, exp);
+    }
 
     mc.miningPending = [];
 
@@ -322,9 +300,15 @@ ${formatMoney(mc.money)}`,
   }
 
   if (sub === "heal") {
+    if (!healPlayer) {
+      return m.reply(
+        "_❌ healPlayer no existe en la librería_",
+      );
+    }
+
     const result = healPlayer(mc);
 
-    if (result.error) {
+    if (result?.error) {
       return m.reply(
         `_${result.error}_`,
       );
@@ -338,62 +322,7 @@ ${formatMoney(mc.money)}`,
       `*❤️ CURADO*
 
 ❤️ HP:
-${result.hp}/${mc.maxHp}`,
-    );
-  }
-
-  if (sub === "fight") {
-    if (!sa[0]) {
-      const mobs =
-        getAvailableMobs(mc);
-
-      let txt =
-        "*👹 MOBS DISPONIBLES*\n\n";
-
-      for (const mob of mobs) {
-        txt += `⚔️ ${mob.name}
-❤️ ${mob.hp}
-💥 ${mob.atk}
-
-`;
-      }
-
-      return send(sock, m, txt);
-    }
-
-    const mob =
-      sa[0].toLowerCase();
-
-    if (!mobData[mob]) {
-      return m.reply(
-        "_👹 Mob no existe_",
-      );
-    }
-
-    const result = doCombat(
-      mc,
-      mob,
-    );
-
-    if (result.error) {
-      return m.reply(
-        `_${result.error}_`,
-      );
-    }
-
-    db.markDirty("users");
-
-    return send(
-      sock,
-      m,
-      result.won
-        ? `*🏆 GANASTE*
-
-⚔️ ${result.mobName}
-⭐ +${result.expGain} EXP`
-        : `*💀 PERDISTE*
-
-⚔️ ${result.mobName}`,
+${mc.hp}/${mc.maxHp}`,
     );
   }
 
@@ -413,7 +342,6 @@ ${result.hp}/${mc.maxHp}`,
     mc.lastDaily = now;
 
     mc.money += 5000;
-    mc.gachaTickets += 1;
 
     db.markDirty("users");
 
@@ -422,8 +350,7 @@ ${result.hp}/${mc.maxHp}`,
       m,
       `*🎁 DAILY*
 
-💰 +5,000
-🎟️ +1 Ticket`,
+💰 +5,000`,
     );
   }
 
@@ -440,7 +367,7 @@ ${result.hp}/${mc.maxHp}`,
     mc.money -= GACHA_COST_COINS;
 
     const result =
-      doGachaPull(mc);
+      doGachaPull?.(mc);
 
     db.markDirty("users");
 
@@ -449,7 +376,10 @@ ${result.hp}/${mc.maxHp}`,
       m,
       `*🎰 GACHA*
 
-🎁 ${result.item.label}`,
+🎁 ${
+        result?.item?.label ||
+        "Premio obtenido"
+      }`,
     );
   }
 
@@ -503,7 +433,9 @@ ${result.hp}/${mc.maxHp}`,
       `*👤 PERFIL*
 
 ⬆️ Nivel: ${mc.level}
-⭐ EXP: ${mc.exp}/${mc.expToNextLevel}
+
+⭐ EXP:
+${mc.exp}/${mc.expToNextLevel}
 
 💰 Dinero:
 ${formatMoney(mc.money)}
