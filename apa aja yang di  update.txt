@@ -1,0 +1,61 @@
+*OURIN MD * - 2.6
+
+🌾 Apa aja yang di update?
+
+[ 🌾 *UPDATE* ]
+- *.skiplink* - SkipLink dari berbagai provider
+- *.qwa* - quote whatsapp maker
+- fitur *RPG* sudah di tingkatkan, bisa di coba 1 1
+- meningkatkan kualitas pushkontak
+- *,selfthisgc* ( self bot di grup saat ini )
+- *.publicthisgc* ( public bot di grup saat ini )
+- penambahan *setmenu v16* dan *setmenu v17*
+- memperbaiki carousel
+- penambahan *setreply v11*
+- upgrade welcome dan goodbye
+- memperbaiki nanobanana, to3d, dan semacamnya
+- *.colorize* - buat gambar jadi lebih bewarna
+- *.nik-parser* - cek detail nik dari ktp
+- *.gstalk* - genshin impact stalker
+- *.am-data* - alight motion data
+- *.fake-xnxx* - fake xnxx
+- *.fake-tweet* - fake twitter
+- peningkatan jpm
+- memperbaiki masalah *addstickercmd*
+- memperbaiki masalah backup yang kadang error
+- menambahkan opsi *enablecommand* dan *disablecommand* di autoai, fungsinya kalau di enable in, bot bakal nge respon command dari user, walaupun autoai aktif
+- meningkatkan fitur *join*, kini bisa mendeteksi link grup dari pesan yang di reply
+- *.mutegc* - fungsinya agar member biasa gak bisa mainin bot ( command mutegc hanya bisa dijalanin oleh owner dan admin )
+- *.anticulik* - fungsinya agar ketika bot diculik orang lain, bot bakalan auto keluar grup
+- meningkatkan *antilinkall*, sekarang enggak cuman ngedetek https atau http doang, tapi sampai ke domain
+- sekarang *autojoingc* itu silent
+- *.autoread* - buat agar bot nge read 
+- *.anticall* - buat agar orang  gak bisa nelpon bot
+- *.autotyping* - buat agar bot nge typing
+- *.gpt5* - Chat GPT 4.1  
+- *.deepseek* - Chat Deepseek  
+- *.bmkg* - Lihat info gempa terbaru dari bmkg  
+- *.rednotedl* - Downloader Rednote  
+- *.douyindl* - Downloader Douyin  
+- *.dailymotiondl* - Downloader Daily Motion  
+- *.google* - Google Search
+- memperbaiki *teraboxdl*
+- *.redditdl* - Reddit Downloader
+- *.tempmail* - Temp Mail Create
+- *.claudehaiku* - Chatclaude haiku
+- *.gpt5* - Chat GPT 4.1
+- *.qwen3* - Chat Qwen 3
+- *.feelbetter* - Chat Feelbetter Bot 
+- memperbaiki masalah *.lyrics*
+- *.dungeon* - RPG Dungeon Game (Single Player)
+- mengingkatkan *.onlythisgrup*, coba aja, agak susah jelasinnya
+- *.txt2img2* - Text to Image versi 2
+- memperbaiki *.family100* yang sebelumnya gak respon
+- menghilangkan log bad-request saat bot di telepon
+- *.soundcloud* - Pencarian lagu soundcloud (versi 1)
+- *.soundclouddl* - Pencarian lagu soundcloud (versi 2)
+- perombakan pada *.tourl*, kini kembali ke tombol
+- *.konachan* - Cari referensi gambar anime di konachan
+- *.kalkulatormbg* - Kalkulator MBG
+- 
+

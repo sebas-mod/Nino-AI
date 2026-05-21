@@ -1,0 +1,71 @@
+{
+  "selfMode": false,
+  "ownerNumbers": [],
+  "ownerType": 2,
+  "welcomeType": 5,
+  "replyVariant": 11,
+  "menuVariant": 16,
+  "botAfk": {
+    "active": false
+  },
+  "cmdVn": false,
+  "autoSholatKota": {
+    "id": "1301",
+    "nama": "KOTA JAKARTA"
+  },
+  "onlyGc": false,
+  "onlyPc": false,
+  "giveaways": {},
+  "botMode": "public",
+  "audioMenu": true,
+  "transactionSessions": {},
+  "premiumUsers": [],
+  "similarity": false,
+  "botRules": null,
+  "goodbyeType": 5,
+  "onlyAdmin": false,
+  "selfAdmin": false,
+  "publicAdmin": false,
+  "_lastEnergiDefault": 99999,
+  "_lastEnergiPremium": 99999999,
+  "lastLimitReset": "2026-05-16T17:00:00.018Z",
+  "onlyThisGroup": false,
+  "autoJpm": {
+    "enabled": false,
+    "intervalMs": 900000,
+    "message": {},
+    "lastRun": 1774157878673,
+    "nextRun": 1774158778673
+  },
+  "jedaJpm": 10000,
+  "globalCustomReplies": [],
+  "panelCreateLastUsed": 1775377733441,
+  "autoJoinGc": false,
+  "autoSholat": false,
+  "errorLog": [],
+  "jpmBlacklist": [],
+  "bannedUsers": [],
+  "allmenuVariant": 1,
+  "menucatVariant": 1,
+  "notifMakan": {},
+  "storeProducts": [],
+  "storeTrxCounter": 3,
+  "storeTransactions": {},
+  "storeLists": [],
+  "autoReadSW": {
+    "enabled": true
+  },
+  "autoReactSW": {
+    "enabled": true,
+    "emoji": "🔥"
+  },
+  "customPaymentText": "",
+  "bcgcEnabled": false,
+  "scheduledMessages": [],
+  "pushAutoVcf": false,
+  "selfGroups": [],
+  "ownerNames": {},
+  "publicGroups": [],
+  "autoRead": true,
+  "contacts": {}
+}
