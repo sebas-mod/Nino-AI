@@ -2,12 +2,12 @@ import { UnlimitedAI } from "../../src/scraper/unlimitedai.js";
 import te from "../../src/lib/ourin-error.js";
 
 const pluginConfig = {
-  name: "ourin-ai",
+  name: "nino-ai",
   alias: ["ourinai", "ourin"],
   category: "ai",
   description: "Chat con Nino AI — Asistente inteligente del bot",
-  usage: ".ourin-ai <pregunta>",
-  example: ".ourin-ai ¿Qué es Node.js?",
+  usage: ".nino-ai <pregunta>",
+  example: ".nino-ai ¿Qué es Node.js?",
   isOwner: false,
   isPremium: false,
   isGroup: false,
@@ -24,9 +24,9 @@ async function handler(m, { sock }) {
       `🤖 *Nino AI*\n\n` +
         `> Asistente inteligente listo para ayudar\n\n` +
         `*USO:*\n` +
-        `> *${m.prefix}ourin-ai <pregunta>*\n\n` +
+        `> *${m.prefix}nino-ai <pregunta>*\n\n` +
         `*EJEMPLO:*\n` +
-        `> *${m.prefix}ourin-ai ¿Qué es Node.js?*`
+        `> *${m.prefix}nino-ai ¿Qué es Node.js?*`
     );
   }
 

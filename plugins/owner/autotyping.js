@@ -4,9 +4,9 @@ import config from "../../config.js";
 
 const pluginConfig = {
   name: "autotyping",
-  alias: ["typing", "autoketik"],
+  alias: ["typing", "autoescribe"],
   category: "owner",
-  description: "Auto typing indicator saat menerima pesan",
+  description: "Mostrar indicador de escritura al recibir mensajes",
   usage: ".autotyping on/off",
   example: ".autotyping on",
   isOwner: true,
@@ -28,9 +28,9 @@ async function handler(m, { sock }) {
       `⌨️ *Auto Typing*\n\n` +
         `> Estado: *${current ? "Activo ✅" : "Inactivo ❌"}*\n\n` +
         `*PENGGUNAAN:*\n` +
-        `> *${m.prefix}autotyping on* — Activokan\n` +
+        `> *${m.prefix}autotyping on* — Activar\n` +
         `> *${m.prefix}autotyping off* — Inactivokan\n\n` +
-        `_Bot akan menampilkan indikator typing saat menerima pesan_`
+        `_El bot mostrara el indicador de escritura al recibir mensajes_`
     );
   }
 
@@ -39,7 +39,7 @@ async function handler(m, { sock }) {
     const ctx = saluranCtx();
     return m.reply(
       `⌨️ *Auto Typing Activo*\n\n` +
-        `> Bot akan menampilkan indikator typing`,
+        `> El bot mostrara el indicador de escritura`,
       { contextInfo: ctx }
     );
   }
@@ -48,7 +48,7 @@ async function handler(m, { sock }) {
     db.setting("autoTyping", false);
     return m.reply(
       `⌨️ *Auto Typing Inactivo*\n\n` +
-        `> Bot tidak akan menampilkan indikator typing`
+        `> El bot no mostrara el indicador de escritura`
     );
   }
 

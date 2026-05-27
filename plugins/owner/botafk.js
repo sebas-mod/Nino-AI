@@ -54,10 +54,10 @@ async function handler(m, { sock }) {
             `╭┈┈⬡「 🔒 *ᴀᴋsᴇs* 」\n` +
             `┃ ✅ Owner bot\n` +
             `┃ ✅ Bot sendiri (fromMe)\n` +
-            `┃ ❌ Semua user lain\n` +
+            `┃ ❌ Todos los demas usuarios\n` +
             `╰┈┈⬡\n\n` +
-            `> User lain akan dapat pesan AFK\n` +
-            `> Escribe \`${m.prefix}botafk\` untuk kembali online`
+            `> Los demas usuarios recibiran el mensaje AFK\n` +
+            `> Escribe \`${m.prefix}botafk\` para volver en linea`
         )
     }
 }
@@ -68,9 +68,9 @@ function formatDuration(ms) {
     const hours = Math.floor(minutes / 60)
     const days = Math.floor(hours / 24)
     
-    if (days > 0) return `${days} dias ${hours % 24} jam`
-    if (hours > 0) return `${hours} jam ${minutes % 60} menit`
-    if (minutes > 0) return `${minutes} menit ${seconds % 60} detik`
+    if (days > 0) return `${days} dias ${hours % 24} horas`
+    if (hours > 0) return `${hours} horas ${minutes % 60} minutos`
+    if (minutes > 0) return `${minutes} minutos ${seconds % 60} detik`
     return `${seconds} detik`
 }
 

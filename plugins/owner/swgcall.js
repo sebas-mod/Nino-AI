@@ -88,7 +88,7 @@ async function handler(m, { sock, db }) {
 
     let report =
       `✅ *ʙʀᴏᴀᴅᴄᴀsᴛ sᴡɢᴄ sᴇʟᴇsᴀɪ*\n\n` +
-      `> Total: *${total}* grup\n` +
+      `> Total: *${total}* grupos\n` +
       `> Correctos: *${success}* ✅\n` +
       `> Fallidos: *${failed}* ❌`;
 
@@ -207,7 +207,7 @@ async function handler(m, { sock, db }) {
         `> Total de grupos: *${groupList.length}*\n` +
         `> Estimacion: *~${estimatedTime} detik*\n\n` +
         `⚠️ _La story se publicara en TODOS los grupos!_\n` +
-        `_Tekan konfirmasi untuk melanjutkan._`,
+        `_Pulsa confirmar para continuar._`,
       contextInfo: {
         ...saluranCtx(),
         forwardedNewsletterMessageInfo: {
@@ -227,7 +227,7 @@ async function handler(m, { sock, db }) {
         {
           name: "quick_reply",
           buttonParamsJson: JSON.stringify({
-            display_text: "❌ Batal",
+            display_text: "❌ Cancelar",
             id: `${m.prefix}cancelswgcall`,
           }),
         },

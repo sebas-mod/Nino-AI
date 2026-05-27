@@ -6,7 +6,7 @@ const pluginConfig = {
     alias: ['setnamadev', 'setnamedev', 'gantideveloper'],
     category: 'owner',
     description: 'Ganti nama developer di config.js',
-    usage: '.ganti-namadev <nama baru>',
+    usage: '.ganti-namadev <nombre nuevo>',
     example: '.ganti-namadev Lucky Archz',
     isOwner: true,
     isPremium: false,
@@ -21,7 +21,7 @@ async function handler(m, { sock, config }) {
     const newName = m.args.join(' ')
     
     if (!newName) {
-        return m.reply(`👨‍💻 *ɢᴀɴᴛɪ ɴᴀᴍᴀ ᴅᴇᴠᴇʟᴏᴘᴇʀ*\n\n> Nama saat ini: *${config.bot?.developer || '-'}*\n\n*Penggunaan:*\n\`${m.prefix}ganti-namadev <nama baru>\``)
+        return m.reply(`👨‍💻 *ɢᴀɴᴛɪ ɴᴀᴍᴀ ᴅᴇᴠᴇʟᴏᴘᴇʀ*\n\n> Nombre actual: *${config.bot?.developer || '-'}*\n\n*Penggunaan:*\n\`${m.prefix}ganti-namadev <nombre nuevo>\``)
     }
     
     try {

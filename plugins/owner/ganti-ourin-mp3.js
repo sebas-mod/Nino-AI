@@ -5,8 +5,8 @@ const pluginConfig = {
     name: 'ganti-ourin.mp3',
     alias: ['gantiourinaudio', 'setourinaudio'],
     category: 'owner',
-    description: 'Ganti audio ourin.mp3',
-    usage: '.ganti-ourin.mp3 (reply/kirim audio)',
+    description: 'Cambiar audio ourin.mp3',
+    usage: '.ganti-ourin.mp3 (responde/envia audio)',
     example: '.ganti-ourin.mp3',
     isOwner: true,
     isPremium: false,
@@ -21,7 +21,7 @@ async function handler(m, { sock }) {
     const isAudio = m.type === 'audioMessage' || (m.quoted && m.quoted.type === 'audioMessage')
     
     if (!isAudio) {
-        return m.reply(`🎵 *ɢᴀɴᴛɪ ᴏᴜʀɪɴ.ᴍᴘ3*\n\n> Kirim/reply audio untuk mengganti\n> File: assets/audio/ourin.mp3`)
+        return m.reply(`🎵 *ɢᴀɴᴛɪ ᴏᴜʀɪɴ.ᴍᴘ3*\n\n> Envia/responde un audio para reemplazar\n> File: assets/audio/ourin.mp3`)
     }
     
     try {
@@ -45,7 +45,7 @@ async function handler(m, { sock }) {
         
         fs.writeFileSync(targetPath, buffer)
         
-        m.reply(`✅ *ʙᴇʀʜᴀsɪʟ*\n\n> Audio ourin.mp3 telah diganti`)
+        m.reply(`✅ *ʙᴇʀʜᴀsɪʟ*\n\n> Audio ourin.mp3 fue reemplazado`)
         
     } catch (error) {
         await m.reply(te(m.prefix, m.command, m.pushName))

@@ -28,7 +28,7 @@ async function handler(m, { sock }) {
         `*PENGGUNAAN:*\n` +
         `> *${m.prefix}onlygc on* — Bot hanya bisa diakses en el grupo\n` +
         `> *${m.prefix}onlygc off* — Bot bisa diakses di mana saja\n\n` +
-        `_Jika aktif, mode Only Private akan otomatis nonaktif_`
+        `_Jika activo, mode Only Private akan otomatis nonactivo_`
     );
   }
 
@@ -39,7 +39,7 @@ async function handler(m, { sock }) {
     return m.reply(
       `🏘️ *Only Group Activo*\n\n` +
         `> Bot hanya bisa diakses en el grupo\n` +
-        `> Mode Only Private dinonaktifkan`
+        `> Mode Only Private dinonactivokan`
     );
   }
 

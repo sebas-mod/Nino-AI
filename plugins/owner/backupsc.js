@@ -8,7 +8,7 @@ const pluginConfig = {
   name: "backupsc",
   alias: ["backup", "backupscript", "backupsource"],
   category: "owner",
-  description: "Backup script bot dalam bentuk zip",
+  description: "Respaldar el script del bot en formato zip",
   usage: ".backupsc",
   example: ".backupsc",
   isOwner: true,
@@ -163,7 +163,7 @@ async function handler(m, { sock }) {
       output.on("close", () => {
         try {
           if (!fs.existsSync(zipFilePath)) {
-            fail(new Error("File backup tidak ditemukan setelah proses zip"));
+            fail(new Error("No se encontro el archivo de backup despues del proceso zip"));
             return;
           }
           const stats = fs.statSync(zipFilePath);
@@ -204,7 +204,7 @@ async function handler(m, { sock }) {
 
       addDirectory(projectRoot);
       if (fileCount === 0) {
-        fail(new Error("No hay file yang masuk ke backup script"));
+        fail(new Error("No hay archivos incluidos en el backup del script"));
         return;
       }
       archive.finalize();
@@ -213,7 +213,7 @@ async function handler(m, { sock }) {
     const stats = fs.statSync(zipFilePath);
     const fileSizeMB = (stats.size / (1024 * 1024)).toFixed(2);
     const saluranId = config.saluran?.id || "120363400911374213@newsletter";
-    const saluranName = config.saluran?.name || config.bot?.name || "Ourin-AI";
+    const saluranName = config.saluran?.name || config.bot?.name || "Nino AI";
 
     await sock.sendMessage(
       m.chat,

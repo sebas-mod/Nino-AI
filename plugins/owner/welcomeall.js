@@ -52,16 +52,16 @@ async function handler(m, { sock }) {
                 `✅ *ᴡᴇʟᴄᴏᴍᴇ ɢʟᴏʙᴀʟ ᴏɴ*\n\n` +
                 `╭┈┈⬡「 📊 *ʀᴇsᴜʟᴛ* 」\n` +
                 `┃ 🌐 Total de grupos: *${count}*\n` +
-                `┃ ✅ Welcome: *AKTIF*\n` +
+                `┃ ✅ Welcome: *ACTIVO*\n` +
                 `╰┈┈┈┈┈┈┈┈⬡\n\n` +
-                `> Semua member baru akan disambut otomatis!`
+                `> Todos los miembros nuevos seran saludados automaticamente!`
             )
         } else {
             return m.reply(
                 `❌ *ᴡᴇʟᴄᴏᴍᴇ ɢʟᴏʙᴀʟ ᴏꜰꜰ*\n\n` +
                 `╭┈┈⬡「 📊 *ʀᴇsᴜʟᴛ* 」\n` +
                 `┃ 🌐 Total de grupos: *${count}*\n` +
-                `┃ ❌ Welcome: *NONAKTIF*\n` +
+                `┃ ❌ Welcome: *NONACTIVO*\n` +
                 `╰┈┈┈┈┈┈┈┈⬡\n\n` +
                 `> Bienvenida desactivada en todos los grupos.`
             )

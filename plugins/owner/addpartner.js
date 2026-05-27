@@ -36,7 +36,7 @@ async function handler(m, { sock }) {
         if (!target) {
             return m.reply(
                 `🤝 *ᴀᴅᴅ ᴘᴀʀᴛɴᴇʀ*\n\n` +
-                `> Cara pakai:\n` +
+                `> Modo de uso:\n` +
                 `> \`${m.prefix}addpartner @tag [dias]\`\n` +
                 `> \`${m.prefix}addpartner 6281xxx 30\`\n\n` +
                 `> Default: 30 dias`
@@ -53,21 +53,21 @@ async function handler(m, { sock }) {
         const days = parseInt(m.args?.find(a => /^\d+$/.test(a) && a.length <= 4)) || 30
         const pushName = m.quoted?.pushName || m.pushName || 'Desconocido'
         const now = Date.now()
-        let newExpired
+        let newExpirado
         let message = ''
         if (existingIndex !== -1) {
-            const currentExpired = db.data.partner[existingIndex].expired || now
-            const baseTime = currentExpired > now ? currentExpired : now
-            newExpired = baseTime + (days * 24 * 60 * 60 * 1000)
+            const currentExpirado = db.data.partner[existingIndex].vencido || now
+            const baseTime = currentExpirado > now ? currentExpirado : now
+            newExpirado = baseTime + (days * 24 * 60 * 60 * 1000)
             
-            db.data.partner[existingIndex].expired = newExpired
+            db.data.partner[existingIndex].vencido = newExpirado
             db.data.partner[existingIndex].name = pushName
             message = `Partner renovado`
         } else {
-            newExpired = now + (days * 24 * 60 * 60 * 1000)
+            newExpirado = now + (days * 24 * 60 * 60 * 1000)
             db.data.partner.push({
                 id: targetNumber,
-                expired: newExpired,
+                vencido: newExpirado,
                 name: pushName,
                 addedAt: now
             })
@@ -76,7 +76,7 @@ async function handler(m, { sock }) {
 
         db.save()
 
-        const expDate = new Date(newExpired).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })
+        const expDate = new Date(newExpirado).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })
 
         await m.reply(
             `✅ Correcto: ${existingIndex !== -1 ? 'renovar' : 'agregar'} partner @${targetNumber} durante *${days} dias*\nVence: *${expDate}*`,
@@ -100,7 +100,7 @@ async function handler(m, { sock }) {
         
         if (db.data.partner.length < initialLength) {
             db.save()
-            await m.reply(`✅ Eliminado correctamente @${targetNumber} dari partner`, { mentions: [target] })
+            await m.reply(`✅ Eliminado correctamente @${targetNumber} de partner`, { mentions: [target] })
         } else {
             return m.reply(`⚠️ Ese usuario no es partner.`)
         }
@@ -117,9 +117,9 @@ async function handler(m, { sock }) {
         const mentions = []
         partners.forEach((p, i) => {
             const num = p.id
-            const expDate = new Date(p.expired).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })
-            const remaining = Math.ceil((p.expired - Date.now()) / (1000 * 60 * 60 * 24))
-            txt += `${i + 1}. @${num} — ${expDate} (${remaining > 0 ? remaining + 'd' : 'Expired'})\n`
+            const expDate = new Date(p.vencido).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })
+            const remaining = Math.ceil((p.vencido - Date.now()) / (1000 * 60 * 60 * 24))
+            txt += `${i + 1}. @${num} — ${expDate} (${remaining > 0 ? remaining + 'd' : 'Expirado'})\n`
             mentions.push(`${num}@s.whatsapp.net`)
         })
         txt += `\nTotal: *${partners.length}* partner`

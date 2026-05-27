@@ -4,7 +4,7 @@ const pluginConfig = {
     name: 'ptvch',
     alias: ['ptvchanel', 'ptvstory'],
     category: 'owner',
-    description: 'Kirim video sebagai PTV ke channel',
+    description: 'Enviar video como PTV al canal',
     usage: '.ptvch (reply video)',
     example: '.ptvch',
     isOwner: true,
@@ -23,7 +23,7 @@ async function handler(m, { sock }) {
         try {
             video = await m.quoted.download()
         } catch (e) {
-            return m.reply(`❌ Fallo: download video dari quoted.`)
+            return m.reply(`❌ Fallo: descargar video del mensaje citado.`)
         }
     } else if (m.isVideo) {
         try {
@@ -36,7 +36,7 @@ async function handler(m, { sock }) {
     if (!video) {
         return m.reply(
             `⚠️ *ᴍᴏᴅᴏ ᴅᴇ ᴜꜱᴏ*\n\n` +
-            `> Kirim *video* o *balas video* lalu ketik:\n` +
+            `> Envia un *video* o *responde a un video* y luego escribe:\n` +
             `> \`${m.prefix}ptvch\``
         )
     }
@@ -54,7 +54,7 @@ async function handler(m, { sock }) {
         })
         
         await m.react('✅')
-        return m.reply(`✅ *sᴜᴋsᴇs*\n\n> Video berhasil dikirim ke channel sebagai PTV.`)
+        return m.reply(`✅ *sᴜᴋsᴇs*\n\n> Video enviado correctamente al canal como PTV.`)
         
     } catch (err) {
         return m.reply(te(m.prefix, m.command, m.pushName))

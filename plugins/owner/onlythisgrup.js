@@ -2,12 +2,12 @@ import { getDatabase } from '../../src/lib/ourin-database.js'
 import te from '../../src/lib/ourin-error.js'
 
 const pluginConfig = {
-    name: 'onlythisgrup',
-    alias: ['onlythisgroup', 'lockgrup', 'lockgroup'],
+    name: 'onlythisgrupos',
+    alias: ['onlythisgroup', 'lockgrupos', 'lockgroup'],
     category: 'owner',
-    description: 'Bot hanya aktif en el grupo ini saja',
-    usage: '.onlythisgrup',
-    example: '.onlythisgrup',
+    description: 'Bot hanya activo en el grupo ini saja',
+    usage: '.onlythisgrupos',
+    example: '.onlythisgrupos',
     isOwner: true,
     isPremium: false,
     isGroup: true,
@@ -25,27 +25,27 @@ async function handler(m, { sock }) {
         if (current && (current === m.chat || current.jid === m.chat)) {
             db.setting('onlyThisGroup', null)
             db.save()
-            return m.reply(`🔓 *UNLOCKED*\n\nBot kembali aktif di semua grup secara publik.`)
+            return m.reply(`🔓 *UNLOCKED*\n\nBot kembali activo di semua grupos secara publik.`)
         }
 
         const botNumber = sock.user.id.split(':')[0] + '@s.whatsapp.net'
         const groupMetadata = await sock.groupMetadata(m.chat).catch(() => null)
         
         if (!groupMetadata) {
-            return m.reply(`❌ Fallo: mendapatkan metadata grup.`)
+            return m.reply(`❌ Fallo: mendapatkan metadata grupos.`)
         }
 
         const participants = groupMetadata.participants
         const isBotAdmin = participants.find(p => p.id === botNumber)?.admin !== null
 
         if (!isBotAdmin) {
-            return m.reply(`❌ *AKSES DITOLAK*\n\nBot harus menjadi admin en el grupo ini terlebih dahulu agar bisa mengambil tautan undangan (link grup).`)
+            return m.reply(`❌ *AKSES DITOLAK*\n\nBot harus menjadi admin en el grupo ini primero agar bisa mengambil tautan undangan (link grupos).`)
         }
 
         const inviteCode = await sock.groupInviteCode(m.chat).catch(() => null)
         
         if (!inviteCode) {
-            return m.reply(`❌ Fallo: mengambil tautan undangan grup. Pastikan bot adalah admin yang sah.`)
+            return m.reply(`❌ Fallo: obtener enlace de invitacion del grupo. Asegurate de que el bot sea admin valido.`)
         }
 
         const inviteLink = `https://chat.whatsapp.com/${inviteCode}`
@@ -59,12 +59,12 @@ async function handler(m, { sock }) {
         db.save()
 
         await m.reply(
-            `🔒 *LOCKED BERHASIL*\n\n` +
-            `Mulai sekarang, bot hanya bisa digunakan secara eksklusif en el grupo:\n` +
+            `🔒 *BLOQUEO CORRECTO*\n\n` +
+            `Desde ahora, el bot solo puede usarse exclusivamente en el grupo:\n` +
             `*${groupName}*\n\n` +
-            `Pengguna en el grupo lain akan diarahkan untuk bergabung melalui tautan:\n` +
+            `Los usuarios de otros grupos seran dirigidos para unirse mediante el enlace:\n` +
             `${inviteLink}\n\n` +
-            `Escribe \`.onlythisgrup\` lagi para abrir kunci.`
+            `Escribe \`.onlythisgrupos\` lagi para abrir kunci.`
         )
     } catch (error) {
         console.error(error)

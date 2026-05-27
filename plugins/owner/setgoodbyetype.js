@@ -5,7 +5,7 @@ const pluginConfig = {
   name: "setgoodbyetype",
   alias: ["goodbyetype", "goodbyevariant", "goodbyestyle"],
   category: "owner",
-  description: "Mengatur variant tampilan goodbye message",
+  description: "Configurar variante visual del mensaje de despedida",
   usage: ".setgoodbyetype",
   example: ".setgoodbyetype",
   isOwner: true,
@@ -19,21 +19,21 @@ const pluginConfig = {
 const VARIANTS = {
   1: {
     name: "Canvas Image",
-    desc: "Imagen canvas dengan foto profil",
+    desc: "Imagen canvas con foto de perfil",
     emoji: "🎨",
   },
   2: {
     name: "Carousel Cards",
-    desc: "Kartu carousel interaktif dengan tombol",
+    desc: "Tarjeta carousel interactiva con botones",
     emoji: "🃏",
   },
   3: {
     name: "Text Only",
-    desc: "Pesan teks minimalis tanpa gambar",
+    desc: "Mensaje de texto minimalista sin imagen",
     emoji: "📝",
   },
   4: { name: "Group", desc: "ContextInfo group style", emoji: "👥" },
-  5: { name: "Simple", desc: "Pesan teks simple + foto profile", emoji: "✨" },
+  5: { name: "Simple", desc: "Mensaje de texto simple + foto de perfil", emoji: "✨" },
 };
 async function handler(m, { sock, db }) {
   const args = m.args || [];
@@ -44,7 +44,7 @@ async function handler(m, { sock, db }) {
     db.setting("goodbyeType", id);
     await db.save();
     await m.reply(
-      `✅ *GOODBYE TYPE DIUBAH*\n\n` +
+      `✅ *GOODBYE TIPO CAMBIADO*\n\n` +
         `${VARIANTS[id].emoji} *V${id} — ${VARIANTS[id].name}*\n` +
         `_${VARIANTS[id].desc}_`,
     );
@@ -63,22 +63,22 @@ async function handler(m, { sock, db }) {
     {
       name: "single_select",
       buttonParamsJson: JSON.stringify({
-        title: "👋 Pilih Tipe Goodbye",
-        sections: [{ title: "Daftar Tipe Goodbye", rows }],
+        title: "👋 Elegir tipo de despedida",
+        sections: [{ title: "Lista de tipos de despedida", rows }],
       }),
     },
   ];
   const bodyText =
     `👋🚪 *GOODBYE TYPE*\n\n` +
-    `Atur tampilan pesan goodbye saat member keluar dari grup 🚶💨\n` +
-    `Tipe aktif saat ini: *V${current} — ${VARIANTS[current].name}* 🎯\n\n` +
+    `Configura la vista mensaje goodbye saat member salir del grupo 🚶💨\n` +
+    `Tipe activo saat ini: *V${current} — ${VARIANTS[current].name}* 🎯\n\n` +
     `*PENJELASAN TIPE:*\n\n` +
-    `- *V1 Canvas Image* 🎨 — Bot membuat gambar canvas otomatis berisi foto profil dan nama member yang keluar, lalu dikirim sebagai gambar\n\n` +
-    `- *V2 Carousel Cards* 🃏 — Menampilkan kartu carousel interaktif yang bisa di-swipe lengkap dengan tombol action, cocok untuk tampilan modern\n\n` +
-    `- *V3 Text Only* 📝 — Pesan teks biasa tanpa gambar sama sekali, ringan dan minimalis\n\n` +
-    `- *V4 Group* 👥 — Menggunakan contextInfo bergaya group forward, tampilan rapi dengan label newsletter\n\n` +
-    `- *V5 Simple* ✨ — Pesan teks sederhana disertai foto profile member yang keluar, tidak terlalu mencolok namun informatif\n\n` +
-    `> Pilih tipe goodbye dari tombol di bawah 👇`;
+    `- *V1 Canvas Image* 🎨 — El bot crea automaticamente una imagen canvas con la foto de perfil y el nombre del miembro que salio, luego la envia como imagen\n\n` +
+    `- *V2 Carousel Cards* 🃏 — Muestra tarjetas carousel interactivas deslizable con botones de accion; ideal para una vista moderna\n\n` +
+    `- *V3 Text Only* 📝 — Mensaje de texto normal sin imagen, ligero y minimalista\n\n` +
+    `- *V4 Group* 👥 — Usa contextInfo estilo grupo reenviado, vista ordenada con etiqueta de newsletter\n\n` +
+    `- *V5 Simple* ✨ — Mensaje de texto simple con foto de perfil del miembro que salio; discreto pero informativo\n\n` +
+    `> Elige el tipo de despedida desde el boton de abajo 👇`;
   await sock.sendButton(
     m.chat,
     fs.readFileSync("./assets/images/ourin.jpg"),

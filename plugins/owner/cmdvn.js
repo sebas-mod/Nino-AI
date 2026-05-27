@@ -3,7 +3,7 @@ const pluginConfig = {
     name: 'cmdvn',
     alias: ['voicecommand', 'vncmd'],
     category: 'owner',
-    description: 'Activokan command via voice note',
+    description: 'Activar command via voice note',
     usage: '.cmdvn <on/off>',
     example: '.cmdvn on',
     isOwner: true,
@@ -29,7 +29,7 @@ function handler(m) {
             `> Estado: *${status}*\n\n` +
             `> \`${m.prefix}cmdvn on\` — Command via VN\n` +
             `> \`${m.prefix}cmdvn off\` — Command via text (default)\n\n` +
-            `> Saat ON, kirim VN berisi nama command\n` +
+            `> Cuando este ON, envia un VN con el nombre del comando\n` +
             `> Ejemplo: VN "menu" → trigger .menu`
         )
     }
@@ -38,15 +38,15 @@ function handler(m) {
         db.setting('cmdVn', true)
         return m.reply(
             `✅ *ᴄᴍᴅ ᴠɴ ᴀᴋᴛɪꜰ*\n\n` +
-            `> Kirim voice note berisi nama command\n` +
-            `> Bot akan transkrip dan jalankan otomatis\n` +
+            `> Envia una nota de voz con el nombre del comando\n` +
+            `> El bot transcribira y ejecutara automaticamente\n` +
             `> Ejemplo: VN "menu" → trigger .menu`
         )
     }
 
     if (subCmd === 'off') {
         db.setting('cmdVn', false)
-        return m.reply(`❌ CMD VN *dinonaktifkan*. Command via text normal.`)
+        return m.reply(`❌ CMD VN *dinonactivokan*. Command via text normal.`)
     }
 
     return m.reply(`❌ Usa \`${m.prefix}cmdvn on\` o \`${m.prefix}cmdvn off\``)

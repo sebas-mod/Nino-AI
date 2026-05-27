@@ -1,10 +1,10 @@
 const pluginConfig = {
-    name: ['buatgrup', 'creategroup', 'newgroup'],
+    name: ['buatgrupos', 'creategroup', 'newgroup'],
     alias: [],
     category: 'owner',
     description: 'Crear grupo nuevo',
-    usage: '.buatgrup <nombre>|<numero1,numero2,...>|<duracion_minutos>',
-    example: '.buatgrup Grupo nuevo|628xxx,628yyy|60',
+    usage: '.buatgrupos <nombre>|<numero1,numero2,...>|<duracion_minutos>',
+    example: '.buatgrupos Grupo nuevo|628xxx,628yyy|60',
     isOwner: true,
     cooldown: 5,
     energi: 0,
@@ -19,16 +19,16 @@ async function handler(m, { sock }) {
         let txt = `👥 *CREAR GRUPO NUEVO* 👥\n\n`
         txt += `Hola owner! Quieres crear un grupo nuevo al instante?\n\n`
         txt += `*Modo de uso:*\n`
-        txt += `👉 \`${m.prefix}buatgrup Nombre del grupo | 628xxx,628yyy | Duracion(minutos)\`\n\n`
+        txt += `👉 \`${m.prefix}buatgrupos Nombre del grupo | 628xxx,628yyy | Duracion(minutos)\`\n\n`
         txt += `*Detail:*\n`
         txt += `• Usa \`|\` para separar nombre, participantes y duracion\n`
         txt += `• Separa los numeros de participantes con coma\n`
         txt += `• Si completas la duracion, el bot expulsara a todos los miembros y eliminara el grupo cuando se acabe el tiempo!\n`
         txt += `• Bot otomatis menjadi admin\n\n`
         txt += `*Ejemplo sin duracion:*\n`
-        txt += `\`${m.prefix}buatgrup Tim Alpha | 628123,628456\`\n\n`
+        txt += `\`${m.prefix}buatgrupos Tim Alpha | 628123,628456\`\n\n`
         txt += `*Ejemplo con duracion (activo 60 minutos):*\n`
-        txt += `\`${m.prefix}buatgrup Tim Beta | 628123,628456 | 60\``
+        txt += `\`${m.prefix}buatgrupos Tim Beta | 628123,628456 | 60\``
         return m.reply(txt)
     }
 
@@ -37,7 +37,7 @@ async function handler(m, { sock }) {
     const durationStr = args[2] ? args[2].trim() : ''
 
     if (!name || name.length < 2) {
-        return m.reply('❌ Waduh kak, el nombre del grupo es demasiado corto! Minimo 2 caracteres.')
+        return m.reply('❌ El nombre del grupo es demasiado corto! Minimo 2 caracteres.')
     }
 
     const participants = participantsStr
@@ -66,7 +66,7 @@ async function handler(m, { sock }) {
         let successTxt = `👥 *GRUPO CREADO CORRECTAMENTE* 👥\n\n`
         successTxt += `✨ *Nombre:* ${name}\n`
         successTxt += `🆔 *ID:* ${group.id}\n`
-        successTxt += `👤 *Peserta:* ${participants.length} orang\n`
+        successTxt += `👤 *Pey tambien:* ${participants.length} orang\n`
         
         if (durationMs > 0) {
             successTxt += `⏳ *Masa Activo:* ${durationMins} Menit\n`

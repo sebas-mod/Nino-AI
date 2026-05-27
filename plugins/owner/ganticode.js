@@ -7,7 +7,7 @@ const pluginConfig = {
   name: "ganticode",
   alias: ["replaceplugin", "updateplugin", "gantiplugin"],
   category: "owner",
-  description: "Ganti code plugin yang sudah ada",
+  description: "Cambiar codigo de un plugin existente",
   usage: ".ganticode [namafile] [folder]",
   example: ".ganticode ping main",
   isOwner: true,
@@ -55,11 +55,11 @@ async function handler(m, { sock }) {
   if (!quoted) {
     return m.reply(
       `🔄 *GANTI CODE*\n\n` +
-        `Reply code plugin baru dengan caption:\n` +
+        `Responde el codigo nuevo del plugin con caption:\n` +
         `\`${m.prefix}ganticode\` - Auto detect\n` +
         `\`${m.prefix}ganticode namafile\` - Custom nama\n` +
         `\`${m.prefix}ganticode namafile folder\` - Custom nama + folder\n\n` +
-        `⚠️ *PERINGATAN:*\nCode lama akan di-backup sebelum diganti`,
+        `⚠️ *ADVERTENCIA:*\nEl codigo anterior se respaldara antes de reemplazarlo`,
     );
   }
 

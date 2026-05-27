@@ -31,8 +31,8 @@ async function handler(m, { sock, db }) {
   if (!args || args === "status") {
     const status = database.setting("autoSholat") ? "✅ Activo" : "❌ Inactivo";
     const closeGroup = database.setting("autoSholatCloseGroup")
-      ? "✅ Ya"
-      : "❌ Tidak";
+      ? "✅ Si"
+      : "❌ No";
     const duration = database.setting("autoSholatDuration") || 5;
     const kotaSetting = database.setting("autoSholatKota") || {
       id: "1301",
@@ -53,17 +53,17 @@ async function handler(m, { sock, db }) {
         `╭┈┈⬡「 📋 *sᴛᴀᴛᴜs* 」\n` +
         `┃ 🔔 ᴀᴜᴛᴏ sʜᴏʟᴀᴛ: ${status}\n` +
         `┃ 🔒 ᴛᴜᴛᴜᴘ ɢʀᴜᴘ: ${closeGroup}\n` +
-        `┃ ⏱️ ᴅᴜʀᴀsɪ: \`${duration}\` menit\n` +
+        `┃ ⏱️ ᴅᴜʀᴀsɪ: \`${duration}\` minutos\n` +
         `┃ 📍 ᴋᴏᴛᴀ: \`${kotaSetting.nama}\`\n` +
         `╰┈┈⬡\n\n` +
         `╭┈┈⬡「 🕐 *ᴊᴀᴅᴡᴀʟ ʜᴀʀɪ ɪɴɪ* 」\n` +
         jadwalText +
         `╰┈┈⬡\n\n` +
         `> *Penggunaan:*\n` +
-        `> \`${m.prefix}autosholat on\` - Activokan\n` +
+        `> \`${m.prefix}autosholat on\` - Activar\n` +
         `> \`${m.prefix}autosholat off\` - Inactivokan\n` +
         `> \`${m.prefix}autosholat close on/off\` - Alternar cierre del grupo\n` +
-        `> \`${m.prefix}autosholat duration <menit>\` - Definir duracion del cierre\n` +
+        `> \`${m.prefix}autosholat duration <minutos>\` - Definir duracion del cierre\n` +
         `> \`${m.prefix}autosholat kota <nama>\` - Definir ubicacion\n\n` +
         `> _Sumber: myquran.com (real-time)_`,
     );
@@ -74,7 +74,7 @@ async function handler(m, { sock, db }) {
     const kota = database.setting("autoSholatKota") || { nama: "KOTA JAKARTA" };
     return m.reply(
       `✅ *ᴀᴜᴛᴏ sʜᴏʟᴀᴛ ᴅɪᴀᴋᴛɪꜰᴋᴀɴ*\n\n` +
-        `> Pengingat waktu sholat aktif\n` +
+        `> Recordatorio de horario de sholat activo\n` +
         `> El audio adzan se enviara a todos los grupos\n` +
         `> Lokasi: ${kota.nama} (real-time)`,
     );
@@ -112,7 +112,7 @@ async function handler(m, { sock, db }) {
     database.setting("autoSholatDuration", duration);
     await m.react("⏱️");
     return m.reply(
-      `⏱️ *ᴅᴜʀᴀsɪ ᴅɪsᴇᴛ*\n\n> El grupo se cerrara \`${duration}\` menit durante el horario de oracion`,
+      `⏱️ *ᴅᴜʀᴀsɪ ᴅɪsᴇᴛ*\n\n> El grupo se cerrara \`${duration}\` minutos durante el horario de oracion`,
     );
   }
   if (args === "kota") {
@@ -143,7 +143,7 @@ async function handler(m, { sock, db }) {
     }
   }
   return m.reply(
-    `❌ *ᴀᴄᴛɪᴏɴ ᴛɪᴅᴀᴋ ᴠᴀʟɪᴅ*\n\n> Usa: \`on\`, \`off\`, \`close on/off\`, \`duration <menit>\`, \`kota <nama>\``,
+    `❌ *ᴀᴄᴛɪᴏɴ ᴛɪᴅᴀᴋ ᴠᴀʟɪᴅ*\n\n> Usa: \`on\`, \`off\`, \`close on/off\`, \`duration <minutos>\`, \`kota <nama>\``,
   );
 }
 async function runAutoSholat(sock) {
@@ -180,14 +180,14 @@ async function runAutoSholat(sock) {
         const groupList = Object.keys(groupsObj);
         const saluranId = config.saluran?.id || "120363400911374213@newsletter";
         const saluranName =
-          config.saluran?.name || config.bot?.name || "Ourin-AI";
+          config.saluran?.name || config.bot?.name || "Nino AI";
         const closeGroup = db.setting("autoSholatCloseGroup") || false;
         const duration = db.setting("autoSholatDuration") || 5;
         const ImagenSuasana = {
           subuh: "https://files.cloudkuimages.guru/images/61c43a618c30.jpg",
           dzuhur: "https://files.cloudkuimages.guru/images/57b4f4639bc3.jpg",
           ashar: "https://files.cloudkuimages.guru/images/e6c4e032aa53.webp",
-          maghrib: "https://files.cloudkuimages.guru/images/da65b383dea6.webp",
+          maghrib: "https://files.cloudkuimages.guru/imagehastaa65b383dea6.webp",
           isya: "https://files.cloudkuimages.guru/images/e35488beb40c.jpg",
         };
         const contextInfo = {
@@ -207,8 +207,8 @@ async function runAutoSholat(sock) {
               `🕌 *ᴡᴀᴋᴛᴜ sʜᴏʟᴀᴛ ${sholat.toUpperCase()}*\n\n` +
               `> Waktu: \`${waktu} WIB\`\n` +
               `> Lokasi: \`${kotaSetting.nama}\`\n` +
-              `> Ayo tunaikan sholat! 🤲\n\n` +
-              (closeGroup ? `> _Grup ditutup ${duration} menit_` : "");
+              `> Cumple el sholat! 🤲\n\n` +
+              (closeGroup ? `> _Grup ditutup ${duration} minutos_` : "");
             await sock.sendMessage(jid, {
               audio: { url: AUDIO_ADZAN },
               mimetype: "audio/mpeg",
@@ -220,7 +220,7 @@ async function runAutoSholat(sock) {
             }
             await new Promise((res) => setTimeout(res, 500));
           } catch (e) {
-            console.log(`[AutoSholat] Fallo: kirim ke ${jid}:`, e.message);
+            console.log(`[AutoSholat] Fallo: enviar a ${jid}:`, e.message);
           }
         }
         if (closeGroup) {
@@ -230,24 +230,24 @@ async function runAutoSholat(sock) {
                 try {
                   await sock.groupSettingUpdate(jid, "not_announcement");
                   await sock.sendMessage(jid, {
-                    text: `✅ Grup dibuka kembali setelah sholat ${sholat}.`,
+                    text: `✅ El grupo se reabrio despues del sholat ${sholat}.`,
                     contextInfo,
                   });
                   await new Promise((res) => setTimeout(res, 600));
                 } catch (e) {
                   console.log(
-                    `[AutoSholat] Fallo: buka grup ${jid}:`,
+                    `[AutoSholat] Fallo: buka grupos ${jid}:`,
                     e.message,
                   );
                 }
               }
-              console.log(`[AutoSholat] Semua grup dibuka kembali`);
+              console.log(`[AutoSholat] Semua grupos dibuka kembali`);
             },
             duration * 60 * 1000,
           );
         }
         console.log(
-          `[AutoSholat] Pengingat ${sholat} terkirim ke ${groupList.length} grup`,
+          `[AutoSholat] Recordatorio ${sholat} enviado a ${groupList.length} grupos`,
         );
       } catch (error) {
         global.isFetchingGroups = false;

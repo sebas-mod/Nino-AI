@@ -4,7 +4,7 @@ const pluginConfig = {
     name: 'autoreadsw',
     alias: ['autoreadstory', 'readstory', 'bacasw'],
     category: 'owner',
-    description: 'Auto read semua status/story WA',
+    description: 'Leer automaticamente todos los estados/historias de WA',
     usage: '.autoreadsw on/off',
     example: '.autoreadsw on',
     isOwner: true,
@@ -26,8 +26,8 @@ async function handler(m) {
             `👁️ *ᴀᴜᴛᴏ ʀᴇᴀᴅ sᴛᴏʀʏ*\n\n` +
             `> Estado: *${current.enabled ? '✅ ON' : '❌ OFF'}*\n\n` +
             `*ᴍᴏᴅᴏ ᴅᴇ ᴜꜱᴏ:*\n` +
-            `> \`${m.prefix}autoreadsw on\` — Activokan\n` +
-            `> \`${m.prefix}autoreadsw off\` — Matikan`
+            `> \`${m.prefix}autoreadsw on\` — Activar\n` +
+            `> \`${m.prefix}autoreadsw off\` — Desactivar`
         )
     }
 
@@ -37,7 +37,7 @@ async function handler(m) {
         await m.react('✅')
         return m.reply(
             `✅ *ᴀᴜᴛᴏ ʀᴇᴀᴅ sᴛᴏʀʏ ᴀᴋᴛɪꜰ*\n\n` +
-            `> Bot akan otomatis membaca semua story WA`
+            `> El bot leera automaticamente todas las stories de WA`
         )
     }
 

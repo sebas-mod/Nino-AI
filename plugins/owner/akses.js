@@ -11,8 +11,8 @@ const pluginConfig = {
     "listaccess",
   ],
   category: "owner",
-  description: "Grant temporary/permanent command access to users",
-  usage: ".addakses <cmd> <duration> <user>",
+  description: "Otorgar acceso temporal/permanente a comandos para usuarios",
+  usage: ".addakses <comando> <duracion> <usuario>",
   example: ".addakses addowner 30d @user",
   isOwner: true,
   isPremium: false,
@@ -54,11 +54,11 @@ async function handler(m, { sock, plugins }) {
     );
     if (cleanArgs.length < 2) {
       return m.reply(
-        `⚠️ *Format Salah*\n\n` +
-          `Format: \`${m.prefix}addakses <command> <duracion> <target>\`\n\n` +
+        `⚠️ *Formato incorrecto*\n\n` +
+          `Formato: \`${m.prefix}addakses <comando> <duracion> <objetivo>\`\n\n` +
           `*Ejemplo:*\n` +
-          `> \`${m.prefix}addakses addowner 30d @user\` (30 Hari)\n` +
-          `> \`${m.prefix}addakses unban permanent @user\` (Selamanya)\n\n` +
+          `> \`${m.prefix}addakses addowner 30d @user\` (30 dias)\n` +
+          `> \`${m.prefix}addakses unban permanent @user\` (Para siempre)\n\n` +
           `*Duraciones compatibles:* 1h, 1d, 30d, 1y`,
       );
     }
@@ -74,7 +74,7 @@ async function handler(m, { sock, plugins }) {
     const accessList = targetData.access || [];
     const now = Date.now();
     const activeAccess = accessList.filter(
-      (a) => a.expired === null || a.expired > now,
+      (a) => a.vencido === null || a.vencido > now,
     );
     if (activeAccess.length !== accessList.length) {
       targetData.access = activeAccess;
@@ -83,7 +83,7 @@ async function handler(m, { sock, plugins }) {
 
     if (activeAccess.length === 0) {
       return m.reply(
-        `📊 *ᴜsᴇʀ ᴀᴄᴄᴇss*\n\nTarget: @${target.split("@")[0]}\nEstado: *No tiene acceso especial*`,
+        `📊 *ᴜsᴇʀ ᴀᴄᴄᴇss*\n\nObjetivo: @${target.split("@")[0]}\nEstado: *No tiene acceso especial*`,
         {
           mentions: sock.parseMention(`@${target.split("@")[0]}`),
         },
@@ -91,35 +91,35 @@ async function handler(m, { sock, plugins }) {
     }
 
     let txt = `📊 *ᴜsᴇʀ ᴀᴄᴄᴇss*\n\n`;
-    txt += `Target: @${target.split("@")[0]}\n`;
-    txt += `Total: *${activeAccess.length}* commands\n`;
+    txt += `Objetivo: @${target.split("@")[0]}\n`;
+    txt += `Total: *${activeAccess.length}* comandos\n`;
     txt += `━━━━━━━━━━━━━━━\n\n`;
 
     activeAccess.forEach((acc, i) => {
-      let expiredTxt = "♾️ Permanent";
-      if (acc.expired) {
-        const timeLeft = acc.expired - now;
+      let vencidoTxt = "♾️ Permanente";
+      if (acc.vencido) {
+        const timeLeft = acc.vencido - now;
         if (timeLeft > 0) {
-          expiredTxt = "🕕 " + ms(timeLeft, { long: true });
+          vencidoTxt = "🕕 " + ms(timeLeft, { long: true });
         } else {
-          expiredTxt = "🔴 Expired";
+          vencidoTxt = "🔴 Expirado";
         }
       }
 
       txt += `${i + 1}. *${acc.cmd}*\n`;
-      txt += `   └ ${expiredTxt}\n`;
+      txt += `   └ ${vencidoTxt}\n`;
     });
 
     return m.reply(txt, { mentions: [target] });
   }
   if (isAdd) {
-    let expiredTime = null;
+    let vencidoTime = null;
     if (durationTarget !== "permanent" && durationTarget !== "perm") {
       try {
         const durationMs = ms(durationTarget);
         if (!durationMs)
           return m.reply(`❌ Formato de duracion incorrecto! Usa: 1h, 1d, 30d`);
-        expiredTime = Date.now() + durationMs;
+        vencidoTime = Date.now() + durationMs;
       } catch {
         return m.reply(`❌ Formato de duracion no reconocido!`);
       }
@@ -127,18 +127,18 @@ async function handler(m, { sock, plugins }) {
 
     const existingIdx = user.access.findIndex((a) => a.cmd === commandTarget);
     if (existingIdx !== -1) {
-      user.access[existingIdx].expired = expiredTime;
+      user.access[existingIdx].vencido = vencidoTime;
       db.setUser(target, user);
       return m.reply(
         `✅ *ᴀᴋsᴇs ᴅɪᴘᴇʀʙᴀʀᴜɪ*\n\n` +
-          `Command: \`${commandTarget}\`\n` +
+          `Comando: \`${commandTarget}\`\n` +
           `Duracion: *${durationTarget}*\n` +
-          `Target: @${target.split("@")[0]}`,
+          `Objetivo: @${target.split("@")[0]}`,
       );
     }
     user.access.push({
       cmd: commandTarget,
-      expired: expiredTime,
+      vencido: vencidoTime,
     });
 
     // console.log('[DEBUG AddAccess] Saving user with access:', JSON.stringify(user.access))
@@ -157,7 +157,7 @@ async function handler(m, { sock, plugins }) {
     if (!target) return m.reply(`❌ Etiqueta al usuario al que quieres quitarle el acceso!`);
     const now = Date.now();
     const activeAccess = user.access.filter(
-      (a) => a.expired === null || a.expired > now,
+      (a) => a.vencido === null || a.vencido > now,
     );
     let specificCmd = m.args.find((a) => !a.includes("@") && !/^\d+$/.test(a));
     if (specificCmd) {
@@ -177,7 +177,7 @@ async function handler(m, { sock, plugins }) {
       return m.reply(`⚠️ Este usuario no tiene acceso a ningun comando.`);
     }
     const rows = activeAccess.map((acc) => {
-      const exp = acc.expired ? ms(acc.expired - now) : "Permanent";
+      const exp = acc.vencido ? ms(acc.vencido - now) : "Permanente";
       return {
         title: `Quitar: ${acc.cmd}`,
         description: `Duracion restante: ${exp}`,
@@ -186,11 +186,11 @@ async function handler(m, { sock, plugins }) {
     });
     const listMessage = {
       text: `🔓 *REVOCAR ACCESO*\n\nElige el acceso de comando que quieres quitar de @${target.split("@")[0]}`,
-      title: "Manage Access",
-      buttonText: "PILIH COMMAND",
+      title: "Gestionar acceso",
+      buttonText: "ELEGIR COMANDO",
       sections: [
         {
-          title: "Active Access List",
+          title: "Lista de accesos activos",
           rows: rows,
         },
       ],

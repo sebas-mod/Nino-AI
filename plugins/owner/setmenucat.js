@@ -5,7 +5,7 @@ const pluginConfig = {
   name: "setmenucat",
   alias: ["menucatvariant", "menucatstyle"],
   category: "owner",
-  description: "Mengatur variant tampilan menucat",
+  description: "Configurar variante visual del menucat",
   usage: ".setmenucat <v1-v4>",
   example: ".setmenucat v2",
   isOwner: true,
@@ -39,7 +39,7 @@ const VARIANTS = {
   v4: {
     id: 4,
     name: "Interactive Button",
-    desc: "Interactive message + single_select commands + quick_reply back",
+    desc: "Interactive message + single_select comandos + quick_reply back",
     emoji: "🔘",
   },
 };
@@ -51,7 +51,7 @@ async function handler(m, { sock, db }) {
   if (variant) {
     const selected = VARIANTS[variant];
     if (!selected) {
-      await m.reply(`❌ *VARIANT TIDAK VALID*\n\nUsa: *v1* s/d *v4*`);
+      await m.reply(`❌ *VARIANTE NO VALIDA*\n\nUsa: *v1* hasta *v4*`);
       return;
     }
 
@@ -59,7 +59,7 @@ async function handler(m, { sock, db }) {
     await db.save();
 
     await m.reply(
-      `✅ *MENUCAT VARIANT DIUBAH*\n\n` +
+      `✅ *MENUCAT VARIANTE CAMBIADA*\n\n` +
         `${selected.emoji} *V${selected.id} — ${selected.name}*\n` +
         `_${selected.desc}_`,
     );
@@ -82,22 +82,22 @@ async function handler(m, { sock, db }) {
     {
       name: "single_select",
       buttonParamsJson: JSON.stringify({
-        title: "📂 Pilih Variant Menucat",
-        sections: [{ title: "Daftar Variant Menucat", rows }],
+        title: "📂 Elegir variante de Menucat",
+        sections: [{ title: "Lista de variantes de Menucat", rows }],
       }),
     },
   ];
 
   const bodyText =
     `📂🗂️ *MENUCAT VARIANT*\n\n` +
-    `Atur tampilan menu per kategori ketika user memilih kategori dari menu utama 📋✨\n` +
-    `Variant aktif saat ini: *V${current} — ${VARIANTS[`v${current}`]?.name || "Desconocido"}* 🎯\n\n` +
-    `*PENJELASAN VARIANT:*\n\n` +
-    `- *V1 Simple Text* 📝 — Daftar perintah per kategori ditampilkan sebagai text biasa tanpa contextInfo, paling ringan dan cepat\n\n` +
-    `- *V2 Context + Newsletter* 📨 — Text + contextInfo dengan label forwarded newsletter, terlihat seperti pesan forward dari channel bot\n\n` +
-    `- *V3 Image + Caption* 📸 — Imagen header kategori + caption berisi daftar perintah + contextInfo + label newsletter, tampilan visual dan informatif\n\n` +
-    `- *V4 Interactive Button* 🔘 — Pesan interaktif dengan tombol single_select untuk memilih perintah dan quick_reply untuk kembali ke menu utama, tampilan modern dan mudah dinavigasi\n\n` +
-    `> Pilih variant menucat dari tombol di bawah 👇`;
+    `Configura la vista del menu por categoria cuando el usuario elige una categoria desde el menu principal 📋✨\n` +
+    `Variante activa actual: *V${current} — ${VARIANTS[`v${current}`]?.name || "Desconocido"}* 🎯\n\n` +
+    `*EXPLICACION DE VARIANTES:*\n\n` +
+    `- *V1 Simple Text* 📝 — La lista de comandos por categoria se muestra como texto normal sin contextInfo; es la mas ligera y rapida\n\n` +
+    `- *V2 Context + Newsletter* 📨 — Texto + contextInfo con etiqueta de newsletter reenviada; parece un mensaje reenviado desde el canal del bot\n\n` +
+    `- *V3 Image + Caption* 📸 — Imagen de cabecera de categoria + caption con lista de comandos + contextInfo + etiqueta de newsletter; vista visual e informativa\n\n` +
+    `- *V4 Interactive Button* 🔘 — Mensaje interactivo con boton single_select para elegir comandos y quick_reply para volver al menu principal; vista moderna y facil de navegar\n\n` +
+    `> Elige la variante de menucat desde el boton de abajo 👇`;
 
   await sock.sendButton(
     m.chat,

@@ -3,7 +3,7 @@ const pluginConfig = {
   alias: [],
   category: "owner",
   description: "Archivar/desarchivar chat",
-  usage: ".arsip <nomor/reply> o .arsip buka <nomor>",
+  usage: ".arsip <numero/responder> o .arsip buka <numero>",
   example: ".arsip 628xxx",
   isOwner: true,
   cooldown: 3,
@@ -42,7 +42,7 @@ async function handler(m, { sock }) {
       }
       await m.react("✅");
       return m.reply(
-        `📁 *${count} grup diarsipkan*\n\n> Los chats privados no se pueden archivar todos a la vez (no hay lista de chats)`,
+        `📁 *${count} grupos diarsipkan*\n\n> Los chats privados no se pueden archivar todos a la vez (no hay lista de chats)`,
       );
     } catch (err) {
       global.isFetchingGroups = false;
@@ -66,7 +66,7 @@ async function handler(m, { sock }) {
       "📁 *ᴀʀsɪᴘ ᴄʜᴀᴛ*\n\n" +
         "> `.arsip 628xxx` — Archivar chat\n" +
         "> `.arsip` (di private chat) — Archivar este chat\n" +
-        "> `.arsip` (reply pesan) — Archivar el chat del remitente\n" +
+        "> `.arsip` (responde a un mensaje) — Archivar el chat del remitente\n" +
         "> `.arsip buka 628xxx` — Desarchivar chat\n" +
         "> `.arsip semua` — Archivar todos los chats",
     );
@@ -78,8 +78,8 @@ async function handler(m, { sock }) {
     const target = targetJid.split("@")[0];
     return m.reply(
       archive
-        ? `📁 *ᴄʜᴀᴛ ᴅɪᴀʀsɪᴘᴋᴀɴ*\n\n> Target: ${target}\n> Usa \`.arsip buka ${target}\` para abrir`
-        : `📂 *ᴀʀsɪᴘ ᴅɪʙᴜᴋᴀ*\n\n> Target: ${target}`,
+        ? `📁 *ᴄʜᴀᴛ ᴅɪᴀʀsɪᴘᴋᴀɴ*\n\n> Objetivo: ${target}\n> Usa \`.arsip buka ${target}\` para abrir`
+        : `📂 *ᴀʀsɪᴘ ᴅɪʙᴜᴋᴀ*\n\n> Objetivo: ${target}`,
     );
   } catch (err) {
     return m.reply(`❌ Fallidos: ${err.message}`);

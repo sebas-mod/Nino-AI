@@ -6,7 +6,7 @@ const pluginConfig = {
   name: "autoread",
   alias: ["readchat", "autobaca"],
   category: "owner",
-  description: "Auto read pesan masuk",
+  description: "Leer automaticamente mensajes entrantes",
   usage: ".autoread on/off",
   example: ".autoread on",
   isOwner: true,
@@ -28,9 +28,9 @@ async function handler(m, { sock }) {
       `📖 *Auto Read*\n\n` +
         `> Estado: *${current ? "Activo ✅" : "Inactivo ❌"}*\n\n` +
         `*PENGGUNAAN:*\n` +
-        `> *${m.prefix}autoread on* — Activokan\n` +
+        `> *${m.prefix}autoread on* — Activar\n` +
         `> *${m.prefix}autoread off* — Inactivokan\n\n` +
-        `_Bot akan otomatis membaca pesan masuk_`
+        `_El bot leera automaticamente los mensajes entrantes_`
     );
   }
 
@@ -39,7 +39,7 @@ async function handler(m, { sock }) {
     const ctx = saluranCtx();
     return m.reply(
       `📖 *Auto Read Activo*\n\n` +
-        `> Bot akan otomatis membaca pesan masuk`,
+        `> El bot leera automaticamente los mensajes entrantes`,
       { contextInfo: ctx }
     );
   }

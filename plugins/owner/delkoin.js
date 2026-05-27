@@ -45,20 +45,20 @@ async function handler(m, { sock }) {
     if (!targetJid || amount <= 0) {
         return m.reply(
             `💰 *ᴅᴇʟ ᴋᴏɪɴ*\n\n` +
-            `> \`.delkoin <cantidad>\` - dari diri sendiri\n` +
-            `> \`.delkoin <cantidad> @user\` - dari user\n\n` +
+            `> \`.delkoin <cantidad>\` - de ti mismo\n` +
+            `> \`.delkoin <cantidad> @user\` - del usuario\n\n` +
             `\`Ejemplo: ${m.prefix}delkoin 50000\``
         )
     }
     
     if (amount <= 0) {
-        return m.reply(`❌ *ꜰᴀʟʟᴏ*\n\n> Jumlah harus lebih dari 0`)
+        return m.reply(`❌ *ꜰᴀʟʟᴏ*\n\n> La cantidad debe ser mayor que 0`)
     }
     
     const user = db.getUser(targetJid)
     
     if (!user) {
-        return m.reply(`❌ *ꜰᴀʟʟᴏ*\n\n> User tidak ditemukan di database`)
+        return m.reply(`❌ *ꜰᴀʟʟᴏ*\n\n> Usuario no encontrado en la base de datos`)
     }
     
     const newKoin = db.updateKoin(targetJid, -amount)

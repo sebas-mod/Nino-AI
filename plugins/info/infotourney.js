@@ -77,7 +77,7 @@ async function handler(m, { sock }) {
     }
 
     const saluranId = config.saluran?.id || "120363400911374213@newsletter";
-    const saluranName = config.saluran?.name || config.bot?.name || "Ourin-AI";
+    const saluranName = config.saluran?.name || config.bot?.name || "Nino-AI";
 
     let text = `🏆 *INFO TORNEOS MOBILE LEGENDS*\n\n`;
     text += `> 5 torneos recientes\n\n`;

@@ -78,11 +78,11 @@ function buildSyntheticSwGcRawMessage(sock, remoteJid, content, messageId) {
 
 const pluginConfig = {
   name: "swgc",
-  alias: ["statusgrup", "swgroup", "groupstory", "toswgc"],
+  alias: ["statusgrupos", "swgroup", "groupstory", "toswgc"],
   category: "owner",
-  description: "Post Group Status/Story ke grup pilihan (border hijau)",
+  description: "Publicar estado/historia de grupo en el grupo elegido (borde verde)",
   usage: ".swgc <texto> o responde a un medio",
-  example: ".swgc Halo semua!",
+  example: ".swgc Hola a todos!",
   isOwner: true,
   isPremium: false,
   isGroup: false,
@@ -108,7 +108,7 @@ async function handler(m, { sock, db }) {
 
     if (!pendingData) {
       await m.reply(
-        `⚠️ *No hay data pending. Silakan kirim ulang media + .swgc*`,
+        `⚠️ *No hay data pending. Envia nuevamente el medio + .swgc*`,
       );
       return;
     }
@@ -166,7 +166,7 @@ async function handler(m, { sock, db }) {
               ? "Audio"
               : "Media";
 
-      const successMsg = `✅ Correcto: up sw ke grup ${groupName}`;
+      const successMsg = `✅ Correcto: up sw ke grupos ${groupName}`;
 
       await m.reply(successMsg);
       pendingSwgc.delete(m.sender);
@@ -340,7 +340,7 @@ async function handler(m, { sock, db }) {
         {
           name: "quick_reply",
           buttonParamsJson: JSON.stringify({
-            display_text: "❌ Batal",
+            display_text: "❌ Cancelar",
             id: `${prefix}cancelswgc`,
           }),
         },

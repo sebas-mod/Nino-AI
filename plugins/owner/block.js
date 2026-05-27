@@ -32,8 +32,8 @@ async function handler(m, { sock }) {
         return m.reply(
             '⚠️ *ᴍᴏᴅᴏ ᴅᴇ ᴜꜱᴏ*\n\n' +
             '> `.block 628xxx` — Bloquear por numero\n' +
-            '> `.block` (reply pesan) — Blokir pengirim\n' +
-            '> `.block @mention` — Blokir yang di-mention\n' +
+            '> `.block` (responde a un mensaje) — Blokir pengirim\n' +
+            '> `.block @mention` — Bloquear al mencionado\n' +
             '> `.block` (di private chat) — Blokir user ini'
         )
     }
@@ -48,7 +48,7 @@ async function handler(m, { sock }) {
         await m.react('🚫')
         return m.reply(
             `🚫 *ɴᴏᴍᴏʀ ᴅɪʙʟᴏᴋɪʀ*\n\n` +
-            `> Target: @${targetJid.split('@')[0]}\n` +
+            `> Objetivo: @${targetJid.split('@')[0]}\n` +
             `> Usa \`.unblock\` para abrir blokir`,
             { mentions: [targetJid] }
         )

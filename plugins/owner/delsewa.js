@@ -4,7 +4,7 @@ const pluginConfig = {
   name: "delsewa",
   alias: ["sewadel", "hapussewa", "removesewa"],
   category: "owner",
-  description: "Hapus grup dari whitelist sewa",
+  description: "Eliminar grupo de la whitelist de alquiler",
   usage: ".delsewa <link/id grupo>",
   example: ".delsewa https://chat.whatsapp.com/xxx",
   isOwner: true,
@@ -44,29 +44,29 @@ async function handler(m, { sock }) {
     if (!m.isGroup) {
       return m.reply(
         `📝 *HAPUS SEWA*\n\n` +
-          `Dari private: *${m.prefix}delsewa <link/id>*\n` +
-          `Dari grup: ketik *${m.prefix}delsewa* langsung en el grupo\n\n` +
+          `Desde privado: *${m.prefix}delsewa <link/id>*\n` +
+          `Desde grupo: escribe *${m.prefix}delsewa* langsung en el grupo\n\n` +
           `Ejemplo:\n` +
           `• ${m.prefix}delsewa https://chat.whatsapp.com/xxx\n` +
           `• ${m.prefix}delsewa 120363xxx\n\n` +
-          `⚠️ Jika sewabot aktif, bot akan otomatis keluar dari grup yang dihapus`,
+          `⚠️ Si sewabot esta activo, el bot saldra automaticamente del grupo eliminado`,
       );
     }
     groupId = m.chat;
   } else {
     const result = await resolveGroupId(sock, input);
     if (!result)
-      return m.reply(`❌ Link tidak valid o grup tidak ditemukan`);
+      return m.reply(`❌ Link no valido o grupo no encontrado`);
     groupId = result.id;
     groupName = result.name;
   }
 
-  if (!groupId) return m.reply(`❌ Tidak dapat menentukan grup`);
+  if (!groupId) return m.reply(`❌ No dapat menentukan grupos`);
 
   const sewaData = db.db.data.sewa.groups[groupId];
   if (!sewaData)
     return m.reply(
-      `❌ Grup tidak terdaftar dalam sistem sewa\n\nLihat daftar: *${m.prefix}listsewa*`,
+      `❌ El grupo no esta registrado en el sistema de alquiler\n\nVer lista: *${m.prefix}listsewa*`,
     );
 
   groupName = groupName || sewaData.name || groupId.split("@")[0];
@@ -83,7 +83,7 @@ async function handler(m, { sock }) {
     try {
       await sock.sendText(
         groupId,
-        `⛔ Grup ini telah dihapus dari whitelist sewa.\nBot akan meninggalkan grup.\n\nHubungi owner untuk sewa ulang.`,
+        `⛔ Este grupo fue eliminado de la whitelist de alquiler.\nEl bot abandonara el grupo.\n\nContacta al owner para renovar el alquiler.`,
         null,
         {
           contextInfo: saluranCtx(),

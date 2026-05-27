@@ -6,7 +6,7 @@ const pluginConfig = {
   name: "searchplugin",
   alias: ["splugin", "findplugin", "infoplugin"],
   category: "owner",
-  description: "Cari dan tampilkan info plugin",
+  description: "Buscar y mostrar informacion del plugin",
   usage: ".splugin <nama>",
   example: ".splugin sticker",
   isOwner: true,
@@ -86,7 +86,7 @@ async function handler(m, { sock }) {
   if (!name) {
     return m.reply(
       `🔍 *sᴇᴀʀᴄʜ ᴘʟᴜɢɪɴ*\n\n` +
-        `> Cari dan tampilkan info plugin\n\n` +
+        `> Buscar y mostrar informacion del plugin\n\n` +
         `*ᴄᴏɴᴛᴏʜ:*\n` +
         `> \`${m.prefix}splugin sticker\`\n` +
         `> \`${m.prefix}splugin menu\``,
@@ -106,7 +106,7 @@ async function handler(m, { sock }) {
     if (!info) {
       await m.react("❌");
       return m.reply(
-        `❌ *ᴛɪᴅᴀᴋ ᴅɪᴛᴇᴍᴜᴋᴀɴ*\n\n> Plugin \`${name}\` tidak ditemukan`,
+        `❌ *ᴛɪᴅᴀᴋ ᴅɪᴛᴇᴍᴜᴋᴀɴ*\n\n> Plugin \`${name}\` no encontrado`,
       );
     }
 
@@ -123,11 +123,11 @@ async function handler(m, { sock }) {
     const aliases = Array.isArray(info.alias)
       ? info.alias.join(", ")
       : info.alias || "-";
-    const isEnabled = info.isEnabled !== false ? "✅ Ya" : "❌ Tidak";
-    const isOwner = info.isOwner ? "✅ Ya" : "❌ Tidak";
-    const isPremium = info.isPremium ? "✅ Ya" : "❌ Tidak";
-    const isGroup = info.isGroup ? "✅ Ya" : "❌ Tidak";
-    const isAdmin = info.isAdmin ? "✅ Ya" : "❌ Tidak";
+    const isEnabled = info.isEnabled !== false ? "✅ Si" : "❌ No";
+    const isOwner = info.isOwner ? "✅ Si" : "❌ No";
+    const isPremium = info.isPremium ? "✅ Si" : "❌ No";
+    const isGroup = info.isGroup ? "✅ Si" : "❌ No";
+    const isAdmin = info.isAdmin ? "✅ Si" : "❌ No";
 
     await m.react("✅");
     return m.reply(

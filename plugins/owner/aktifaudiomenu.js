@@ -1,11 +1,11 @@
 import { getDatabase } from '../../src/lib/ourin-database.js'
 const pluginConfig = {
-    name: 'aktifaudiomenu',
+    name: 'activoaudiomenu',
     alias: ['audiomenu', 'setaudiomenu', 'toggleaudiomenu'],
     category: 'owner',
     description: 'Alternar audio al mostrar el menu',
-    usage: '.aktifaudiomenu ya/gak',
-    example: '.aktifaudiomenu ya',
+    usage: '.activoaudiomenu ya/gak',
+    example: '.activoaudiomenu ya',
     isOwner: true,
     isPremium: false,
     isGroup: false,
@@ -25,13 +25,13 @@ async function handler(m, { sock, db }) {
         return m.reply(
             `🔊 *ᴀᴜᴅɪᴏ ᴍᴇɴᴜ sᴇᴛᴛɪɴɢ*\n\n` +
             `> Estado: *${current ? '✅ Activo' : '❌ Inactivo'}*\n\n` +
-            `*Cara pakai:*\n` +
-            `> \`${m.prefix}aktifaudiomenu ya\` - Activar audio\n` +
-            `> \`${m.prefix}aktifaudiomenu gak\` - Desactivar audio`
+            `*Modo de uso:*\n` +
+            `> \`${m.prefix}activoaudiomenu ya\` - Activar audio\n` +
+            `> \`${m.prefix}activoaudiomenu gak\` - Desactivar audio`
         )
     }
 
-    if (option === 'ya' || option === 'on' || option === '1' || option === 'aktif') {
+    if (option === 'ya' || option === 'on' || option === '1' || option === 'activo') {
         if (current) {
             return m.reply(`⚠️ El audio del menu ya esta activo!`)
         }
@@ -41,7 +41,7 @@ async function handler(m, { sock, db }) {
         return m.reply(`✅ Audio del menu *activado*!\n\n> Ahora cuando alguien escriba \`.menu\`, aparecera el audio.`)
     }
 
-    if (option === 'gak' || option === 'off' || option === '0' || option === 'nonaktif') {
+    if (option === 'gak' || option === 'off' || option === '0' || option === 'nonactivo') {
         if (!current) {
             return m.reply(`⚠️ El audio del menu ya esta inactivo!`)
         }

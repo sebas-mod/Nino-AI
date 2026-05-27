@@ -3,7 +3,7 @@ const pluginConfig = {
     name: 'backupdb',
     alias: ['dbbackup', 'backupstore', 'storebackup'],
     category: 'owner',
-    description: 'Backup database/store dan kirim ke owner',
+    description: 'Respaldar database/store y enviar al owner',
     usage: '.backupdb',
     isOwner: true,
     isGroup: false,
@@ -31,15 +31,15 @@ async function handler(m, { sock }) {
     
     if (result.success) {
         await m.reply(
-            `✅ *Backup Berhasil!*\n\n` +
+            `✅ *Backup correcto!*\n\n` +
             `📦 Size: ${result.size}\n` +
             `📁 Files: ${result.files}\n` +
             `🔖 Schema: v${SCHEMA_VERSION}\n\n` +
-            `> Type-safe backup, kompatibel dengan update mendatang.\n` +
-            `> Backup telah dikirim ke owner utama.`
+            `> Backup type-safe, compatible con futuras actualizaciones.\n` +
+            `> Backup enviado al owner principal.`
         )
     } else {
-        await m.reply(`❌ Backup gagal: ${result.error}`)
+        await m.reply(`❌ Backup fallido: ${result.error}`)
     }
 }
 

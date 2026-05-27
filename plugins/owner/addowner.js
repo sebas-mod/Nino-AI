@@ -215,7 +215,7 @@ async function handler(m, { sock, jadibotId, isJadibot }) {
       `👑 *${isAdd ? "ADD" : "DEL"} OWNER*\n\n` +
         `Responde/etiqueta/escribe el numero del usuario\n` +
         `\`Ejemplo: ${m.prefix}${cmd} 6281234567890\`\n` +
-        `\`Dengan nama: ${m.prefix}${cmd} 6281234567890 NamaOwner\``,
+        `\`Con nombre: ${m.prefix}${cmd} 6281234567890 NamaOwner\``,
     );
   }
 
@@ -256,7 +256,7 @@ async function handler(m, { sock, jadibotId, isJadibot }) {
 
       let roleChanged = "";
       if (removeFromSellers(targetNumber)) {
-        roleChanged = `\n> ⚡ Auto-upgrade dari Seller ke Owner Panel`;
+        roleChanged = `\n> ⚡ Auto-upgrade de Seller a Owner Panel`;
       }
 
       config.pterodactyl.ownerPanels.push(targetNumber);
@@ -301,11 +301,11 @@ async function handler(m, { sock, jadibotId, isJadibot }) {
 
       let roleChanged = "";
       if (removeFromSellers(targetNumber)) {
-        roleChanged = `\n> ⚡ Auto-upgrade dari Seller`;
+        roleChanged = `\n> ⚡ Auto-upgrade de Seller`;
         savePanelConfig();
       }
       if (removeFromOwnerPanels(targetNumber)) {
-        roleChanged = `\n> ⚡ Auto-upgrade dari Panel Owner`;
+        roleChanged = `\n> ⚡ Auto-upgrade de Panel Owner`;
         savePanelConfig();
       }
 

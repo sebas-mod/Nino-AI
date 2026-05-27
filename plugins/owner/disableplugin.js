@@ -5,7 +5,7 @@ const pluginConfig = {
   name: "disableplugin",
   alias: ["dplugin", "plugindisable", "offplugin"],
   category: "owner",
-  description: "Menonaktifkan plugin tertentu",
+  description: "Menonactivokan plugin tertentu",
   usage: ".disableplugin <nama_plugin>",
   example: ".disableplugin sticker",
   isOwner: true,
@@ -57,7 +57,7 @@ async function handler(m, { sock }) {
   if (!pluginName) {
     return m.reply(
       `🔌 *ᴅɪsᴀʙʟᴇ ᴘʟᴜɢɪɴ*\n\n` +
-        `> Masukkan nama plugin yang ingin dinonaktifkan\n\n` +
+        `> Ingresa el nombre del plugin que quieres desactivar\n\n` +
         `*Ejemplo:*\n` +
         `> \`${m.prefix}disableplugin sticker\`\n` +
         `> \`${m.prefix}disableplugin tiktok\``,
@@ -67,13 +67,13 @@ async function handler(m, { sock }) {
   const found = await findPluginFile(pluginName);
 
   if (!found) {
-    return m.reply(`❌ Plugin *${pluginName}* tidak ditemukan!`);
+    return m.reply(`❌ Plugin *${pluginName}* no encontrado!`);
   }
 
   const { filePath, plugin, category, file } = found;
 
   if (plugin.config.isEnabled === false) {
-    return m.reply(`⚠️ Plugin *${pluginName}* sudah dinonaktifkan!`);
+    return m.reply(`⚠️ Plugin *${pluginName}* ya esta desactivado!`);
   }
 
   try {
@@ -91,7 +91,7 @@ async function handler(m, { sock }) {
         `┃ 📄 File: *${file}*\n` +
         `┃ 🔴 Estado: *Disabled*\n` +
         `╰┈┈⬡\n\n` +
-        `> Restart bot o gunakan hot reload untuk apply.`,
+        `> Restart bot o usa hot reload para aplicar.`,
     );
   } catch (error) {
     await m.reply(te(m.prefix, m.command, m.pushName));

@@ -5,8 +5,8 @@ const pluginConfig = {
     name: 'ourin-large',
     alias: ['setourinlarge', 'gantiourinlarge'],
     category: 'owner',
-    description: 'Preset: Ganti gambar ourin.jpg, serta ourin-v7 hingga ourin-v11.jpg sekaligus',
-    usage: '.ourin-large (reply/kirim gambar)',
+    description: 'Preset: Cambiar imagen ourin.jpg, y tambien ourin-v7 hasta ourin-v11.jpg a la vez',
+    usage: '.ourin-large (responde/envia imagen)',
     example: '.ourin-large',
     isOwner: true,
     isPremium: false,
@@ -21,7 +21,7 @@ async function handler(m, { sock }) {
     const isImage = m.isImage || (m.quoted && m.quoted.type === 'imageMessage')
     
     if (!isImage) {
-        return m.reply(`🖼️ *ᴏᴜʀɪɴ ʟᴀʀɢᴇ ᴘʀᴇsᴇᴛ*\n\n> Kirim/reply gambar untuk mengganti kumpulan foto besar (ourin.jpg, ourin-v7.jpg s/d ourin-v11.jpg) sekaligus.\n> Pastikan rasio gambar sesuai dengan yang diinginkan.`)
+        return m.reply(`🖼️ *ᴏᴜʀɪɴ ʟᴀʀɢᴇ ᴘʀᴇsᴇᴛ*\n\n> Envia/responde una imagen para reemplazar conjunto de fotos grandes (ourin.jpg, ourin-v7.jpg hasta ourin-v11.jpg) a la vez.\n> Asegurate de que la relacion de aspecto sea la deseada.`)
     }
     
     await m.react('🕕')
@@ -36,7 +36,7 @@ async function handler(m, { sock }) {
         
         if (!buffer) {
             await m.react('❌')
-            return m.reply(`❌ Fallo: mendownload gambar`)
+            return m.reply(`❌ Fallo: descargar imagen`)
         }
         
         const targetImages = [
@@ -59,7 +59,7 @@ async function handler(m, { sock }) {
         }
         
         await m.react('✅')
-        m.reply(`✅ *ʙᴇʀʜᴀsɪʟ*\n\n> Imagen bundle *ourin-large* berhasil diganti secara massal.\n> Mencakup: ${targetImages.join(', ')}\n> Restart bot jika gambar tidak langsung berubah.`)
+        m.reply(`✅ *ʙᴇʀʜᴀsɪʟ*\n\n> Imagen bundle *ourin-large* fue reemplazado masivamente.\n> Incluye: ${targetImages.join(', ')}\n> Reinicia el bot si la imagen no cambia inmediatamente.`)
         
     } catch (error) {
         await m.react('☢')

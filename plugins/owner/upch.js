@@ -39,7 +39,7 @@ async function toOggOpus(inputBuf) {
 async function handler(m, { sock }) {
     const args = m.text?.replace(/^\.upch\s+/i, '').split(" ") || []
     const chId = args[0]?.includes("@newsletter") ? args.shift() : config?.saluran?.id
-    const chName = config?.saluran?.name || config?.bot?.name || "Ourin-AI"
+    const chName = config?.saluran?.name || config?.bot?.name || "Nino AI"
     const caption = args.join(" ").trim()
 
     const quoted = m.quoted || m

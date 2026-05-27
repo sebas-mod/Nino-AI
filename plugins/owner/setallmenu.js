@@ -5,7 +5,7 @@ const pluginConfig = {
   name: "setallmenu",
   alias: ["allmenuvariant", "allmenustyle"],
   category: "owner",
-  description: "Mengatur variant tampilan allmenu",
+  description: "Configurar variante visual de allmenu",
   usage: ".setallmenu <v1-v5>",
   example: ".setallmenu v2",
   isOwner: true,
@@ -21,7 +21,7 @@ const VARIANTS = {
   v1: {
     id: 1,
     name: "Simple Text",
-    desc: "Text biasa tanpa image/contextInfo",
+    desc: "Texto normal sin imagen/contextInfo",
     emoji: "📝",
   },
   v2: {
@@ -39,7 +39,7 @@ const VARIANTS = {
   v4: {
     id: 4,
     name: "Interactive Button",
-    desc: "Interactive message + single_select kategori + quick_reply",
+    desc: "Mensaje interactivo + single_select de categoria + quick_reply",
     emoji: "🔘",
   },
   v5: {
@@ -57,7 +57,7 @@ async function handler(m, { sock, db }) {
   if (variant) {
     const selected = VARIANTS[variant];
     if (!selected) {
-      await m.reply(`❌ *VARIANT TIDAK VALID*\n\nUsa: *v1* s/d *v5*`);
+      await m.reply(`❌ *VARIANTE NO VALIDA*\n\nUsa: *v1* hasta *v5*`);
       return;
     }
 
@@ -65,7 +65,7 @@ async function handler(m, { sock, db }) {
     await db.save();
 
     await m.reply(
-      `✅ *ALLMENU VARIANT DIUBAH*\n\n` +
+      `✅ *ALLMENU VARIANTE CAMBIADA*\n\n` +
         `${selected.emoji} *V${selected.id} — ${selected.name}*\n` +
         `_${selected.desc}_`,
     );
@@ -88,23 +88,23 @@ async function handler(m, { sock, db }) {
     {
       name: "single_select",
       buttonParamsJson: JSON.stringify({
-        title: "📋 Pilih Variant Allmenu",
-        sections: [{ title: "Daftar Variant Allmenu", rows }],
+        title: "📋 Elegir variante de Allmenu",
+        sections: [{ title: "Lista de variantes de Allmenu", rows }],
       }),
     },
   ];
 
   const bodyText =
     `📋📑 *ALLMENU VARIANT*\n\n` +
-    `Atur tampilan allmenu yang menampilkan seluruh daftar perintah bot dalam satu halaman 📖✨\n` +
-    `Variant aktif saat ini: *V${current} — ${VARIANTS[`v${current}`]?.name || "Desconocido"}* 🎯\n\n` +
-    `*PENJELASAN VARIANT:*\n\n` +
-    `- *V1 Simple Text* 📝 — Daftar perintah ditampilkan sebagai text biasa tanpa gambar o contextInfo, paling ringan dan cepat dimuat\n\n` +
-    `- *V2 Image + Context* 🖼️ — Imagen header allmenu + full contextInfo dengan label forwarded newsletter, tampilan standar yang informatif\n\n` +
-    `- *V3 Document* 📄 — Allmenu dikirim sebagai file document dengan thumbnail kecil dan verified quoted reply, terlihat seperti file resmi\n\n` +
-    `- *V4 Interactive Button* 🔘 — Pesan interaktif dengan tombol single_select untuk memilih kategori dan quick_reply untuk navigasi, tampilan modern\n\n` +
-    `- *V5 NativeFlow* ✨ — NativeFlow message dengan limited_time_offer badge dan interactive buttons, tampilan paling premium dan eye-catching\n\n` +
-    `> Pilih variant allmenu dari tombol di bawah 👇`;
+    `Configura la vista allmenu que muestra toda la lista de comandos del bot en una pagina 📖✨\n` +
+    `Variante activa actual: *V${current} — ${VARIANTS[`v${current}`]?.name || "Desconocido"}* 🎯\n\n` +
+    `*EXPLICACION DE VARIANTES:*\n\n` +
+    `- *V1 Simple Text* 📝 — La lista de comandos se muestra como texto normal sin imagen ni contextInfo; es la mas ligera y rapida\n\n` +
+    `- *V2 Image + Context* 🖼️ — Imagen de cabecera allmenu + contextInfo completo con etiqueta de newsletter reenviada; vista estandar e informativa\n\n` +
+    `- *V3 Document* 📄 — Allmenu se envia como documento con miniatura pequena y respuesta citada verificada; parece un archivo oficial\n\n` +
+    `- *V4 Interactive Button* 🔘 — Mensaje interactivo con boton single_select para elegir categoria y quick_reply para navegar; vista moderna\n\n` +
+    `- *V5 NativeFlow* ✨ — Mensaje NativeFlow con badge limited_time_offer y botones interactivos; vista mas premium y llamativa\n\n` +
+    `> Elige la variante de allmenu desde el boton de abajo 👇`;
 
   await sock.sendButton(
     m.chat,

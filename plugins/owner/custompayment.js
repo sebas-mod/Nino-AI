@@ -4,7 +4,7 @@ const pluginConfig = {
   name: 'custompayment',
   alias: ['setpayment', 'setpaytext'],
   category: 'owner',
-  description: 'Atur teks custom untuk .payment dengan placeholder',
+  description: 'Configurar texto personalizado para .payment con placeholders',
   usage: '.custompayment <texto> / .custompayment reset',
   isOwner: true,
   isPremium: false,
@@ -23,12 +23,12 @@ async function handler(m) {
   if (!input) {
     return m.reply(
       `📝 *CUSTOM PAYMENT TEXT*\n\n` +
-      `Texto saat ini:\n${current || '_(belum diatur, pakai default)_'}\n\n` +
-      `*PLACEHOLDER YANG TERSEDIA:*\n` +
+      `Texto actual:\n${current || '_(aun no configurado, usa el valor por defecto)_'}\n\n` +
+      `*PLACEHOLDERS DISPONIBLES:*\n` +
       `• \`{botname}\` — Nama bot\n` +
       `• \`{owner}\` — Nama owner\n` +
-      `• \`{methods}\` — Daftar e-wallet\n` +
-      `• \`{banks}\` — Daftar bank\n` +
+      `• \`{methods}\` — Lista de e-wallets\n` +
+      `• \`{banks}\` — Lista de bancos\n` +
       `• \`{qris}\` — Status QRIS\n\n` +
       `*CONTOH:*\n` +
       `> \`${m.prefix}custompayment Hola! Bayar ke {methods}\`\n\n` +

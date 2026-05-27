@@ -5,8 +5,8 @@ const pluginConfig = {
     name: 'ganti-ourin-v7.jpg',
     alias: ['gantiourinv7', 'setourinv7'],
     category: 'owner',
-    description: 'Ganti gambar ourin-v7.jpg',
-    usage: '.ganti-ourin-v7.jpg (reply/kirim gambar)',
+    description: 'Cambiar imagen ourin-v7.jpg',
+    usage: '.ganti-ourin-v7.jpg (responde/envia imagen)',
     example: '.ganti-ourin-v7.jpg',
     isOwner: true,
     isPremium: false,
@@ -19,13 +19,13 @@ const pluginConfig = {
 
 async function handler(m, { sock }) {
     const isImage = m.isImage || (m.quoted && m.quoted.type === 'imageMessage')
-    if (!isImage) return m.reply(`🖼️ *ɢᴀɴᴛɪ OURIN-V7.JPG*\n\n> Kirim/reply gambar untuk mengganti\n> File: assets/images/ourin-v7.jpg`)
+    if (!isImage) return m.reply(`🖼️ *ɢᴀɴᴛɪ OURIN-V7.JPG*\n\n> Envia/responde una imagen para reemplazar\n> File: assets/images/ourin-v7.jpg`)
     try {
         let buffer = m.quoted && m.quoted.isMedia ? await m.quoted.download() : await m.download()
-        if (!buffer) return m.reply('❌ Fallo: mendownload gambar')
+        if (!buffer) return m.reply('❌ Fallo: descargar imagen')
         const targetPath = path.join(process.cwd(), 'assets', 'images', 'ourin-v7.jpg')
         fs.writeFileSync(targetPath, buffer)
-        m.reply(`✅ *ʙᴇʀʜᴀsɪʟ*\n\n> Imagen ourin-v7.jpg telah diganti`)
+        m.reply(`✅ *ʙᴇʀʜᴀsɪʟ*\n\n> Imagen ourin-v7.jpg fue reemplazado`)
     } catch (error) {
         await m.reply(te(m.prefix, m.command, m.pushName))
     }

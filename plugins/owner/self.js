@@ -1,7 +1,7 @@
 import config from '../../config.js'
 /**
  * @file plugins/owner/self.js
- * @description Plugin untuk mengaktifkan mode self (hanya owner & bot)
+ * @description Plugin untuk mengactivokan mode self (hanya owner & bot)
  */
 import { getDatabase } from '../../src/lib/ourin-database.js'
 import te from '../../src/lib/ourin-error.js'
@@ -9,7 +9,7 @@ const pluginConfig = {
     name: 'self',
     alias: ['selfmode', 'private-mode'],
     category: 'owner',
-    description: 'Mengaktifkan mode self (hanya owner & bot yang bisa akses)',
+    description: 'Activar modo self (solo owner y bot pueden acceder)',
     usage: '.self',
     example: '.self',
     isOwner: true,
@@ -28,11 +28,11 @@ async function handler(m, { sock }) {
     try {
         const isRealOwner = validateOwner(m);
         if (!isRealOwner) {
-            return await m.reply('🚫 *ᴀᴋsᴇs ᴅɪᴛᴏʟᴀᴋ*\n\n> Hanya owner yang bisa mengubah mode bot!');
+            return await m.reply('🚫 *ᴀᴋsᴇs ᴅɪᴛᴏʟᴀᴋ*\n\n> Solo el owner puede cambiar el modo del bot!');
         }
         const currentMode = config.mode;
         if (currentMode === 'self') {
-            return await m.reply('ℹ️ Bot sudah dalam mode *self*');
+            return await m.reply('ℹ️ El bot ya esta en modo *self*');
         }
         config.mode = 'self';
         const db = getDatabase();

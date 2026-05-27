@@ -34,7 +34,7 @@ async function handler(m, { sock }) {
   if (!quoted) {
     return m.reply(
       `📦 *ADD PLUGIN*\n\n` +
-        `Reply code plugin dengan caption:\n` +
+        `Responde al codigo del plugin con caption:\n` +
         `\`${m.prefix}addplugin\` - Auto detect\n` +
         `\`${m.prefix}addplugin namafile\` - Custom nama\n` +
         `\`${m.prefix}addplugin namafile folder\` - Custom nama + folder`,

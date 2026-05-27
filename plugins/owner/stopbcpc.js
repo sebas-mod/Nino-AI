@@ -2,7 +2,7 @@ const pluginConfig = {
   name: 'stopbcpc',
   alias: ['stopbroadcastpc'],
   category: 'owner',
-  description: 'Hentikan broadcast private yang sedang berjalan',
+  description: 'Detener el broadcast privado en curso',
   usage: '.stopbcpc',
   isOwner: true,
   isPremium: false,
@@ -15,10 +15,10 @@ const pluginConfig = {
 
 async function handler(m) {
   if (!global.statusBcpc) {
-    return m.reply('❌ No hay broadcast private yang sedang berjalan.')
+    return m.reply('❌ No hay broadcast privado en curso.')
   }
   global.stopBcpc = true
-  return m.reply('⏹️ Menghentikan broadcast private...')
+  return m.reply('⏹️ Deteniendo broadcast privado...')
 }
 
 export { pluginConfig as config, handler }

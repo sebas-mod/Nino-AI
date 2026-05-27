@@ -7,7 +7,7 @@ const pluginConfig = {
   name: "renewsewa",
   alias: ["perpanjangsewa", "extendsewa"],
   category: "owner",
-  description: "Perpanjang durasi sewa grup",
+  description: "Perpanjang durasi sewa grupos",
   usage: ".renewsewa <link/id grupo> <duracion>",
   example: ".renewsewa https://chat.whatsapp.com/xxx 30d",
   isOwner: true,
@@ -46,10 +46,10 @@ function formatDuration(str) {
       str.toLowerCase(),
     )
   )
-    return "Permanent";
+    return "Permanente";
   const match = str.match(/^(\d+)([iIdDmMyYhH])$/);
   if (!match) return str;
-  const units = { i: "menit", h: "jam", d: "dias", m: "bulan", y: "tahun" };
+  const units = { i: "minutos", h: "horas", d: "dias", m: "meses", y: "anos" };
   return `${match[1]} ${units[match[2].toLowerCase()] || match[2]}`;
 }
 
@@ -80,18 +80,18 @@ async function handler(m, { sock }) {
   if (args.length < 2) {
     return m.reply(
       `📝 *PERPANJANG SEWA*\n\n` +
-        `Format: *${m.prefix}renewsewa <link/id> <duracion>*\n\n` +
+        `Formato: *${m.prefix}renewsewa <link/id> <duracion>*\n\n` +
         `*FORMATO DE DURACION:*\n` +
-        `• 30i = 30 menit\n` +
-        `• 12h = 12 jam\n` +
+        `• 30i = 30 minutos\n` +
+        `• 12h = 12 horas\n` +
         `• 7d = 7 dias\n` +
-        `• 1m = 1 bulan\n` +
-        `• 1y = 1 tahun\n` +
-        `• lifetime = Permanent\n\n` +
+        `• 1m = 1 meses\n` +
+        `• 1y = 1 anos\n` +
+        `• lifetime = Permanente\n\n` +
         `*CONTOH:*\n` +
         `• ${m.prefix}renewsewa https://chat.whatsapp.com/xxx 30d\n` +
         `• ${m.prefix}renewsewa 120363xxx 1m\n\n` +
-        `💡 Durasi ditambahkan ke sisa waktu yang ada, bukan di-reset`,
+        `💡 La duracion se agrega al tiempo restante, no se reinicia`,
     );
   }
 
@@ -110,7 +110,7 @@ async function handler(m, { sock }) {
     const result = await resolveGroupId(sock, input);
     if (!result) {
       await m.react("❌");
-      return m.reply(`❌ Grup tidak ditemukan`);
+      return m.reply(`❌ Grupo no encontrado`);
     }
 
     const { id: groupId } = result;
@@ -119,21 +119,21 @@ async function handler(m, { sock }) {
     if (!existing) {
       await m.react("❌");
       return m.reply(
-        `❌ Grup tidak terdaftar\nUsa *${m.prefix}addsewa* untuk agregar`,
+        `❌ Grupo no registrado\nUsa *${m.prefix}addsewa* para agregar`,
       );
     }
 
     if (durationMs === Infinity) {
-      existing.expiredAt = 0;
+      existing.vencidoAt = 0;
       existing.isLifetime = true;
     } else {
       if (existing.isLifetime) {
         await m.react("❌");
-        return m.reply(`❌ Grup ini sudah Permanent, tidak perlu diperpanjang`);
+        return m.reply(`❌ Este grupo ya es permanente, no necesita renovacion`);
       }
       const baseTime =
-        existing.expiredAt > Date.now() ? existing.expiredAt : Date.now();
-      existing.expiredAt = baseTime + durationMs;
+        existing.vencidoAt > Date.now() ? existing.vencidoAt : Date.now();
+      existing.vencidoAt = baseTime + durationMs;
       existing.isLifetime = false;
     }
 
@@ -143,21 +143,21 @@ async function handler(m, { sock }) {
     db.db.write();
 
     const groupName = existing.name || groupId.split("@")[0];
-    const expiredStr = existing.isLifetime
-      ? "Permanent"
-      : timeHelper.fromTimestamp(existing.expiredAt, "D MMMM YYYY HH:mm");
+    const vencidoStr = existing.isLifetime
+      ? "Permanente"
+      : timeHelper.fromTimestamp(existing.vencidoAt, "D MMMM YYYY HH:mm");
 
     await m.react("✅");
 
     let text = `✅ *SEWA DIPERPANJANG*\n\n`;
     text += `Grupo: *${groupName}*\n`;
-    text += `Tambahan: *${formatDuration(durationStr)}*\n`;
-    text += `Expired baru: *${expiredStr}*`;
+    text += `Adicional: *${formatDuration(durationStr)}*\n`;
+    text += `Nuevo vencimiento: *${vencidoStr}*`;
 
     try {
       await sock.sendText(
         groupId,
-        `📢 Sewa bot telah diperpanjang!\n\nTambahan: *${formatDuration(durationStr)}*\nExpired baru: *${expiredStr}*`,
+        `📢 El alquiler del bot fue renovado!\n\nAdicional: *${formatDuration(durationStr)}*\nNuevo vencimiento: *${vencidoStr}*`,
         null,
         {
           contextInfo: saluranCtx(),

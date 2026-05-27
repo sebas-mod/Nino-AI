@@ -6,7 +6,7 @@ const pluginConfig = {
   name: "sewabot",
   alias: ["sewa"],
   category: "owner",
-  description: "Toggle dan kelola sistem sewa bot",
+  description: "Activar y gestionar el sistema de alquiler del bot",
   usage: ".sewabot <on/off/leave/status>",
   example: ".sewabot on",
   isOwner: true,
@@ -30,26 +30,26 @@ async function handler(m, { sock }) {
   if (!args || args === "status") {
     return m.reply(
       `🔧 *SISTEM SEWA BOT*\n\n` +
-        `Estado: *${currentStatus ? "✅ AKTIF" : "❌ NONAKTIF"}*\n` +
-        `Grup terdaftar: *${sewaGroups.length}*\n\n` +
-        `*PERINTAH TERSEDIA:*\n` +
-        `• *${m.prefix}sewabot on* — Activokan sistem sewa\n` +
-        `• *${m.prefix}sewabot off* — Inactivokan sistem sewa\n` +
-        `• *${m.prefix}sewabot leave* — Keluar dari semua grup non-whitelist\n\n` +
-        `*KELOLA SEWA:*\n` +
-        `• *${m.prefix}addsewa <link> <duracion>* — Tambah grup + auto join\n` +
-        `• *${m.prefix}delsewa <link/id>* — Hapus grup dari whitelist\n` +
-        `• *${m.prefix}renewsewa <link/id> <duracion>* — Perpanjang sewa\n` +
-        `• *${m.prefix}listsewa* — Lihat semua grup terdaftar\n` +
-        `• *${m.prefix}checksewa* — Cek sisa sewa (en el grupo)\n\n` +
+        `Estado: *${currentStatus ? "✅ ACTIVO" : "❌ NONACTIVO"}*\n` +
+        `Grupos registrados: *${sewaGroups.length}*\n\n` +
+        `*COMANDOS DISPONIBLES:*\n` +
+        `• *${m.prefix}sewabot on* — Activar sistema de alquiler\n` +
+        `• *${m.prefix}sewabot off* — Desactivar sistema de alquiler\n` +
+        `• *${m.prefix}sewabot leave* — Salir de todos los grupos fuera de whitelist\n\n` +
+        `*GESTIONAR ALQUILER:*\n` +
+        `• *${m.prefix}addsewa <link> <duracion>* — Agregar grupo + auto join\n` +
+        `• *${m.prefix}delsewa <link/id>* — Eliminar grupo de whitelist\n` +
+        `• *${m.prefix}renewsewa <link/id> <duracion>* — Renovar alquiler\n` +
+        `• *${m.prefix}listsewa* — Ver todos los grupos registrados\n` +
+        `• *${m.prefix}checksewa* — Ver tiempo restante de alquiler (en el grupo)\n\n` +
         `*FORMATO DE DURACION:*\n` +
-        `30i (menit) \u2022 12h (jam) \u2022 7d (dias) \u2022 1m (bulan) \u2022 1y (tahun) \u2022 lifetime\n\n` +
-        `*CARA KERJA:*\n` +
-        `1. Tambahkan grup dengan *${m.prefix}addsewa*\n` +
-        `2. Bot otomatis join jika pakai link\n` +
-        `3. Activokan dengan *${m.prefix}sewabot on*\n` +
-        `4. Bot akan keluar dari semua grup yang tidak terdaftar\n` +
-        `5. Sewa expired → bot otomatis keluar dari grup`,
+        `30i (minutos) \u2022 12h (horas) \u2022 7d (dias) \u2022 1m (meses) \u2022 1y (anos) \u2022 lifetime\n\n` +
+        `*COMO FUNCIONA:*\n` +
+        `1. Agrega el grupo con *${m.prefix}addsewa*\n` +
+        `2. El bot entra automaticamente si usas link\n` +
+        `3. Activar con *${m.prefix}sewabot on*\n` +
+        `4. El bot saldra de todos los grupos no registrados\n` +
+        `5. Sewa vencido → bot otomatis salir del grupo`,
     );
   }
   if (args === "off") {
@@ -57,7 +57,7 @@ async function handler(m, { sock }) {
     db.db.write();
     await m.react("✅");
     return m.reply(
-      `✅ Sistem sewa dinonaktifkan\n\nBot tidak akan meninggalkan grup manapun.`,
+      `✅ Sistema de alquiler desactivado\n\nEl bot no abandonara ningun grupo.`,
     );
   }
   if (args === "on") {
@@ -68,7 +68,7 @@ async function handler(m, { sock }) {
       Date.now() - pending.timestamp < 60000
     ) {
       return m.reply(
-        `🕕 Sudah ada permintaan pending\n\nEscribe *${m.prefix}sewabot confirm* untuk lanjut\nEscribe *${m.prefix}sewabot cancel* untuk batal`,
+        `🕕 Ya hay una solicitud pendiente\n\nEscribe *${m.prefix}sewabot confirm* para continuar\nEscribe *${m.prefix}sewabot cancel* para cancelar`,
       );
     }
     pendingConfirmations.set(m.sender, {
@@ -80,26 +80,26 @@ async function handler(m, { sock }) {
         pendingConfirmations.delete(m.sender);
     }, 60000);
     return m.reply(
-      `⚠️ *KONFIRMASI AKTIVASI SEWA*\n\n` +
-        `Jika diaktifkan:\n` +
-        `• ✅ ${sewaGroups.length} grup ter-whitelist tetap aman\n` +
-        `• ❌ Semua grup lain akan ditinggalkan!\n\n` +
-        `Escribe *${m.prefix}sewabot confirm* untuk lanjut\nEscribe *${m.prefix}sewabot cancel* untuk batal\n\n` +
-        `💡 Pastikan sudah whitelist grup penting dengan:\n*${m.prefix}addsewa <link grup> <duracion>*`,
+      `⚠️ *CONFIRMACION DE ACTIVACION DE ALQUILER*\n\n` +
+        `Si se activa:\n` +
+        `• ✅ ${sewaGroups.length} grupos en whitelist quedan seguros\n` +
+        `• ❌ Todos los otros grupos seran abandonados!\n\n` +
+        `Escribe *${m.prefix}sewabot confirm* para continuar\nEscribe *${m.prefix}sewabot cancel* para cancelar\n\n` +
+        `💡 Asegurate de agregar grupos importantes a la whitelist con:\n*${m.prefix}addsewa <link grupos> <duracion>*`,
     );
   }
   if (args === "confirm" || args === "yes" || args === "y") {
     const pending = pendingConfirmations.get(m.sender);
     if (!pending || pending.type !== "sewabot_on") {
       return m.reply(
-        `❌ No hay permintaan pending\nEscribe *${m.prefix}sewabot on* dulu`,
+        `❌ No hay solicitudes pendientes\nEscribe *${m.prefix}sewabot on* primero`,
       );
     }
     pendingConfirmations.delete(m.sender);
     db.db.data.sewa.enabled = true;
     db.db.write();
     await m.react("🕕");
-    await m.reply(`🕕 Sistem sewa diaktifkan, memproses auto-leave...`);
+    await m.reply(`🕕 Sistema de alquiler activado, procesando auto-leave...`);
     try {
       global.isFetchingGroups = true;
       const allGroups = await sock.groupFetchAllParticipating();
@@ -114,7 +114,7 @@ async function handler(m, { sock }) {
         try {
           await sock.sendText(
             groupId,
-            `⛔ Grup ini tidak terdaftar dalam sistem sewa.\nBot akan meninggalkan grup ini.\n\nHubungi owner untuk sewa bot.`,
+            `⛔ Este grupo no esta registrado en el sistema de alquiler.\nEl bot abandonara este grupo.\n\nContacta al owner para alquilar el bot.`,
             null,
             {
               contextInfo: saluranCtx(),
@@ -130,10 +130,10 @@ async function handler(m, { sock }) {
       }
       await m.react("✅");
       return m.reply(
-        `✅ *SEWA BOT AKTIF*\n\n` +
+        `✅ *ALQUILER DEL BOT ACTIVO*\n\n` +
           `Grup whitelist: *${sewaGroups.length}*\n` +
-          `Keluar dari: *${leftCount}* grup\n` +
-          `Fallidos: *${failedCount}* grup`,
+          `Salio de: *${leftCount}* grupos\n` +
+          `Fallidos: *${failedCount}* grupos`,
       );
     } catch (e) {
       await m.react("✅");
@@ -142,9 +142,9 @@ async function handler(m, { sock }) {
   }
   if (args === "leave") {
     if (!currentStatus)
-      return m.reply(`❌ Activokan sewabot dulu dengan *${m.prefix}sewabot on*`);
+      return m.reply(`❌ Activa primero sewabot con *${m.prefix}sewabot on*`);
     await m.react("🕕");
-    await m.reply(`🕕 Mengambil daftar grup...`);
+    await m.reply(`🕕 Obteniendo lista de grupos...`);
     global.sewaLeaving = true;
     try {
       global.isFetchingGroups = true;
@@ -157,10 +157,10 @@ async function handler(m, { sock }) {
       if (unlistedGroups.length === 0) {
         delete global.sewaLeaving;
         await m.react("✅");
-        return m.reply(`✅ No hay grup yang perlu ditinggalkan`);
+        return m.reply(`✅ No hay grupos que deban abandonarse`);
       }
       await m.reply(
-        `📊 Total: ${allGroupIds.length} grup\nWhitelist: ${sewaGroups.length}\nAkan keluar dari: ${unlistedGroups.length} grup`,
+        `📊 Total: ${allGroupIds.length} grupos\nWhitelist: ${sewaGroups.length}\nSaldra de: ${unlistedGroups.length} grupos`,
       );
       let leftCount = 0;
       let failedCount = 0;
@@ -168,7 +168,7 @@ async function handler(m, { sock }) {
         try {
           await sock.sendText(
             groupId,
-            `👋 Grup ini tidak terdaftar dalam sistem sewa.\nBot akan meninggalkan grup ini.\n\nHubungi owner untuk sewa bot.`,
+            `👋 Este grupo no esta registrado en el sistema de alquiler.\nEl bot abandonara este grupo.\n\nContacta al owner para alquilar el bot.`,
             null,
             {
               contextInfo: saluranCtx(),
@@ -185,7 +185,7 @@ async function handler(m, { sock }) {
       delete global.sewaLeaving;
       await m.react("✅");
       return m.reply(
-        `✅ Selesai\n\nCorrecto: keluar: *${leftCount}* grup\nFallidos: *${failedCount}* grup`,
+        `✅ Finalizado\n\nCorrecto: salio de: *${leftCount}* grupos\nFallidos: *${failedCount}* grupos`,
       );
     } catch (e) {
       delete global.sewaLeaving;
@@ -196,15 +196,15 @@ async function handler(m, { sock }) {
   if (args === "cancel" || args === "no" || args === "n") {
     const pending = pendingConfirmations.get(m.sender);
     if (!pending || pending.type !== "sewabot_on")
-      return m.reply(`❌ No hay permintaan pending`);
+      return m.reply(`❌ No hay solicitudes pendientes`);
     pendingConfirmations.delete(m.sender);
     await m.react("❌");
     return m.reply(
-      `❌ Aktivasi dibatalkan\nWhitelist grup dulu dengan *${m.prefix}addsewa*`,
+      `❌ Activacion cancelada\nAgrega primero grupos a la whitelist con *${m.prefix}addsewa*`,
     );
   }
   return m.reply(
-    `❌ Perintah tidak valid\n\nEscribe *${m.prefix}sewabot* untuk melihat panduan lengkap`,
+    `❌ Comando no valido\n\nEscribe *${m.prefix}sewabot* para ver guia completa`,
   );
 }
 export { pluginConfig as config, handler, pendingConfirmations };

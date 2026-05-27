@@ -3,7 +3,7 @@ import config from "../../config.js";
 
 function getRegistrationContextInfo() {
   const saluranId = config.saluran?.id || "120363400911374213@newsletter";
-  const saluranName = config.saluran?.name || config.bot?.name || "Ourin-AI";
+  const saluranName = config.saluran?.name || config.bot?.name || "Nino AI";
 
   return {
     forwardingScore: 9999,
@@ -47,7 +47,7 @@ const pluginConfig = {
   name: "sistemdaftar",
   alias: ["regmode", "wajibdaftar", "togglereg"],
   category: "owner",
-  description: "Kelola sistem wajib daftar dan statistik pendaftaran",
+  description: "Gestionar registro obligatorio y estadisticas de registro",
   usage: ".sistemdaftar <on/off/stats>",
   example: ".sistemdaftar stats",
   isOwner: true,
@@ -72,17 +72,17 @@ async function handler(m, { sock }) {
   if (!normalizedArgs) {
     return m.reply(
       `⚙️ *sɪsᴛᴇᴍ ᴅᴀꜰᴛᴀʀ*\n\n` +
-        `Status: ${currentStatus ? "✅ ON (Wajib Daftar)" : "❌ OFF"}\n\n` +
+        `Status: ${currentStatus ? "✅ ON (Registro obligatorio)" : "❌ OFF"}\n\n` +
         `*Statistik:*\n` +
         `> Total registered: *${stats.totalRegistered}*\n` +
         `> Register dias ini: *${stats.registeredToday}*\n` +
         `> Unreg dias ini: *${stats.unregisteredToday}*\n` +
-        `> Sesi aktif: *${stats.activeSessions}*\n\n` +
+        `> Sesiones activas: *${stats.activeSessions}*\n\n` +
         `*Usage:*\n` +
-        `> \`${m.prefix}sistemdaftar on\` - Wajibkan daftar\n` +
-        `> \`${m.prefix}sistemdaftar off\` - Matikan wajib daftar\n` +
+        `> \`${m.prefix}sistemdaftar on\` - Exigir registro\n` +
+        `> \`${m.prefix}sistemdaftar off\` - Desactivar registro obligatorio\n` +
         `> \`${m.prefix}sistemdaftar stats\` - Lihat statistik\n\n` +
-        `> Jika ON, user harus \`${m.prefix}daftar\` sebelum pakai command`,
+        `> Si esta ON, el usuario debe \`${m.prefix}daftar\` antes de usar comandos`,
     );
   }
 
@@ -92,12 +92,12 @@ async function handler(m, { sock }) {
       {
         text:
           `📊 *sᴛᴀᴛɪsᴛɪᴋ ᴅᴀꜰᴛᴀʀ*\n\n` +
-          `Status sistem: ${currentStatus ? "✅ ON (Wajib Daftar)" : "❌ OFF"}\n\n` +
+          `Status sistem: ${currentStatus ? "✅ ON (Registro obligatorio)" : "❌ OFF"}\n\n` +
           `╭┈┈⬡「 📈 *sᴛᴀᴛs* 」\n` +
           `┃ Total registered: *${stats.totalRegistered}*\n` +
           `┃ Register dias ini: *${stats.registeredToday}*\n` +
           `┃ Unreg dias ini: *${stats.unregisteredToday}*\n` +
-          `┃ Sesi aktif: *${stats.activeSessions}*\n` +
+          `┃ Sesiones activas: *${stats.activeSessions}*\n` +
           `╰┈┈┈┈┈┈┈┈⬡`,
         contextInfo: getRegistrationContextInfo(),
       },
@@ -121,8 +121,8 @@ async function handler(m, { sock }) {
       {
         text:
           `✅ *sɪsᴛᴇᴍ ᴅᴀꜰᴛᴀʀ ᴅɪᴀᴋᴛɪꜰᴋᴀɴ!*\n\n` +
-          `User sekarang wajib daftar sebelum menggunakan command!\n\n` +
-          `> Command: \`${m.prefix}daftar\``,
+          `Ahora los usuarios deben registrarse antes de usar comandos!\n\n` +
+          `> Comando: \`${m.prefix}daftar\``,
         contextInfo: getRegistrationContextInfo(),
       },
       { quoted: m },
@@ -145,7 +145,7 @@ async function handler(m, { sock }) {
       {
         text:
           `❌ *sɪsᴛᴇᴍ ᴅᴀꜰᴛᴀʀ ᴅɪɴᴏɴᴀᴋᴛɪꜰᴋᴀɴ!*\n\n` +
-          `User tidak perlu daftar untuk menggunakan command.`,
+          `El usuario no necesita registrarse para usar comandos.`,
         contextInfo: getRegistrationContextInfo(),
       },
       { quoted: m },
@@ -156,7 +156,7 @@ async function handler(m, { sock }) {
   }
 
   return m.reply(
-    `❌ Option tidak valid!\n\n> Usa: \`on\`, \`off\`, o \`stats\``,
+    `❌ Opcion no valida!\n\n> Usa: \`on\`, \`off\`, o \`stats\``,
   );
 }
 

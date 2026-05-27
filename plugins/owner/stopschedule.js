@@ -6,7 +6,7 @@ const pluginConfig = {
     name: 'stopschedule',
     alias: ['stopscheduler', 'schedstop', 'pauseschedule'],
     category: 'owner',
-    description: 'Menghentikan scheduler tertentu o semua',
+    description: 'Detener scheduler especifico o todos',
     usage: '.stopschedule <nama|all>',
     example: '.stopschedule sholat',
     isOwner: true,
@@ -34,7 +34,7 @@ async function handler(m, { sock, args }) {
 • \`sewa\` - Sewa Checker
 • \`messages\` - Scheduled Messages
 • \`sholat\` - Sholat Scheduler
-• \`all\` - Semua scheduler
+• \`all\` - Todos los schedulers
 
 *Example:*
 \`.stopschedule sholat\`
@@ -49,7 +49,7 @@ async function handler(m, { sock, args }) {
             const wasEnabled = db.setting('autoSholat');
             
             if (!wasEnabled) {
-                await m.reply(`ℹ️ Sholat Scheduler sudah dalam keadaan nonaktif`);
+                await m.reply(`ℹ️ El scheduler de sholat ya esta inactivo`);
                 return;
             }
             
@@ -61,7 +61,7 @@ async function handler(m, { sock, args }) {
 > Scheduler: *Sholat Scheduler*
 > Status: ❌ Dihentikan
 
-_Usa \`.startschedule sholat\` untuk mengaktifkan kembali_`);
+_Usa \`.startschedule sholat\` para volver a activarlo_`);
             return;
         }
         
@@ -79,11 +79,11 @@ _Usa \`.startschedule sholat\` untuk mengaktifkan kembali_`);
 > Scheduler: *${result.name}*
 > Status: ❌ Dihentikan
 
-_Usa \`.startschedule ${target}\` untuk mengaktifkan kembali_`);
+_Usa \`.startschedule ${target}\` para volver a activarlo_`);
         } else {
-            await m.reply(`❌ Scheduler tidak ditemukan o sudah nonaktif
+            await m.reply(`❌ Scheduler no encontrado o ya inactivo
 
-Usa \`.stopschedule\` untuk melihat daftar scheduler`);
+Usa \`.stopschedule\` para ver lista de schedulers`);
         }
     } catch (error) {
         console.error('[StopSchedule Error]', error);

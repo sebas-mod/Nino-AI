@@ -22,8 +22,8 @@ function handler(m) {
     
     m.reply(
         `✅ *ʙᴏᴛ ʀᴜʟᴇs ᴅɪʀᴇsᴇᴛ*\n\n` +
-        `> Rules bot berhasil direset ke default!\n` +
-        `> Escribe \`${m.prefix}rules\` untuk melihat.`
+        `> Reglas del bot restablecidas a los valores por defecto!\n` +
+        `> Escribe \`${m.prefix}rules\` para ver.`
     )
 }
 

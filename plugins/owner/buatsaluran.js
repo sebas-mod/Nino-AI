@@ -49,7 +49,7 @@ async function handler(m, { sock }) {
         `_Saluran ini bisa dikonfigurasi di config.saluran.id_`,
     );
   } catch (err) {
-    return m.reply(`❌ Fallo: membuat saluran: ${err.message}`);
+    return m.reply(`❌ Fallo: crear canal: ${err.message}`);
   }
 }
 

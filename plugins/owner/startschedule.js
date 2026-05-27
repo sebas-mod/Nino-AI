@@ -6,7 +6,7 @@ const pluginConfig = {
     name: 'startschedule',
     alias: ['startscheduler', 'schedstart', 'resumeschedule'],
     category: 'owner',
-    description: 'Memulai ulang scheduler tertentu o semua',
+    description: 'Iniciar scheduler especifico o todos',
     usage: '.startschedule <nama|all>',
     example: '.startschedule sholat',
     isOwner: true,
@@ -34,7 +34,7 @@ async function handler(m, { sock, args }) {
 • \`sewa\` - Sewa Checker
 • \`messages\` - Scheduled Messages
 • \`sholat\` - Sholat Scheduler
-• \`all\` - Semua scheduler
+• \`all\` - Todos los schedulers
 
 *Example:*
 \`.startschedule sholat\`
@@ -49,7 +49,7 @@ async function handler(m, { sock, args }) {
             const wasEnabled = db.setting('autoSholat');
             
             if (wasEnabled) {
-                await m.reply(`ℹ️ Sholat Scheduler sudah dalam keadaan aktif`);
+                await m.reply(`ℹ️ El scheduler de sholat ya esta activo`);
                 return;
             }
             
@@ -61,7 +61,7 @@ async function handler(m, { sock, args }) {
 > Scheduler: *Sholat Scheduler*
 > Status: ✅ Activo
 
-_Notifikasi waktu sholat akan dikirim ke grup yang mengaktifkan fitur ini_`);
+_Notificacion del horario de sholat akan dikirim ke grupos yang mengactivokan fitur ini_`);
             return;
         }
         
@@ -81,9 +81,9 @@ _Notifikasi waktu sholat akan dikirim ke grup yang mengaktifkan fitur ini_`);
 
 _Scheduler telah dimulai kembali_`);
         } else {
-            await m.reply(`❌ Scheduler tidak ditemukan o sudah aktif
+            await m.reply(`❌ Scheduler no encontrado o ya activo
 
-Usa \`.startschedule\` untuk melihat daftar scheduler`);
+Usa \`.startschedule\` para ver lista de schedulers`);
         }
     } catch (error) {
         console.error('[StartSchedule Error]', error);

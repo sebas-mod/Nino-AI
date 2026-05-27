@@ -6,7 +6,7 @@ const pluginConfig = {
     name: 'setownertype',
     alias: ['ownertype', 'ownervariant', 'ownerstyle'],
     category: 'owner',
-    description: 'Mengatur variant tampilan owner message',
+    description: 'Configurar variante visual del mensaje de owner',
     usage: '.setownertype',
     example: '.setownertype',
     isOwner: true,
@@ -20,8 +20,8 @@ const pluginConfig = {
 
 const VARIANTS = {
     1: { name: 'Current Design', desc: 'Tampilan default saat ini' },
-    2: { name: 'Carousel Cards', desc: 'Kartu carousel dengan foto owner' },
-    3: { name: 'Multiple Contact', desc: 'Kirim contact card semua owner' }
+    2: { name: 'Carousel Cards', desc: 'Tarjeta carousel con foto del owner' },
+    3: { name: 'Multiple Contact', desc: 'Enviar contact card de todos los owners' }
 }
 
 async function handler(m, { sock, db }) {
@@ -55,8 +55,8 @@ async function handler(m, { sock, db }) {
     }
     
     await sock.sendMessage(m.chat, {
-        text: `🎨 *sᴇᴛ ᴏᴡɴᴇʀ ᴛʏᴘᴇ*\n\n> Type saat ini: *V${current}*\n> _${VARIANTS[current].name}_\n\n> Pilih variant owner:`,
-        footer: config.bot?.name || 'Ourin-AI',
+        text: `🎨 *sᴇᴛ ᴏᴡɴᴇʀ ᴛʏᴘᴇ*\n\n> Tipo actual: *V${current}*\n> _${VARIANTS[current].name}_\n\n> Elige variante de owner:`,
+        footer: config.bot?.name || 'Nino AI',
         contextInfo: {
             mentionedJid: [m.sender],
             isForwarded: true,

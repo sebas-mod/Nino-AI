@@ -30,7 +30,7 @@ async function handler(m, { sock }) {
                   `┃ 🔧 Method: Process Spawn\n` +
                   `┃ 📦 PID: ${process.pid}\n` +
                   `╰┈┈⬡\n\n` +
-                  `> Bot akan restart dalam 2 detik...\n` +
+                  `> El bot se reiniciara en 2 segundos...\n` +
                   `> Proses mungkin memakan waktu 10-30 detik`
         }, { quoted: m })
         

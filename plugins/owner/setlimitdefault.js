@@ -4,7 +4,7 @@ const pluginConfig = {
     name: 'setlimitdefault',
     alias: ['setdefaultlimit', 'limitdefault'],
     category: 'owner',
-    description: 'Set default limit untuk user baru',
+    description: 'Configurar limite por defecto para usuarios nuevos',
     usage: '.setlimitdefault <cantidad>',
     example: '.setlimitdefault 50',
     isOwner: true,
@@ -27,7 +27,7 @@ async function handler(m, { sock }) {
         return m.reply(
             `📊 *sᴇᴛ ᴅᴇғᴀᴜʟᴛ ʟɪᴍɪᴛ*\n\n` +
             `> Limit default saat ini: \`${currentDefault}\`\n\n` +
-            `*Cara pakai:*\n` +
+            `*Modo de uso:*\n` +
             `> \`${m.prefix}setlimitdefault <cantidad>\`\n\n` +
             `*Ejemplo:*\n` +
             `> \`${m.prefix}setlimitdefault 50\``
@@ -35,7 +35,7 @@ async function handler(m, { sock }) {
     }
     
     if (newLimit < 1 || newLimit > 1000) {
-        return m.reply(`❌ *ꜰᴀʟʟᴏ*\n\n> Limit harus antara 1 - 1000`)
+        return m.reply(`❌ *ꜰᴀʟʟᴏ*\n\n> El limite debe estar entre 1 y 1000`)
     }
     
     const db = getDatabase()
@@ -43,8 +43,8 @@ async function handler(m, { sock }) {
     
     await m.reply(
         `✅ *ʙᴇʀʜᴀsɪʟ*\n\n` +
-        `> Default limit diubah menjadi: \`${newLimit}\`\n` +
-        `> User baru akan mendapat limit ini`
+        `> Limite por defecto cambiado a: \`${newLimit}\`\n` +
+        `> El usuario nuevo recibira este limite`
     )
 }
 

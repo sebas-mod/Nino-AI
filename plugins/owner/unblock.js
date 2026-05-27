@@ -1,7 +1,7 @@
 import config from '../../config.js'
 import te from '../../src/lib/ourin-error.js'
 const pluginConfig = {
-    name: ['unblock', 'unblocknomor'],
+    name: ['unblock', 'unblocknumero'],
     alias: [],
     category: 'owner',
     description: 'Desbloquear numero de WhatsApp',
@@ -32,8 +32,8 @@ async function handler(m, { sock }) {
         return m.reply(
             '⚠️ *ᴍᴏᴅᴏ ᴅᴇ ᴜꜱᴏ*\n\n' +
             '> `.unblock 628xxx` — Desbloquear por numero\n' +
-            '> `.unblock` (reply pesan) — Unblock pengirim\n' +
-            '> `.unblock @mention` — Unblock yang di-mention\n' +
+            '> `.unblock` (responde a un mensaje) — Unblock pengirim\n' +
+            '> `.unblock @mention` — Desbloquear al mencionado\n' +
             '> `.unblock` (di private chat) — Unblock user ini'
         )
     }
@@ -43,7 +43,7 @@ async function handler(m, { sock }) {
         await m.react('✅')
         return m.reply(
             `✅ *ɴᴏᴍᴏʀ ᴅɪ-ᴜɴʙʟᴏᴄᴋ*\n\n` +
-            `> Target: @${targetJid.split('@')[0]}`,
+            `> Objetivo: @${targetJid.split('@')[0]}`,
             { mentions: [targetJid] }
         )
     } catch (err) {

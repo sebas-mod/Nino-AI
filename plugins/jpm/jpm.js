@@ -72,7 +72,7 @@ try {
 } catch {}
 
 function getVerifiedQuoted() {
-  const botName = config.bot?.name || "Ourin-AI";
+  const botName = config.bot?.name || "Nino-AI";
   const botNumber = config.owner?.number?.[0] || "0";
   return {
     key: {
@@ -212,7 +212,7 @@ async function sendInteractiveMessage(
     } catch {}
   }
 
-  const botName = config.bot?.name || "Ourin-AI";
+  const botName = config.bot?.name || "Nino-AI";
   const saluranId = config.saluran?.id || "120363400911374213@newsletter";
   const saluranName = config.saluran?.name || botName;
 
@@ -264,7 +264,7 @@ async function sendInteractiveMessage(
 
 async function sendInteractiveJpm(m, sock, db, contentInfo) {
   const prefix = m.prefix;
-  const botName = config.bot?.name || "Ourin-AI";
+  const botName = config.bot?.name || "Nino-AI";
   const hasContent = contentInfo?.text || contentInfo?.mediaBuffer;
 
   const autoJpmCfg = getAutoJpmConfig();
@@ -967,7 +967,7 @@ async function handleJpmUpdateWithContent(m, sock, db, input) {
       );
     }
 
-    const botName = config.bot?.name || "Ourin-AI";
+    const botName = config.bot?.name || "Nino-AI";
     const dateStr = timeHelper.formatDate("DD MMMM YYYY");
     const updateMessage =
       `🚀 *ACTUALIZACION !! | ${version}*\n\n` +
@@ -1126,9 +1126,9 @@ async function startAutoJpmSession(m, sock, db) {
   ];
 
   return sendInteractiveMessage(m, sock, {
-    title: `🔄 ${config.bot?.name || "Ourin-AI"} AutoJPM`,
+    title: `🔄 ${config.bot?.name || "Nino-AI"} AutoJPM`,
     body,
-    footer: `${config.bot?.name || "Ourin-AI"} AutoJPM`,
+    footer: `${config.bot?.name || "Nino-AI"} AutoJPM`,
     buttons,
   });
 }
@@ -1406,9 +1406,9 @@ async function handleSetDelay(m, sock, db, input) {
     ];
 
     return sendInteractiveMessage(m, sock, {
-      title: `⏱️ ${config.bot?.name || "Ourin-AI"} Delay`,
+      title: `⏱️ ${config.bot?.name || "Nino-AI"} Delay`,
       body,
-      footer: `${config.bot?.name || "Ourin-AI"} Sistema JPM`,
+      footer: `${config.bot?.name || "Nino-AI"} Sistema JPM`,
       buttons,
     });
   }

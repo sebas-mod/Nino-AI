@@ -5,7 +5,7 @@ const pluginConfig = {
   name: "setreply",
   alias: ["replyvariant", "replystyle"],
   category: "owner",
-  description: "Mengatur variant tampilan reply",
+  description: "Configurar variante visual de respuesta",
   usage: ".setreply <v1-v11>",
   example: ".setreply v5",
   isOwner: true,
@@ -21,13 +21,13 @@ const VARIANTS = {
   v1: {
     id: 1,
     name: "Simple",
-    desc: "Reply text biasa tanpa styling",
+    desc: "Respuesta de texto normal sin estilos",
     emoji: "📝",
   },
   v2: {
     id: 2,
     name: "Context",
-    desc: "Reply dengan contextInfo (thumbnail kecil)",
+    desc: "Respuesta con contextInfo (miniatura pequena)",
     emoji: "🖼️",
   },
   v3: {
@@ -53,13 +53,13 @@ const VARIANTS = {
   v8: {
     id: 8,
     name: "Imagen Panjang",
-    desc: "Imagen panjang, tanpa centang biru",
+    desc: "Imagen larga, sin marca azul",
     emoji: "�",
   },
   v9: {
     id: 9,
     name: "Video GIF",
-    desc: "Video GIF, tanpa centang biru",
+    desc: "Video GIF, sin marca azul",
     emoji: "🎬",
   },
   v10: {
@@ -83,7 +83,7 @@ async function handler(m, { sock, db }) {
   if (variant) {
     const selected = VARIANTS[variant];
     if (!selected) {
-      await m.reply(`❌ *VARIANT TIDAK VALID*\n\nUsa: *v1* s/d *v11*`);
+      await m.reply(`❌ *VARIANTE NO VALIDA*\n\nUsa: *v1* hasta *v11*`);
       return;
     }
 
@@ -91,7 +91,7 @@ async function handler(m, { sock, db }) {
     await db.save();
 
     await m.reply(
-      `✅ *REPLY VARIANT DIUBAH*\n\n` +
+      `✅ *REPLY VARIANTE CAMBIADA*\n\n` +
         `${selected.emoji} *V${selected.id} — ${selected.name}*\n` +
         `_${selected.desc}_`,
     );
@@ -113,29 +113,29 @@ async function handler(m, { sock, db }) {
     {
       name: "single_select",
       buttonParamsJson: JSON.stringify({
-        title: "💬 Pilih Variant Reply",
-        sections: [{ title: "Daftar Variant Reply", rows }],
+        title: "💬 Elegir variante de respuesta",
+        sections: [{ title: "Lista de variantes de respuesta", rows }],
       }),
     },
   ];
 
   const bodyText =
     `💬📨 *REPLY VARIANT*\n\n` +
-    `Atur tampilan balasan bot ketika membalas pesan user 💬✨\n` +
-    `Variant aktif saat ini: *V${current} — ${VARIANTS[`v${current}`]?.name || "Desconocido"}* 🎯\n\n` +
-    `*PENJELASAN VARIANT:*\n\n` +
-    `- *V1 Simple* 📝 — Balasan text biasa tanpa styling apapun, paling ringan dan cepat\n\n` +
-    `- *V2 Context* 🖼️ — Balasan dengan contextInfo berupa thumbnail kecil di sisi kiri pesan\n\n` +
-    `- *V3 Forward* 📨 — Full contextInfo + label forwarded newsletter, terlihat seperti pesan forward dari channel\n\n` +
-    `- *V4 Qkontak* ✅ — Sama seperti V3 tapi ditambah fake quoted reply dari kontak, muncul centang biru\n\n` +
-    `- *V5 FakeTroli* 🛒 — Sama seperti V3 tapi ditambah faketroli quoted dengan thumbnail besar, tampilan seperti pesan troli\n\n` +
-    `- *V6 Hehe* 📄 — Centang biru + dikirim sebagai document, cocok untuk pesan formal\n\n` +
-    `- *V7 Andalan ku* 🖼️ — Centang biru + dikirim sebagai gambar, tampilan menarik dan profesional\n\n` +
-    `- *V8 Imagen Panjang* 📏 — Imagen panjang tanpa centang biru, cocok untuk preview besar\n\n` +
-    `- *V9 Video GIF* 🎬 — Dikirim sebagai video GIF tanpa centang biru, efek animasi menarik\n\n` +
-    `- *V10 LinkPreview* 🔗 — Menggunakan sendPreview dengan fake quoted centang biru, ada preview link\n\n` +
-    `- *V11 LinkPreview Mini* 📎 — Menggunakan sendPreview dengan thumbnail kecil di sisi kiri, simpel dan rapi\n\n` +
-    `> Pilih variant reply dari tombol di bawah 👇`;
+    `Configura la vista de las respuestas del bot cuando responde mensajes del usuario 💬✨\n` +
+    `Variante activa actual: *V${current} — ${VARIANTS[`v${current}`]?.name || "Desconocido"}* 🎯\n\n` +
+    `*EXPLICACION DE VARIANTES:*\n\n` +
+    `- *V1 Simple* 📝 — Respuesta de texto normal sin ningun estilo, la mas ligera y rapida\n\n` +
+    `- *V2 Context* 🖼️ — Respuesta con contextInfo de miniatura pequena al lado izquierdo del mensaje\n\n` +
+    `- *V3 Forward* 📨 — ContextInfo completo + etiqueta de newsletter reenviada; parece mensaje reenviado desde el canal\n\n` +
+    `- *V4 Qkontak* ✅ — Igual que V3, pero agrega respuesta citada falsa de contacto y aparece marca azul\n\n` +
+    `- *V5 FakeTroli* 🛒 — Igual que V3, pero agrega faketroli quoted con miniatura grande; vista tipo mensaje troli\n\n` +
+    `- *V6 Hehe* 📄 — Marca azul + enviado como documento; ideal para mensajes formales\n\n` +
+    `- *V7 Andalan ku* 🖼️ — Marca azul + enviado como imagen; vista atractiva y profesional\n\n` +
+    `- *V8 Imagen Panjang* 📏 — Imagen larga sin marca azul; ideal para previews grandes\n\n` +
+    `- *V9 Video GIF* 🎬 — Enviado como video GIF sin marca azul; efecto animado atractivo\n\n` +
+    `- *V10 LinkPreview* 🔗 — Usa sendPreview con fake quoted de marca azul y preview de link\n\n` +
+    `- *V11 LinkPreview Mini* 📎 — Usa sendPreview con miniatura pequena a la izquierda; simple y ordenado\n\n` +
+    `> Elige la variante de respuesta desde el boton de abajo 👇`;
 
   await sock.sendButton(
     m.chat,

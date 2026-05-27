@@ -28,7 +28,7 @@ async function handler(m, { sock }) {
         `*PENGGUNAAN:*\n` +
         `> *${m.prefix}onlypc on* — Bot hanya bisa diakses di private chat\n` +
         `> *${m.prefix}onlypc off* — Bot bisa diakses di mana saja\n\n` +
-        `_Jika aktif, mode Only Group akan otomatis nonaktif_`
+        `_Jika activo, mode Only Group akan otomatis nonactivo_`
     );
   }
 
@@ -39,7 +39,7 @@ async function handler(m, { sock }) {
     return m.reply(
       `💬 *Only Private Activo*\n\n` +
         `> Bot hanya bisa diakses di private chat\n` +
-        `> Mode Only Group dinonaktifkan`
+        `> Mode Only Group dinonactivokan`
     );
   }
 

@@ -165,7 +165,7 @@ async function handler(m, { sock }) {
         await m.reply(
             `✅ *ᴄʟᴏɴᴇ sᴜᴋsᴇs*\n\n` +
             `> El script mas reciente se descargo correctamente\n\n` +
-            `📋 Step 3/4 — Menyalin file baru...`
+            `📋 Step 3/4 — Copiando archivos nuevos...`
         )
 
         let copiedCount = 0
@@ -214,7 +214,7 @@ async function handler(m, { sock }) {
                 `┃ 💾 Backup: \`backup/pre_update_${timestamp}\`\n` +
                 `┃ 📦 Repo: \`LuckyArch/OurinMD\`\n` +
                 `╰┈┈⬡\n\n` +
-                `> Bot akan restart dalam 3 detik...\n` +
+                `> El bot se reiniciara en 3 segundos...\n` +
                 `> Si hay un error, restaura desde la copia de seguridad`
         }, { quoted: m })
 

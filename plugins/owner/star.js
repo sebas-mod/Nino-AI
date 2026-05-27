@@ -2,8 +2,8 @@ const pluginConfig = {
     name: ['star', 'bintang'],
     alias: [],
     category: 'owner',
-    description: 'Beri/hapus bintang pada pesan',
-    usage: '.star (reply pesan) o .star hapus (reply pesan)',
+    description: 'Poner/quitar estrella a un mensaje',
+    usage: '.star (responde a un mensaje) o .star hapus (responde a un mensaje)',
     example: '.star',
     isOwner: true,
     cooldown: 3,
@@ -15,8 +15,8 @@ async function handler(m, { sock }) {
     if (!m.quoted) {
         return m.reply(
             '⭐ *sᴛᴀʀ ᴍᴇssᴀɢᴇ*\n\n' +
-            '> `.star` (reply pesan) — Beri bintang\n' +
-            '> `.star hapus` (reply pesan) — Hapus bintang'
+            '> `.star` (responde a un mensaje) — Beri bintang\n' +
+            '> `.star hapus` (responde a un mensaje) — Hapus bintang'
         )
     }
 
@@ -34,8 +34,8 @@ async function handler(m, { sock }) {
         await m.react('⭐')
         return m.reply(
             unstar
-                ? '❌ *Bintang dihapus dari pesan*'
-                : '⭐ *Pesan ditandai bintang*'
+                ? '❌ *Bintang eliminado dari mensaje*'
+                : '⭐ *Mensaje marcado con estrella*'
         )
     } catch (err) {
         return m.reply(`❌ Fallidos: ${err.message}`)

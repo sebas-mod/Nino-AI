@@ -3,7 +3,7 @@ const pluginConfig = {
     alias: [],
     category: 'owner',
     description: 'Mute/unmute chat',
-    usage: '.mutechat <nomor/reply> o .mutechat buka <nomor>',
+    usage: '.mutechat <numero/responder> o .mutechat buka <numero>',
     example: '.mutechat 628xxx',
     isOwner: true,
     cooldown: 3,
@@ -39,7 +39,7 @@ async function handler(m, { sock }) {
         return m.reply(
             '🔇 *ᴍᴜᴛᴇ ᴄʜᴀᴛ*\n\n' +
             '> `.mutechat 628xxx` — Mute chat\n' +
-            '> `.mutechat` (di private chat) — Mute chat ini\n' +
+            '> `.mutechat` (di private chat) — Mute este chat\n' +
             '> `.mutechat buka 628xxx` — Unmute chat'
         )
     }
@@ -50,8 +50,8 @@ async function handler(m, { sock }) {
         const target = targetJid.split('@')[0]
         return m.reply(
             mute
-                ? `🔇 *ᴄʜᴀᴛ ᴅɪᴍᴜᴛᴇ*\n\n> Target: ${target}`
-                : `🔊 *ᴄʜᴀᴛ ᴅɪᴜɴᴍᴜᴛᴇ*\n\n> Target: ${target}`
+                ? `🔇 *ᴄʜᴀᴛ ᴅɪᴍᴜᴛᴇ*\n\n> Objetivo: ${target}`
+                : `🔊 *ᴄʜᴀᴛ ᴅɪᴜɴᴍᴜᴛᴇ*\n\n> Objetivo: ${target}`
         )
     } catch (err) {
         return m.reply(`❌ Fallidos: ${err.message}`)

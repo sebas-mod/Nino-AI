@@ -5,7 +5,7 @@ const pluginConfig = {
   name: "setmenu",
   alias: ["menuvariant", "menustyle"],
   category: "owner",
-  description: "Mengatur variant tampilan menu",
+  description: "Configurar variante visual del menu",
   usage: ".setmenu <v1-v16>",
   example: ".setmenu v8",
   isOwner: true,
@@ -21,7 +21,7 @@ const VARIANTS = {
   v1: {
     id: 1,
     name: "Simple",
-    desc: "Image biasa tanpa contextInfo",
+    desc: "Imagen normal sin contextInfo",
     emoji: "🖼️",
   },
   v2: {
@@ -57,7 +57,7 @@ const VARIANTS = {
   v7: {
     id: 7,
     name: "Carousel",
-    desc: "Swipeable cards per kategori (modern)",
+    desc: "Tarjetas deslizables por categoria (moderno)",
     emoji: "🃏",
   },
   v8: {
@@ -75,7 +75,7 @@ const VARIANTS = {
   v10: {
     id: 10,
     name: "NativeFlow V2",
-    desc: "NativeFlow alternatif",
+    desc: "NativeFlow alternativo",
     emoji: "⚡",
   },
   v11: {
@@ -86,8 +86,8 @@ const VARIANTS = {
   },
   v12: {
     id: 12,
-    name: "Menu Versi 12",
-    desc: "Layout khusus versi 12",
+    name: "Menu version 12",
+    desc: "Layout especial version 12",
     emoji: "🔢",
   },
   v13: {
@@ -98,20 +98,20 @@ const VARIANTS = {
   },
   v14: {
     id: 14,
-    name: "Menu Versi 14",
-    desc: "Layout khusus versi 14",
+    name: "Menu version 14",
+    desc: "Layout especial version 14",
     emoji: "🔢",
   },
   v15: {
     id: 15,
-    name: "Menu Versi 15",
-    desc: "Layout khusus versi 15",
+    name: "Menu version 15",
+    desc: "Layout especial version 15",
     emoji: "🔢",
   },
   v16: {
     id: 16,
-    name: "Menu Versi 16",
-    desc: "Layout khusus versi 16",
+    name: "Menu version 16",
+    desc: "Layout especial version 16",
     emoji: "🔢",
   },
 };
@@ -123,7 +123,7 @@ async function handler(m, { sock, db }) {
   if (variant) {
     const selected = VARIANTS[variant];
     if (!selected) {
-      await m.reply(`❌ *VARIANT TIDAK VALID*\n\nUsa: *v1* s/d *v16*`);
+      await m.reply(`❌ *VARIANTE NO VALIDA*\n\nUsa: *v1* hasta *v16*`);
       return;
     }
 
@@ -131,7 +131,7 @@ async function handler(m, { sock, db }) {
     await db.save();
 
     await m.reply(
-      `✅ *MENU VARIANT DIUBAH*\n\n` +
+      `✅ *MENU VARIANTE CAMBIADA*\n\n` +
         `${selected.emoji} *V${selected.id} — ${selected.name}*\n` +
         `_${selected.desc}_`,
     );
@@ -153,30 +153,30 @@ async function handler(m, { sock, db }) {
     {
       name: "single_select",
       buttonParamsJson: JSON.stringify({
-        title: "🎨 Pilih Variant Menu",
-        sections: [{ title: "Daftar Variant Menu", rows }],
+        title: "🎨 Elegir variante de Menu",
+        sections: [{ title: "Lista de variantes de Menu", rows }],
       }),
     },
   ];
 
   const bodyText =
     `🎨🖼️ *MENU VARIANT*\n\n` +
-    `Atur tampilan menu utama bot ketika user mengetik perintah menu 📋✨\n` +
-    `Variant aktif saat ini: *V${current} — ${VARIANTS[`v${current}`]?.name || "Desconocido"}* 🎯\n\n` +
-    `*PENJELASAN VARIANT:*\n\n` +
-    `- *V1 Simple* 🖼️ — Mengirim gambar menu biasa tanpa contextInfo, tampilan paling ringan\n\n` +
-    `- *V2 Standard* ✅ — Imagen menu + full contextInfo dengan label newsletter, ini default bawaan\n\n` +
-    `- *V3 Document* 📄 — Menu dikirim sebagai file document dengan thumbnail kecil dan verified quoted reply\n\n` +
-    `- *V4 Video* 🎬 — Menu dikirim sebagai video dengan contextInfo dan centang biru\n\n` +
-    `- *V5 Button* 🔘 — Imagen menu + tombol interaktif single_select dan quick_reply untuk navigasi kategori\n\n` +
-    `- *V6 Document Premium* 💎 — Document dengan thumbnail besar 1280x450 + full contextInfo, tampilan premium\n\n` +
-    `- *V7 Carousel* 🃏 — Swipeable cards per kategori, tampilan modern yang bisa digeser\n\n` +
-    `- *V8 Minimalist* 🍃 — Imagen + ftroli quoted, desain bersih dan segar\n\n` +
-    `- *V9 NativeFlow* ⚡ — Interactive message dengan limited_time_offer, bottom sheet, dan single_select\n\n` +
-    `- *V10 NativeFlow V2* ⚡ — Versi alternatif NativeFlow dengan layout berbeda\n\n` +
+    `Configura la vista del menu principal del bot cuando el usuario escribe el comando menu 📋✨\n` +
+    `Variante activa actual: *V${current} — ${VARIANTS[`v${current}`]?.name || "Desconocido"}* 🎯\n\n` +
+    `*EXPLICACION DE VARIANTES:*\n\n` +
+    `- *V1 Simple* 🖼️ — Envia una imagen de menu normal sin contextInfo; la vista mas ligera\n\n` +
+    `- *V2 Standard* ✅ — Imagen de menu + contextInfo completo con etiqueta de newsletter; es el valor por defecto\n\n` +
+    `- *V3 Document* 📄 — El menu se envia como documento con miniatura pequena y respuesta citada verificada\n\n` +
+    `- *V4 Video* 🎬 — El menu se envia como video con contextInfo y marca azul\n\n` +
+    `- *V5 Button* 🔘 — Imagen de menu + botones interactivos single_select y quick_reply para navegar categorias\n\n` +
+    `- *V6 Document Premium* 💎 — Documento con miniatura grande 1280x450 + contextInfo completo; vista premium\n\n` +
+    `- *V7 Carousel* 🃏 — Tarjetas deslizables por categoria; vista moderna\n\n` +
+    `- *V8 Minimalist* 🍃 — Imagen + ftroli quoted; diseno limpio y fresco\n\n` +
+    `- *V9 NativeFlow* ⚡ — Mensaje interactivo con limited_time_offer, bottom sheet y single_select\n\n` +
+    `- *V10 NativeFlow V2* ⚡ — Version alternativa de NativeFlow con layout diferente\n\n` +
     `- *V11 Document Interactive* 📑 — Document + nativeFlowMessage + limited_time_offer + CTA buttons\n\n` +
-    `- *V12-V16* 🔢🧪 — Layout khusus versi eksperimental, bisa dikembangkan lebih lanjut\n\n` +
-    `> Pilih variant menu dari tombol di bawah 👇`;
+    `- *V12-V16* 🔢🧪 — Layout especial de version experimental, puede desarrollarse mas\n\n` +
+    `> Elige la variante de menu desde el boton de abajo 👇`;
 
   await sock.sendButton(
     m.chat,

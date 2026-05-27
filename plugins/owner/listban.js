@@ -4,7 +4,7 @@ const pluginConfig = {
     name: 'listban',
     alias: ['listbanned', 'banlist'],
     category: 'owner',
-    description: 'Melihat daftar banned user',
+    description: 'Ver lista de usuarios baneados',
     usage: '.listban',
     example: '.listban',
     isOwner: true,
@@ -21,7 +21,7 @@ async function handler(m, { sock }) {
     const bannedUsers = config.bannedUsers && config.bannedUsers.length > 0 ? config.bannedUsers : (db.setting('bannedUsers') || [])
     
     if (bannedUsers.length === 0) {
-        return m.reply(`🚫 *ʟɪsᴛ ʙᴀɴɴᴇᴅ*\n\n> No hay user yang dibanned\n\n\`Usa: ${m.prefix}ban <nomor>\``)
+        return m.reply(`🚫 *ʟɪsᴛ ʙᴀɴɴᴇᴅ*\n\n> No hay usuarios baneados\n\n\`Usa: ${m.prefix}ban <numero>\``)
     }
     
     let caption = `🚫 *ʟɪsᴛ ʙᴀɴɴᴇᴅ*\n\n`

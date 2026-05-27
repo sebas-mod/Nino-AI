@@ -6,7 +6,7 @@ const pluginConfig = {
   name: "anticall",
   alias: ["antitelpon", "antitelp", "rejectcall"],
   category: "owner",
-  description: "Auto tolak panggilan masuk",
+  description: "Rechazar llamadas entrantes automaticamente",
   usage: ".anticall on/off",
   example: ".anticall on",
   isOwner: true,
@@ -28,9 +28,9 @@ async function handler(m, { sock }) {
       `📞 *Anti Call*\n\n` +
         `> Estado: *${current ? "Activo ✅" : "Inactivo ❌"}*\n\n` +
         `*PENGGUNAAN:*\n` +
-        `> *${m.prefix}anticall on* — Activokan\n` +
+        `> *${m.prefix}anticall on* — Activar\n` +
         `> *${m.prefix}anticall off* — Inactivokan\n\n` +
-        `_Bot akan otomatis menolak panggilan masuk_`
+        `_El bot rechazara automaticamente las llamadas entrantes_`
     );
   }
 
@@ -39,7 +39,7 @@ async function handler(m, { sock }) {
     const ctx = saluranCtx();
     return m.reply(
       `📞 *Anti Call Activo*\n\n` +
-        `> Bot akan otomatis menolak panggilan masuk`,
+        `> El bot rechazara automaticamente las llamadas entrantes`,
       { contextInfo: ctx }
     );
   }

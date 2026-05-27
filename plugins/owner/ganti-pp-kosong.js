@@ -5,8 +5,8 @@ const pluginConfig = {
     name: 'ganti-pp-kosong.jpg',
     alias: ['gantippkosong', 'setppkosong'],
     category: 'owner',
-    description: 'Ganti gambar pp-kosong.jpg',
-    usage: '.ganti-pp-kosong.jpg (reply/kirim gambar)',
+    description: 'Cambiar imagen pp-kosong.jpg',
+    usage: '.ganti-pp-kosong.jpg (responde/envia imagen)',
     example: '.ganti-pp-kosong.jpg',
     isOwner: true,
     isPremium: false,
@@ -19,13 +19,13 @@ const pluginConfig = {
 
 async function handler(m, { sock }) {
     const isImage = m.isImage || (m.quoted && m.quoted.type === 'imageMessage')
-    if (!isImage) return m.reply(`🖼️ *ɢᴀɴᴛɪ PP-KOSONG.JPG*\n\n> Kirim/reply gambar untuk mengganti\n> File: assets/images/pp-kosong.jpg`)
+    if (!isImage) return m.reply(`🖼️ *ɢᴀɴᴛɪ PP-KOSONG.JPG*\n\n> Envia/responde una imagen para reemplazar\n> File: assets/images/pp-kosong.jpg`)
     try {
         let buffer = m.quoted && m.quoted.isMedia ? await m.quoted.download() : await m.download()
-        if (!buffer) return m.reply('❌ Fallo: mendownload gambar')
+        if (!buffer) return m.reply('❌ Fallo: descargar imagen')
         const targetPath = path.join(process.cwd(), 'assets', 'images', 'pp-kosong.jpg')
         fs.writeFileSync(targetPath, buffer)
-        m.reply(`✅ *ʙᴇʀʜᴀsɪʟ*\n\n> Imagen pp-kosong.jpg telah diganti`)
+        m.reply(`✅ *ʙᴇʀʜᴀsɪʟ*\n\n> Imagen pp-kosong.jpg fue reemplazado`)
     } catch (error) {
         await m.reply(te(m.prefix, m.command, m.pushName))
     }

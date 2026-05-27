@@ -1,7 +1,7 @@
 import config from '../../config.js'
 /**
  * @file plugins/owner/public.js
- * @description Plugin untuk mengaktifkan mode public (semua bisa akses)
+ * @description Plugin para activar modo public (todos pueden acceder)
  */
 import { getDatabase } from '../../src/lib/ourin-database.js'
 import te from '../../src/lib/ourin-error.js'
@@ -9,7 +9,7 @@ const pluginConfig = {
     name: 'public',
     alias: ['publicmode', 'open'],
     category: 'owner',
-    description: 'Mengaktifkan mode public (semua user bisa akses)',
+    description: 'Activar modo public (todos los usuarios pueden acceder)',
     usage: '.public',
     example: '.public',
     isOwner: true,
@@ -28,19 +28,19 @@ async function handler(m, { sock }) {
     try {
         const isRealOwner = validateOwner(m);
         if (!isRealOwner) {
-            return await m.reply('🚫 *ᴀᴋsᴇs ᴅɪᴛᴏʟᴀᴋ*\n\n> Hanya owner yang bisa mengubah mode bot!');
+            return await m.reply('🚫 *ᴀᴋsᴇs ᴅɪᴛᴏʟᴀᴋ*\n\n> Solo el owner puede cambiar el modo del bot!');
         }
         const currentMode = config.mode;
         if (currentMode === 'public') {
-            return await m.reply('ℹ️ Bot sudah dalam mode *public*');
+            return await m.reply('ℹ️ El bot ya esta en modo *public*');
         }
         config.mode = 'public';
         const db = getDatabase();
         db.setting('botMode', 'public');
         
         const responseText = `🌐 *ᴍᴏᴅᴇ ᴘᴜʙʟɪᴄ ᴀᴋᴛɪꜰ*\n\n` +
-            `> Bot sekarang merespon semua user!\n\n` +
-            `_Usa .self untuk menutup akses_`;
+            `> El bot ahora responde a todos los usuarios!\n\n` +
+            `_Usa .self para cerrar el acceso_`;
         await m.reply(responseText);
         console.log(`[Mode] Changed to PUBLIC by ${m.pushName} (${m.sender})`);
     } catch (error) {

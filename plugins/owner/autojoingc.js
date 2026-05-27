@@ -23,7 +23,7 @@ async function handler(m) {
   if (!arg || !["on", "off"].includes(arg)) {
     const current = db.setting("autoJoinGc") || false;
     return m.reply(
-      `🔗 *AUTO JOIN GROUP*\n\nEstado: *${current ? "ON ✅" : "OFF ❌"}*\n\n\`${m.prefix}autojoingc on\` — aktifkan\n\`${m.prefix}autojoingc off\` — nonaktifkan`,
+      `🔗 *AUTO JOIN GROUP*\n\nEstado: *${current ? "ON ✅" : "OFF ❌"}*\n\n\`${m.prefix}autojoingc on\` — activokan\n\`${m.prefix}autojoingc off\` — nonactivokan`,
     );
   }
   const enabled = arg === "on";
@@ -51,8 +51,8 @@ async function autoJoinDetector(m, sock) {
     } catch (e) {
       const msg = e.message || String(e);
       if (msg.includes("already") || msg.includes("participant")) {
-        await m.reply(`⚠️ Ya esta en ese grupo`);
-      } else if (msg.includes("expired") || msg.includes("revoked")) {
+        await m.reply(`⚠️ Si esta en ese grupo`);
+      } else if (msg.includes("vencido") || msg.includes("revoked")) {
         await m.reply(`❌ El link del grupo ya vencio o fue revocado`);
       } else {
         await m.reply(te(m.prefix, m.command, m.pushName));

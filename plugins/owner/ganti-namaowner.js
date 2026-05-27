@@ -8,7 +8,7 @@ const pluginConfig = {
   alias: ["setnamaowner", "setnameowner", "setownername"],
   category: "owner",
   description: "Ganti nama owner (utama o tambahan)",
-  usage: ".ganti-namaowner <nomor> <nama baru>",
+  usage: ".ganti-namaowner <numero> <nombre nuevo>",
   example: ".ganti-namaowner 628xxx Fauzan",
   isOwner: true,
   isPremium: false,
@@ -35,10 +35,10 @@ async function handler(m, { sock, config }) {
         list += `👤 ${num}: *${name}*\n`;
       });
     } else {
-      list += `\n> Belum ada nama custom untuk owner tambahan`;
+      list += `\n> Todavia no hay nombres personalizados para owners adicionales`;
     }
     list += `\n\n*Penggunaan:*\n`;
-    list += `\`${m.prefix}ganti-namaowner <nomor> <nama>\`\n`;
+    list += `\`${m.prefix}ganti-namaowner <numero> <nama>\`\n`;
     list += `\`${m.prefix}ganti-namaowner main <nama>\` — ganti nama owner utama`;
     return m.reply(list);
   }
@@ -47,7 +47,7 @@ async function handler(m, { sock, config }) {
     const newName = input.slice(1).join(" ").trim();
     if (!newName) {
       return m.reply(
-        `👤 *ɢᴀɴᴛɪ ɴᴀᴍᴀ ᴏᴡɴᴇʀ ᴜᴛᴀᴍᴀ*\n\n> Nama saat ini: *${config.owner?.name || "-"}*\n\n\`${m.prefix}ganti-namaowner main <nama baru>\``,
+        `👤 *ɢᴀɴᴛɪ ɴᴀᴍᴀ ᴏᴡɴᴇʀ ᴜᴛᴀᴍᴀ*\n\n> Nombre actual: *${config.owner?.name || "-"}*\n\n\`${m.prefix}ganti-namaowner main <nombre nuevo>\``,
       );
     }
     try {
@@ -75,14 +75,14 @@ async function handler(m, { sock, config }) {
 
   if (!targetNumber || targetNumber.length < 10) {
     return m.reply(
-      `❌ *ꜰᴀʟʟᴏ*\n\n> Nomor tidak valid\n\n\`${m.prefix}ganti-namaowner 628xxx NamaOwner\``,
+      `❌ *ꜰᴀʟʟᴏ*\n\n> Numero no valido\n\n\`${m.prefix}ganti-namaowner 628xxx NamaOwner\``,
     );
   }
 
   if (!newName) {
     const currentName = getOwnerName(targetNumber);
     return m.reply(
-      `👤 *ɴᴀᴍᴀ ᴏᴡɴᴇʀ*\n\n> ${targetNumber}: *${currentName}*\n\n\`${m.prefix}ganti-namaowner ${targetNumber} <nama baru>\``,
+      `👤 *ɴᴀᴍᴀ ᴏᴡɴᴇʀ*\n\n> ${targetNumber}: *${currentName}*\n\n\`${m.prefix}ganti-namaowner ${targetNumber} <nombre nuevo>\``,
     );
   }
 

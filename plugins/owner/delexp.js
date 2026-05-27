@@ -44,20 +44,20 @@ async function handler(m, { sock }) {
     if (!targetJid || amount <= 0) {
         return m.reply(
             `⭐ *ᴅᴇʟ ᴇxᴘ*\n\n` +
-            `> \`.delexp <cantidad>\` - dari diri sendiri\n` +
-            `> \`.delexp <cantidad> @user\` - dari user\n\n` +
+            `> \`.delexp <cantidad>\` - de ti mismo\n` +
+            `> \`.delexp <cantidad> @user\` - del usuario\n\n` +
             `\`Ejemplo: ${m.prefix}delexp 5000\``
         )
     }
     
     if (amount <= 0) {
-        return m.reply(`❌ *ꜰᴀʟʟᴏ*\n\n> Jumlah harus lebih dari 0`)
+        return m.reply(`❌ *ꜰᴀʟʟᴏ*\n\n> La cantidad debe ser mayor que 0`)
     }
     
     const user = db.getUser(targetJid)
     
     if (!user) {
-        return m.reply(`❌ *ꜰᴀʟʟᴏ*\n\n> User tidak ditemukan di database`)
+        return m.reply(`❌ *ꜰᴀʟʟᴏ*\n\n> Usuario no encontrado en la base de datos`)
     }
     
     const newExp = db.updateExp(targetJid, -amount)

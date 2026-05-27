@@ -7,7 +7,7 @@ const pluginConfig = {
     name: 'cekschedule',
     alias: ['cekscheduler', 'schedulerstatus', 'schedstatus'],
     category: 'owner',
-    description: 'Melihat status semua scheduler bot',
+    description: 'Ver estado de todos los schedulers del bot',
     usage: '.cekschedule',
     example: '.cekschedule',
     isOwner: true,
@@ -51,7 +51,7 @@ async function handler(m, { sock }) {
         const sholatIcon = sholatEnabled ? '✅' : '❌';
         text += `${sholatIcon} *Sholat Scheduler*\n`;
         text += `   └ Key: \`sholat\`\n`;
-        text += `   └ Notifikasi waktu sholat (real-time)\n`;
+        text += `   └ Notificacion del horario de sholat (real-time)\n`;
 
         if (sholatEnabled) {
             const kotaSetting = db.setting('autoSholatKota') || { id: '1301', nama: 'KOTA JAKARTA' };
@@ -90,8 +90,8 @@ async function handler(m, { sock }) {
         text += `✅ Activo: ${status.summary.totalActive + (sholatEnabled ? 1 : 0)}\n`;
         text += `❌ Inactivo: ${status.summary.totalInactive + (!sholatEnabled ? 1 : 0)}\n\n`;
 
-        text += `> Usa \`.stopschedule <key>\` untuk stop\n`;
-        text += `> Usa \`.startschedule <key>\` untuk start`;
+        text += `> Usa \`.stopschedule <key>\` para detener\n`;
+        text += `> Usa \`.startschedule <key>\` para iniciar`;
 
         await m.reply(text);
     } catch (error) {

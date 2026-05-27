@@ -42,13 +42,13 @@ async function handler(m, { sock }) {
     txt += `> \`${m.prefix}autobackup now\`\n\n`;
 
     txt += `*ꜰᴏʀᴍᴀᴛ ɪɴᴛᴇʀᴠᴀʟ:*\n`;
-    txt += `> • \`5m\` = 5 menit\n`;
-    txt += `> • \`1h\` = 1 jam\n`;
-    txt += `> • \`6h\` = 6 jam\n`;
+    txt += `> • \`5m\` = 5 minutos\n`;
+    txt += `> • \`1h\` = 1 horas\n`;
+    txt += `> • \`6h\` = 6 horas\n`;
     txt += `> • \`1d\` = 1 dias\n\n`;
 
     txt += `*ᴄᴏɴᴛᴏʜ:*\n`;
-    txt += `> \`${m.prefix}autobackup on 6h\` - backup setiap 6 jam`;
+    txt += `> \`${m.prefix}autobackup on 6h\` - backup setiap 6 horas`;
 
     return m.reply(txt);
   }
@@ -64,8 +64,8 @@ async function handler(m, { sock }) {
           `⚠️ *ɪɴᴛᴇʀᴠᴀʟ ᴅɪʙᴜᴛᴜʜᴋᴀɴ*\n\n` +
             `> \`${m.prefix}autobackup on <interval>\`\n\n` +
             `*ᴄᴏɴᴛᴏʜ:*\n` +
-            `> \`${m.prefix}autobackup on 30m\` - tiap 30 menit\n` +
-            `> \`${m.prefix}autobackup on 6h\` - tiap 6 jam\n` +
+            `> \`${m.prefix}autobackup on 30m\` - tiap 30 minutos\n` +
+            `> \`${m.prefix}autobackup on 6h\` - tiap 6 horas\n` +
             `> \`${m.prefix}autobackup on 1d\` - tiap 1 dias`,
         );
       }
@@ -99,7 +99,7 @@ async function handler(m, { sock }) {
       return m.reply(
         `❌ *ᴀᴜᴛᴏ ʙᴀᴄᴋᴜᴘ ᴅɪɴᴏɴᴀᴋᴛɪꜰᴋᴀɴ*\n\n` +
           `> El backup automatico ya fue detenido.\n` +
-          `> Usa \`${m.prefix}autobackup on <interval>\` untuk mengaktifkan kembali.`,
+          `> Usa \`${m.prefix}autobackup on <interval>\` para volver a activarlo.`,
       );
     }
 
@@ -110,12 +110,12 @@ async function handler(m, { sock }) {
 
       let txt = `🗂️ *sᴛᴀᴛᴜs ᴀᴜᴛᴏ ʙᴀᴄᴋᴜᴘ*\n\n`;
       txt += `╭┈┈⬡「 📊 *ɪɴꜰᴏ* 」\n`;
-      txt += `┃ 🔘 Enabled: ${status.enabled ? "✅ Ya" : "❌ Tidak"}\n`;
+      txt += `┃ 🔘 Enabled: ${status.enabled ? "✅ Si" : "❌ No"}\n`;
       txt += `┃ ⏱️ Interval: ${status.interval}\n`;
-      txt += `┃ 🔄 Running: ${status.isRunning ? "✅ Ya" : "❌ Tidak"}\n`;
+      txt += `┃ 🔄 Running: ${status.isRunning ? "✅ Si" : "❌ No"}\n`;
       txt += `┃ 📅 Last: ${status.lastBackup ? timeHelper.fromTimestamp(status.lastBackup, "DD MMMM YYYY HH:mm:ss") : "-"}\n`;
       txt += `┃ #️⃣ Total: ${status.backupCount} backup\n`;
-      txt += `┃ 📤 Target: ${ownerNum}\n`;
+      txt += `┃ 📤 Objetivo: ${ownerNum}\n`;
       txt += `╰┈┈┈┈┈┈┈┈⬡`;
 
       return m.reply(txt);
@@ -144,7 +144,7 @@ async function handler(m, { sock }) {
     default:
       return m.reply(
         `⚠️ *ᴀᴄᴛɪᴏɴ ᴛɪᴅᴀᴋ ᴠᴀʟɪᴅ*\n\n` +
-          `> Pilih: \`on\`, \`off\`, \`status\`, o \`now\`\n` +
+          `> Elige: \`on\`, \`off\`, \`status\`, o \`now\`\n` +
           `> Ejemplo: \`${m.prefix}autobackup on 6h\``,
       );
   }

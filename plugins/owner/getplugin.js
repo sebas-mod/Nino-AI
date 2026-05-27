@@ -139,7 +139,7 @@ async function handler(m, { sock }) {
   if (!pluginInfo) {
     const similar = getSimilarPlugins(pluginName, pluginsDir);
     let text = `❌ *ᴘʟᴜɢɪɴ ᴛɪᴅᴀᴋ ᴅɪᴛᴇᴍᴜᴋᴀɴ*\n\n`;
-    text += `> Plugin \`${pluginName}\` tidak ditemukan\n\n`;
+    text += `> Plugin \`${pluginName}\` no encontrado\n\n`;
 
     if (similar.length > 0) {
       text += `*Mungkin maksud kamu:*\n`;
@@ -157,7 +157,7 @@ async function handler(m, { sock }) {
     title: `📦 *PLUGIN DITEMUKAN*`,
     language: "javascript",
     text:
-      `Hallo Ownerku ${m.pushName}, berikut ini adalah source code dari plugin yang kamu minta\n\n` +
+      `Hola owner ${m.pushName}, este es el codigo fuente del plugin que pediste\n\n` +
       `- 🌾 *Plugin:* \`${pluginInfo.file}\`\n` +
       `- 🍃 *Category:* \`${pluginInfo.category}\``,
     footer: `\n_Note_: *Kamu bisa langsung copy code di atas*`,

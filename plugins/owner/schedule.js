@@ -1,7 +1,7 @@
 import te from "../../src/lib/ourin-error.js";
 /**
  * @file plugins/owner/schedule.js
- * @description Command untuk mengelola scheduled messages
+ * @description Comando para gestionar mensajes programados
  * @author Lucky Archz, Keisya, hyuuSATAN
  * @version 1.1.0
  */
@@ -21,9 +21,9 @@ const pluginConfig = {
   name: "schedule",
   alias: ["sched", "jadwal", "timer"],
   category: "owner",
-  description: "Bikin reminder o jadwal bebas dengan text custom",
+  description: "Crear recordatorios u horarios libres con texto personalizado",
   usage:
-    ".schedule <add/edit/list/kategori/preset/detail/del/status> [options]",
+    ".schedule <add/edit/list/categoria/preset/detail/del/status> [options]",
   example: ".schedule preset sekolah 06:30",
   isOwner: true,
   isPremium: false,
@@ -48,29 +48,29 @@ const repeatOffKeywords = new Set([
 const presetTemplates = {
   sekolah: {
     category: "sekolah",
-    title: "Berangkat sekolah",
-    customText: "Mandi, sarapan, cek buku, dan berangkat tepat waktu.",
+    title: "Salir a la escuela",
+    customText: "Banate, desayuna, revisa los libros y sal a tiempo.",
     repeat: true,
     target: "me",
   },
   kerja: {
     category: "kerja",
-    title: "Mulai kerja",
-    customText: "Siapkan device, cek task, dan mulai kerja tepat waktu.",
+    title: "Empezar a trabajar",
+    customText: "Prepara el dispositivo, revisa tareas y empieza a trabajar a tiempo.",
     repeat: true,
     target: "me",
   },
   turnamen: {
     category: "turnamen",
-    title: "Persiapan turnamen",
-    customText: "Cek roster, room, koneksi, dan standby sebelum match dimulai.",
+    title: "Preparacion del torneo",
+    customText: "Revisa roster, sala, conexion y estate listo antes de que empiece la partida.",
     repeat: false,
     target: "here",
   },
   date: {
     category: "date",
-    title: "Jadwal date",
-    customText: "Siap-siap, cek lokasi, dan datang tepat waktu.",
+    title: "Cita programada",
+    customText: "Preparate, revisa la ubicacion y llega a tiempo.",
     repeat: false,
     target: "me",
   },
@@ -99,7 +99,7 @@ const normalizeCategory = (value = "") => String(value).trim().toLowerCase();
 
 const getTaskCategory = (task) => normalizeCategory(task.category) || "umum";
 
-const getTaskTitle = (task) => task.title || "Pengingat";
+const getTaskTitle = (task) => task.title || "Recordatorio";
 
 const getTaskText = (task, fallback = "-") =>
   task.customText || task.message?.text || fallback;
@@ -141,7 +141,7 @@ function parseRepeatValue(value = "") {
   if (isRepeatToken(value)) return true;
   if (isRepeatOffToken(value)) return false;
   throw new Error(
-    "❌ Nilai repeat harus salah satu: repeat, daily, diasan, once, sekali, off",
+    "❌ El valor de repeat debe ser uno de: repeat, daily, diasan, once, sekali, off",
   );
 }
 
@@ -162,7 +162,7 @@ function resolveTarget(targetValue, m) {
   if (!raw || normalized === "here" || normalized === "this") {
     return {
       jid: m.chat,
-      label: m.isGroup ? "here (chat ini)" : "here (private chat ini)",
+      label: m.isGroup ? "here (este chat)" : "here (private este chat)",
     };
   }
 
@@ -185,7 +185,7 @@ function resolveTarget(targetValue, m) {
   if (!digits) {
     return {
       jid: m.chat,
-      label: m.isGroup ? "here (chat ini)" : "here (private chat ini)",
+      label: m.isGroup ? "here (este chat)" : "here (private este chat)",
     };
   }
 
@@ -272,7 +272,7 @@ function buildTaskPayload(id, parsed, extra = {}) {
     minute: parsed.minute,
     repeat: parsed.repeat,
     category: normalizeCategory(parsed.category) || "umum",
-    title: parsed.title || "Pengingat",
+    title: parsed.title || "Recordatorio",
     customText: parsed.customText,
     targetLabel: parsed.target.label,
     mode: parsed.mode || "planner",
@@ -284,53 +284,53 @@ function buildTaskPayload(id, parsed, extra = {}) {
 function buildHelpText(m) {
   return `📅 *SCHEDULE PLANNER*
 
-Fitur ini buat bikin jadwal o reminder bebas.
-Bisa dipakai untuk sekolah, pelajaran, kerja, meeting, ngedate, turnamen, o agenda apa aja.
+Esta funcion sirve para crear horarios o recordatorios libres.
+Puede usarse para escuela, clases, trabajo, reuniones, citas, torneos o cualquier agenda.
 
-Pesan yang dikirim akan mengikuti *text custom* buatan owner.
+El mensaje enviado usara el *texto personalizado* creado por el owner.
 
-*Format utama:*
-\`.schedule add <HH:MM> | <kategori> | <judul> | <pesan> | [target] | [repeat]\`
+*Formato principal:*
+\`.schedule add <HH:MM> | <categoria> | <titulo> | <mensaje> | [target] | [repeat]\`
 
-*Edit jadwal:*
-\`.schedule edit <id> <HH:MM> | <kategori> | <judul> | <pesan> | [target] | [repeat]\`
-\`.schedule edit <id> time=08:00 | text=angkat rapat | repeat=off\`
+*Editar horario:*
+\`.schedule edit <id> <HH:MM> | <categoria> | <titulo> | <mensaje> | [target] | [repeat]\`
+\`.schedule edit <id> time=08:00 | text=reunion | repeat=off\`
 
-*Filter kategori:*
-\`.schedule kategori\`
-\`.schedule kategori sekolah\`
+*Filtrar categoria:*
+\`.schedule categoria\`
+\`.schedule categoria sekolah\`
 
 *Quick preset:*
 \`.schedule preset list\`
 \`.schedule preset sekolah 06:30\`
-\`.schedule preset kerja 09:00 | standup pagi | masuk room meeting | here | repeat\`
+\`.schedule preset kerja 09:00 | standup de la manana | entrar a la sala de reunion | here | repeat\`
 
-*Target opsional:*
-• \`here\` = kirim ke chat ini
-• \`me\` = kirim ke chat owner sendiri
-• \`628xxx@s.whatsapp.net\` = kirim ke nomor tertentu
+*Objetivo opcional:*
+• \`here\` = enviar a este chat
+• \`me\` = enviar al chat del owner
+• \`628xxx@s.whatsapp.net\` = enviar a un numero especifico
 
-*Mode repeat opsional:*
+*Modo repeat opcional:*
 • \`repeat\`
 • \`daily\`
 • \`diasan\`
 
 *Ejemplo:*
-\`.schedule add 06:30 | sekolah | berangkat sekolah | mandi, sarapan, cek buku | me | repeat\`
-\`.schedule add 12:00 | kerja | standup team | masuk room meeting jam 12 tepat | here | repeat\`
-\`.schedule add 19:00 | date | dinner malam | jangan lupa datang rapi dan tepat waktu | me\`
-\`.schedule add 20:00 | turnamen | scrim malam | room dibuka 15 menit sebelum mulai | here\`
+\`.schedule add 06:30 | sekolah | salir a la escuela | banarse, desayunar, revisar libros | me | repeat\`
+\`.schedule add 12:00 | kerja | standup del equipo | entrar a la sala de reunion horas 12 tepat | here | repeat\`
+\`.schedule add 19:00 | date | cena nocturna | no olvides llegar presentable y a tiempo | me\`
+\`.schedule add 20:00 | turnamen | scrim nocturno | la sala abre 15 minutos antes de empezar | here\`
 
-*Subcommand:*
+*Subcomando:*
 • \`.schedule list\`
-• \`.schedule kategori <nama>\`
+• \`.schedule categoria <nama>\`
 • \`.schedule preset <nama> <HH:MM>\`
 • \`.schedule edit <id> ...\`
 • \`.schedule detail <id>\`
 • \`.schedule del <id>\`
 • \`.schedule status\`
 
-*Format lama masih didukung:*
+*El formato anterior sigue siendo compatible:*
 \`.schedule add 08:00 628xxx repeat Selamat pagi tim\``;
 }
 
@@ -347,7 +347,7 @@ function parsePlannerInput(m, args) {
 
   if (!raw) {
     throw new Error(
-      "❌ Format: `.schedule add <HH:MM> | <kategori> | <judul> | <pesan> | [target] | [repeat]`",
+      "❌ Formato: `.schedule add <HH:MM> | <categoria> | <titulo> | <mensaje> | [target] | [repeat]`",
     );
   }
 
@@ -364,13 +364,13 @@ function parsePlannerInput(m, args) {
     const customText = args.slice(messageStart).join(" ").trim();
 
     if (!customText) {
-      throw new Error("❌ Pesan jadwal tidak boleh kosong");
+      throw new Error("❌ El mensaje del horario no puede estar vacio");
     }
 
     return {
       ...timeInfo,
       category: "umum",
-      title: "Pengingat",
+      title: "Recordatorio",
       customText,
       repeat,
       target,
@@ -385,7 +385,7 @@ function parsePlannerInput(m, args) {
 
   if (segments.length < 3) {
     throw new Error(
-      "❌ Format baru minimal: `.schedule add <HH:MM> | <kategori> | <judul> | <pesan>`",
+      "❌ Formato nuevo minimo: `.schedule add <HH:MM> | <categoria> | <titulo> | <mensaje>`",
     );
   }
 
@@ -395,7 +395,7 @@ function parsePlannerInput(m, args) {
   const customText = parsedTail.content;
 
   if (!customText) {
-    throw new Error("❌ Isi reminder tidak boleh kosong");
+    throw new Error("❌ El contenido del recordatorio no puede estar vacio");
   }
 
   return {
@@ -414,7 +414,7 @@ function parsePresetInput(m, args) {
 
   if (!config) {
     throw new Error(
-      "❌ Preset tidak dikenal. Usa `.schedule preset list` untuk lihat preset yang tersedia.",
+      "❌ Preset no reconocido. Usa `.schedule preset list` para ver los presets disponibles.",
     );
   }
 
@@ -422,7 +422,7 @@ function parsePresetInput(m, args) {
 
   if (!timeInfo) {
     throw new Error(
-      "❌ Format: `.schedule preset <nama> <HH:MM> [| <judul> | <pesan> | [target] | [repeat]]`",
+      "❌ Formato: `.schedule preset <nama> <HH:MM> [| <titulo> | <mensaje> | [target] | [repeat]]`",
     );
   }
 
@@ -472,7 +472,7 @@ function parseEditInput(m, args, task) {
 
   if (!raw) {
     throw new Error(
-      "❌ Format edit: `.schedule edit <id> <HH:MM> | <kategori> | <judul> | <pesan> | [target] | [repeat]` o `.schedule edit <id> time=08:00 | text=... | repeat=off`",
+      "❌ Format edit: `.schedule edit <id> <HH:MM> | <categoria> | <titulo> | <mensaje> | [target] | [repeat]` o `.schedule edit <id> time=08:00 | text=... | repeat=off`",
     );
   }
 
@@ -491,7 +491,7 @@ function parseEditInput(m, args, task) {
     .filter(Boolean);
 
   if (!segments.length) {
-    throw new Error("❌ No hay field yang bisa diedit.");
+    throw new Error("❌ No hay campos que se puedan editar.");
   }
 
   for (const segment of segments) {
@@ -499,7 +499,7 @@ function parseEditInput(m, args, task) {
 
     if (separatorIndex === -1) {
       throw new Error(
-        "❌ Format edit parsial harus `field=value`, contoh: `time=08:00 | text=angkat rapat`",
+        "❌ Format edit parsial harus `field=value`, contoh: `time=08:00 | text=reunion`",
       );
     }
 
@@ -507,13 +507,13 @@ function parseEditInput(m, args, task) {
     const value = segment.slice(separatorIndex + 1).trim();
 
     if (!value) {
-      throw new Error(`❌ Nilai untuk field \`${field}\` tidak boleh kosong`);
+      throw new Error(`❌ Valor para el campo \`${field}\` no puede estar vacio`);
     }
 
     switch (field) {
       case "time":
       case "waktu":
-      case "jam": {
+      case "horas": {
         const timeInfo = parseTimeString(value);
 
         if (!timeInfo) {
@@ -528,15 +528,15 @@ function parseEditInput(m, args, task) {
         break;
       }
       case "category":
-      case "kategori":
+      case "categoria":
         state.category = normalizeCategory(value) || "umum";
         break;
       case "title":
-      case "judul":
+      case "titulo":
         state.title = value;
         break;
       case "text":
-      case "pesan":
+      case "mensaje":
       case "message":
       case "msg":
         state.customText = value;
@@ -552,13 +552,13 @@ function parseEditInput(m, args, task) {
         break;
       default:
         throw new Error(
-          "❌ Field edit tidak dikenal. Pakai: time, kategori, judul, text, target, repeat",
+          "❌ Campo de edicion no reconocido. Usa: time, categoria, titulo, text, target, repeat",
         );
     }
   }
 
   if (!state.customText) {
-    throw new Error("❌ Isi reminder tidak boleh kosong");
+    throw new Error("❌ El contenido del recordatorio no puede estar vacio");
   }
 
   return state;
@@ -579,13 +579,13 @@ function buildCategoryListText(tasks) {
     (a, b) => b[1] - a[1] || a[0].localeCompare(b[0]),
   );
 
-  let text = "🏷️ *KATEGORI JADWAL AKTIF*\n\n";
+  let text = "🏷️ *CATEGORIAS DE HORARIOS ACTIVOS*\n\n";
 
   for (const [category, total] of entries) {
     text += `• ${category} (${total})\n`;
   }
 
-  text += "\nUsa `.schedule kategori <nama>` untuk filter list jadwal.";
+  text += "\nUsa `.schedule categoria <nama>` para filtrar la lista de horarios.";
   return text;
 }
 
@@ -600,10 +600,10 @@ function buildPresetListText() {
     text += `  💬 ${truncateText(preset.customText, 100)}\n\n`;
   }
 
-  text += "Pakai:\n";
+  text += "Usa:\n";
   text += "`.schedule preset sekolah 06:30`\n";
   text +=
-    "`.schedule preset kerja 09:00 | standup pagi | masuk room meeting | here | repeat`";
+    "`.schedule preset kerja 09:00 | standup de la manana | entrar a la sala de reunion | here | repeat`";
   return text;
 }
 
@@ -630,18 +630,18 @@ function buildListText(tasks, header = null) {
 
 function buildDetailText(task) {
   const msUntil = getMsUntilTime(task.hour, task.minute);
-  return `📌 *DETAIL JADWAL*
+  return `📌 *DETALLE DEL HORARIO*
 
 🆔 ID: \`${task.id}\`
 🏷️ Kategori: ${getTaskCategory(task)}
 📝 Judul: ${getTaskTitle(task)}
 ⏰ Waktu: ${formatClock(task.hour, task.minute)} WIB
-📍 Target: ${getTaskTargetLabel(task)}
+📍 Objetivo: ${getTaskTargetLabel(task)}
 🔄 Mode: ${task.repeat ? "Harian" : "Sekali"}
 🕕 Next run: ${formatTimeRemaining(msUntil)} lagi
 🗓️ Dibuat: ${task.createdAt || "-"}
 
-Pesan custom:
+Mensaje personalizado:
 ${getTaskText(task)}`;
 }
 
@@ -666,13 +666,13 @@ async function handler(m, { sock, args }) {
 
         const msUntil = getMsUntilTime(parsed.hour, parsed.minute);
 
-        await m.reply(`✅ *JADWAL BERHASIL DIBUAT*
+        await m.reply(`✅ *HORARIO CREADO CORRECTAMENTE*
 
 🆔 ID: \`${id}\`
 🏷️ Kategori: ${parsed.category}
 📝 Judul: ${parsed.title}
 ⏰ Waktu: ${parsed.label} WIB
-📍 Target: ${parsed.target.label}
+📍 Objetivo: ${parsed.target.label}
 🔄 Mode: ${parsed.repeat ? "Harian" : "Sekali"}
 🕕 Next run: ${formatTimeRemaining(msUntil)} lagi
 
@@ -707,14 +707,14 @@ ${truncateText(parsed.customText, 180)}`);
 
         const msUntil = getMsUntilTime(parsed.hour, parsed.minute);
 
-        await m.reply(`✅ *PRESET JADWAL BERHASIL DIBUAT*
+        await m.reply(`✅ *PRESET HORARIO CREADO CORRECTAMENTE*
 
 🆔 ID: \`${id}\`
 ⚡ Preset: ${parsed.presetKey}
 🏷️ Kategori: ${parsed.category}
 📝 Judul: ${parsed.title}
 ⏰ Waktu: ${parsed.label} WIB
-📍 Target: ${parsed.target.label}
+📍 Objetivo: ${parsed.target.label}
 🔄 Mode: ${parsed.repeat ? "Harian" : "Sekali"}
 🕕 Next run: ${formatTimeRemaining(msUntil)} lagi
 
@@ -734,14 +734,14 @@ ${truncateText(parsed.customText, 180)}`);
       const taskId = args[1];
 
       if (!taskId) {
-        await m.reply("❌ Format: `.schedule edit <id> ...`");
+        await m.reply("❌ Formato: `.schedule edit <id> ...`");
         return;
       }
 
       const task = findTaskById(taskId);
 
       if (!task) {
-        await m.reply(`❌ Jadwal dengan ID \`${taskId}\` tidak ditemukan`);
+        await m.reply(`❌ Horario con ID \`${taskId}\` no encontrado`);
         return;
       }
 
@@ -758,13 +758,13 @@ ${truncateText(parsed.customText, 180)}`);
 
         const msUntil = getMsUntilTime(parsed.hour, parsed.minute);
 
-        await m.reply(`✅ *JADWAL BERHASIL DIUPDATE*
+        await m.reply(`✅ *HORARIO ACTUALIZADO CORRECTAMENTE*
 
 🆔 ID: \`${task.id}\`
 🏷️ Kategori: ${parsed.category}
 📝 Judul: ${parsed.title}
 ⏰ Waktu: ${parsed.label} WIB
-📍 Target: ${parsed.target.label}
+📍 Objetivo: ${parsed.target.label}
 🔄 Mode: ${parsed.repeat ? "Harian" : "Sekali"}
 🕕 Next run: ${formatTimeRemaining(msUntil)} lagi
 
@@ -785,7 +785,7 @@ ${truncateText(parsed.customText, 180)}`);
 
       if (tasks.length === 0) {
         await m.reply(
-          "📅 Belum ada jadwal aktif. Usa `.schedule` untuk lihat format planner.",
+          "📅 No hay horarios activos. Usa `.schedule` para ver el formato del planner.",
         );
         return;
       }
@@ -794,13 +794,13 @@ ${truncateText(parsed.customText, 180)}`);
       break;
     }
 
-    case "kategori":
+    case "categoria":
     case "category": {
       const tasks = getScheduledMessages();
 
       if (tasks.length === 0) {
         await m.reply(
-          "📅 Belum ada jadwal aktif. Usa `.schedule` untuk lihat format planner.",
+          "📅 No hay horarios activos. Usa `.schedule` para ver el formato del planner.",
         );
         return;
       }
@@ -818,7 +818,7 @@ ${truncateText(parsed.customText, 180)}`);
 
       if (!filteredTasks.length) {
         await m.reply(
-          `❌ No hay jadwal aktif untuk kategori \`${categoryName}\``,
+          `❌ No hay horarios activos para la categoria \`${categoryName}\``,
         );
         return;
       }
@@ -838,14 +838,14 @@ ${truncateText(parsed.customText, 180)}`);
       const taskId = args[1];
 
       if (!taskId) {
-        await m.reply("❌ Format: `.schedule detail <id>`");
+        await m.reply("❌ Formato: `.schedule detail <id>`");
         return;
       }
 
       const task = findTaskById(taskId);
 
       if (!task) {
-        await m.reply(`❌ Jadwal dengan ID \`${taskId}\` tidak ditemukan`);
+        await m.reply(`❌ Horario con ID \`${taskId}\` no encontrado`);
         return;
       }
 
@@ -859,7 +859,7 @@ ${truncateText(parsed.customText, 180)}`);
       const taskId = args[1];
 
       if (!taskId) {
-        await m.reply("❌ Format: `.schedule del <id>`");
+        await m.reply("❌ Formato: `.schedule del <id>`");
         return;
       }
 
@@ -868,10 +868,10 @@ ${truncateText(parsed.customText, 180)}`);
 
       if (cancelled) {
         await m.reply(
-          `✅ Jadwal \`${taskId}\` dihapus${existingTask?.title ? `\n\n📝 ${existingTask.title}` : ""}`,
+          `✅ Jadwal \`${taskId}\` eliminado${existingTask?.title ? `\n\n📝 ${existingTask.title}` : ""}`,
         );
       } else {
-        await m.reply(`❌ Jadwal \`${taskId}\` tidak ditemukan`);
+        await m.reply(`❌ Jadwal \`${taskId}\` no encontrado`);
       }
       break;
     }
@@ -885,13 +885,13 @@ ${truncateText(parsed.customText, 180)}`);
 
       const text = `📊 *SCHEDULE PLANNER STATUS*
 
-📝 Jadwal aktif: ${status.scheduledMessagesCount}
-🏷️ Kategori aktif: ${categories.length ? categories.join(", ") : "-"}
+📝 Horarios activos: ${status.scheduledMessagesCount}
+🏷️ Kategori activo: ${categories.length ? categories.join(", ") : "-"}
 📨 Reminder terkirim: ${status.totalMessagesSent}
 🔄 Daily limit reset: ${status.dailyResetEnabled ? "✅ Active" : "❌ Inactive"}
 📅 Last reset: ${status.lastLimitReset}
 
-Usa \`.schedule list\` untuk lihat semua jadwal aktif.`;
+Usa \`.schedule list\` untuk ver todos los horarios activos.`;
 
       await m.reply(text);
       break;
@@ -899,7 +899,7 @@ Usa \`.schedule list\` untuk lihat semua jadwal aktif.`;
 
     default:
       await m.reply(
-        "❌ Subcommand tidak dikenal. Usa: add, edit, list, kategori, preset, detail, del, status",
+        "❌ Subcomando no reconocido. Usa: add, edit, list, categoria, preset, detail, del, status",
       );
   }
 }

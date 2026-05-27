@@ -4,7 +4,7 @@ const pluginConfig = {
   name: ["sprem", "stickerpremium", "premiumsticker"],
   alias: [],
   category: "owner",
-  description: "Kirim ulang sticker sebagai premium (Lottie/AI)",
+  description: "Reenviar sticker como premium (Lottie/AI)",
   usage: ".sprem (reply sticker)",
   example: ".sprem",
   isOwner: true,
@@ -17,7 +17,7 @@ async function handler(m, { sock }) {
   if (!m.quoted) {
     return m.reply(
       "⭐ *sᴛɪᴄᴋᴇʀ ᴘʀᴇᴍɪᴜᴍ*\n\n" +
-        "> Reply sticker yang mau dijadikan premium!\n\n" +
+        "> Responde el sticker que quieres convertir en premium!\n\n" +
         `> Penggunaan: \`${m.prefix}sprem\``,
     );
   }
@@ -26,7 +26,7 @@ async function handler(m, { sock }) {
 
   try {
     const msg = q.message?.stickerMessage;
-    if (!msg) return m.reply("❌ Fallo: membaca data sticker");
+    if (!msg) return m.reply("❌ Fallo: leyendo datos del sticker");
 
     const stickerMessage = proto.Message.StickerMessage.fromObject({
       url: msg.url,

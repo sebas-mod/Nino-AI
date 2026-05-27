@@ -60,7 +60,7 @@ async function handler(m, { sock }) {
 
     if (!found) {
       await m.react("❌");
-      return m.reply(`❌ *FALLO*\n\nPlugin \`${name}\` tidak ditemukan`);
+      return m.reply(`❌ *FALLO*\n\nPlugin \`${name}\` no encontrado`);
     }
 
     let unloadResult = { success: false };
@@ -78,7 +78,7 @@ async function handler(m, { sock }) {
         `│ Folder: \`${found.folder}\`\n` +
         `│ Unload: ${unloadResult.success ? "✅ Correcto" : "⚠️ Pending"}\n` +
         `╰───────⬣\n\n` +
-        `Plugin sudah dihapus dan tidak aktif!`,
+        `Plugin eliminado y desactivado!`,
     );
   } catch (error) {
     await m.react("☢");

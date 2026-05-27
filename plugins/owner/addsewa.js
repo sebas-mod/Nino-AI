@@ -47,10 +47,10 @@ function formatDuration(str) {
       str.toLowerCase(),
     )
   )
-    return "Permanent";
+    return "Permanente";
   const match = str.match(/^(\d+)([iIdDmMyYhH])$/);
   if (!match) return str;
-  const units = { i: "menit", h: "jam", d: "dias", m: "bulan", y: "tahun" };
+  const units = { i: "minutos", h: "horas", d: "dias", m: "meses", y: "anos" };
   return `${match[1]} ${units[match[2].toLowerCase()] || match[2]}`;
 }
 
@@ -118,14 +118,14 @@ async function handler(m, { sock }) {
   if (args.length < 2) {
     return m.reply(
       `📝 *AGREGAR ALQUILER*\n\n` +
-        `Format: *${m.prefix}addsewa <link/id> <duracion>*\n\n` +
+        `Formato: *${m.prefix}addsewa <link/id> <duracion>*\n\n` +
         `*FORMATO DE DURACION:*\n` +
-        `• 30i = 30 menit\n` +
-        `• 12h = 12 jam\n` +
+        `• 30i = 30 minutos\n` +
+        `• 12h = 12 horas\n` +
         `• 7d = 7 dias\n` +
-        `• 1m = 1 bulan (30 dias)\n` +
-        `• 1y = 1 tahun\n` +
-        `• lifetime = Permanent\n\n` +
+        `• 1m = 1 meses (30 dias)\n` +
+        `• 1y = 1 anos\n` +
+        `• lifetime = Permanente\n\n` +
         `*GRUPO DE ENTRADA:*\n` +
         `• Link: https://chat.whatsapp.com/xxx\n` +
         `• ID: 120363xxx@g.us\n\n` +
@@ -138,9 +138,9 @@ async function handler(m, { sock }) {
 
   const input = args[0];
   const durationStr = args[1];
-  const expiredAt = parseDuration(durationStr);
+  const vencidoAt = parseDuration(durationStr);
 
-  if (!expiredAt)
+  if (!vencidoAt)
     return m.reply(
       `❌ Formato de duracion no valido\n\nEjemplo: 7d, 1m, 1y, lifetime`,
     );
@@ -155,26 +155,26 @@ async function handler(m, { sock }) {
     }
 
     const { id: groupId, name: groupName, inviteCode } = result;
-    const isLifetime = expiredAt === Infinity;
+    const isLifetime = vencidoAt === Infinity;
 
     db.db.data.sewa.groups[groupId] = {
       name: groupName,
       addedAt: Date.now(),
-      expiredAt: isLifetime ? 0 : expiredAt,
+      vencidoAt: isLifetime ? 0 : vencidoAt,
       isLifetime,
       addedBy: m.sender,
     };
     db.db.write();
 
-    const expiredStr = isLifetime
-      ? "Permanent"
-      : timeHelper.fromTimestamp(expiredAt, "D MMMM YYYY HH:mm");
+    const vencidoStr = isLifetime
+      ? "Permanente"
+      : timeHelper.fromTimestamp(vencidoAt, "D MMMM YYYY HH:mm");
 
     let text = `✅ *ALQUILER AGREGADO CORRECTAMENTE*\n\n`;
     text += `Grupo: *${groupName}*\n`;
     text += `ID: ${groupId.split("@")[0]}\n`;
     text += `Duracion: *${formatDuration(durationStr)}*\n`;
-    text += `Vence: *${expiredStr}*\n\n`;
+    text += `Vence: *${vencidoStr}*\n\n`;
 
     const joinResult = await tryJoinGroup(sock, inviteCode, groupId);
 
@@ -184,7 +184,7 @@ async function handler(m, { sock }) {
         await new Promise((r) => setTimeout(r, 2000));
         await sock.sendText(
           groupId,
-          `👋 *Halo Semuanya!*, perkenalkan, aku ${config.bot?.name}\n\n- Masa sewa: *${formatDuration(durationStr)}*\n- Aku akan keluar pada: *${expiredStr}*\n\nEscribe *${m.prefix}menu* untuk melihat fitur dari bot ini.`,
+          `👋 *Halo Semuanya!*, perkenalkan, aku ${config.bot?.name}\n\n- Tiempo de alquiler: *${formatDuration(durationStr)}*\n- Saldre el: *${vencidoStr}*\n\nEscribe *${m.prefix}menu* para ver las funciones de este bot.`,
           null,
           {
             contextInfo: saluranCtx(),

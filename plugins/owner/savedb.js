@@ -24,7 +24,7 @@ async function handler(m, { sock }) {
     }
     const dbPath = path.join(process.cwd(), 'database', 'db.json')
     if (!fs.existsSync(dbPath)) {
-        return m.reply(`❌ File database tidak ditemukan!`)
+        return m.reply(`❌ File database no encontrado!`)
     }
     try {
         const stats = fs.statSync(dbPath)

@@ -5,7 +5,7 @@ const pluginConfig = {
     name: 'botmode',
     alias: ['setmode', 'mode'],
     category: 'owner',
-    description: 'Mengatur mode bot (md/cpanel/store/pushkontak/all)',
+    description: 'Configurar modo del bot (md/cpanel/store/pushkontak/all)',
     usage: '.botmode <mode> [--autoorder]',
     example: '.botmode store --autoorder',
     isOwner: true,
@@ -18,11 +18,11 @@ const pluginConfig = {
 }
 const VALID_MODES = ['md', 'cpanel', 'store', 'pushkontak', 'all']
 const MODE_DESCRIPTIONS = {
-    md: 'Mode default, semua fitur kecuali panel/store/pushkontak',
+    md: 'Modo por defecto, todas las funciones excepto panel/store/pushkontak',
     cpanel: 'Mode panel, main + group + sticker + owner + tools + panel',
     store: 'Mode store, main + group + sticker + owner + store',
     pushkontak: 'Mode pushkontak, main + group + sticker + owner + pushkontak',
-    all: 'Mode full, SEMUA fitur dari semua mode bisa diakses'
+    all: 'Mode full, se puede acceder a TODAS las funciones de todos los modos'
 }
 async function handler(m, { sock }) {
     const db = getDatabase()
@@ -51,7 +51,7 @@ ${m.isGroup ? `┃ ㊗ ɢʀᴜᴘ: *${(groupMode || 'INHERIT').toUpperCase()}*\n
 > \`${m.prefix}botmode store\` - Manual order
 > \`${m.prefix}botmode store --autoorder\` - Auto payment
 > \`${m.prefix}botmode md\` → Mode default
-> \`${m.prefix}botmode all\` → Semua fitur`
+> \`${m.prefix}botmode all\` → Todas las funciones`
         await m.reply(txt)
         return
     }
@@ -87,7 +87,7 @@ ${m.isGroup ? `┃ ㊗ ɢʀᴜᴘ: *${(groupMode || 'INHERIT').toUpperCase()}*\n
                 if (!pakasir.isEnabled()) {
                     extraInfo = `\n\n⚠️ *Pakasir aun no esta configurado!*\n> Set di config.js: pakasir.slug & pakasir.apiKey`
                 } else {
-                    extraInfo = `\n\n✅ *Autoorder aktif!*\n> Pago automatico via Pakasir`
+                    extraInfo = `\n\n✅ *Autoorder activo!*\n> Pago automatico via Pakasir`
                 }
             } catch {
                 extraInfo = `\n\n⚠️ *Modulo Pakasir no encontrado*`

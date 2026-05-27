@@ -4,7 +4,7 @@ const pluginConfig = {
     name: 'stopdandeletejadibot',
     alias: ['deletejadibot', 'removejadibot', 'hapusjadibot'],
     category: 'owner',
-    description: 'Stop dan hapus session jadibot user secara permanen',
+    description: 'Detener y eliminar permanentemente la sesion jadibot del usuario',
     usage: '.stopdandeletejadibot @user',
     example: '.stopdandeletejadibot @628xxx',
     isOwner: true,
@@ -32,11 +32,11 @@ async function handler(m, { sock }) {
         const sessions = getAllJadibotSessions()
 
         if (sessions.length === 0) {
-            return m.reply(`❌ No hay session jadibot tersimpan`)
+            return m.reply(`❌ No hay sesiones jadibot guardadas`)
         }
 
         let txt = `🗑️ *sᴛᴏᴘ & ᴅᴇʟᴇᴛᴇ ᴊᴀᴅɪʙᴏᴛ*\n\n`
-        txt += `Pilih target dengan mention o reply:\n\n`
+        txt += `Elige el objetivo con mencion o respuesta:\n\n`
 
         sessions.forEach((s, i) => {
             const status = s.isActive ? '🟢' : '⚫'
@@ -56,7 +56,7 @@ async function handler(m, { sock }) {
     const session = sessions.find(s => s.id === id)
 
     if (!session) {
-        return m.reply(`❌ Session jadibot untuk *@${id}* tidak ditemukan`, { mentions: [target] })
+        return m.reply(`❌ La sesion jadibot de *@${id}* no encontrado`, { mentions: [target] })
     }
 
     await m.react('🕕')
@@ -68,9 +68,9 @@ async function handler(m, { sock }) {
 
         await sock.sendMessage(m.chat, {
             text: `🗑️ *ᴊᴀᴅɪʙᴏᴛ ᴅɪʜᴀᴘᴜs*\n\n` +
-                `> 📱 Nomor: *@${id}*\n` +
+                `> 📱 Numero: *@${id}*\n` +
                 `> 🗑️ Estado: *Deleted*\n\n` +
-                `Session telah dihapus secara permanen.\n` +
+                `Session telah eliminado secara permanen.\n` +
                 `User perlu \`.jadibot\` ulang untuk membuat session baru.`,
             mentions: [target]
         }, { quoted: m })
