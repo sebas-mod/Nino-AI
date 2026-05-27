@@ -954,7 +954,7 @@ Puedes usarme para buscar informacion, obtener datos o ayudar con cosas simples 
         const randomSparkle = () =>
           sparkles[Math.floor(Math.random() * sparkles.length)];
         menuText += `${randomSparkle()}━━━━━━━━━━━━━━━━━━━━━${randomSparkle()}\n`;
-        menuText += `*${botConfig.bot?.name || "𝗢𝗨𝗥𝗜𝗡-𝗔𝗜"}*\n`;
+        menuText += `*${botConfig.bot?.name || "Nino-AI"}*\n`;
         menuText += `${randomSparkle()}━━━━━━━━━━━━━━━━━━━━━${randomSparkle()}\n\n`;
         menuText += `┏━━━〔 ${emojiRole} *𝗣𝗥𝗢𝗙𝗜𝗟𝗘* 〕━━━┓\n`;
         menuText += `┃ 👤 *${m.pushName}*\n`;
@@ -994,7 +994,7 @@ Puedes usarme para buscar informacion, obtener datos o ayudar con cosas simples 
         menuText += `╭━━〔 💡 *𝗧𝗜𝗣𝗦* 〕━━╮\n`;
         menuText += `│ ❸ Follow channel ${saluranLink}\n`;
         menuText += `╰━━━━━━━━━━━━━━━━━━╯\n\n`;
-        menuText += `> ${randomSparkle()} *${botConfig.bot?.name || "Ourin"}* v${botConfig.bot?.version || "1.7.1"} ${randomSparkle()}`;
+        menuText += `> ${randomSparkle()} *${botConfig.bot?.name || "nino"}* v${botConfig.bot?.version || "1.7.1"} ${randomSparkle()}`;
         let thumbV8 = thumbBuffer;
         if (thumbBuffer) {
           try {
@@ -1204,7 +1204,7 @@ Nombre    : ${botConfig.bot?.name || "Nino AI"}
 Version : v${botConfig.bot?.version || "1.9.0"}
 Runtime : Node.js ${process.version}
 Bot Up  : ${uptimeFormatted}
-Mi owner   : ${botConfig.owner?.name || "Lucky Archz"}
+Mi owner   : ${botConfig.owner?.name || "Sebas-MD"}
 ─────────────────────────
 Toca el boton de abajo para mostrar el menu`;
           const buttons = [
@@ -1243,7 +1243,7 @@ Toca el boton de abajo para mostrar el menu`;
                               description: "Menu",
                               currencyCode: "USD",
                               priceAmount1000: "1000000000000000",
-                              retailerId: botConfig.bot?.name || "Ourin",
+                              retailerId: botConfig.bot?.name || "nino",
                               productImageCount: 1,
                             },
                             businessOwnerJid: businessJid,
