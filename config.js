@@ -13,19 +13,19 @@ const config = {
   },
 
   owner: {
-    name: "Zann", // Nama owner
-    number: [""], // Format: 628xxx (tanpa + atau 0)
+    name: "sebas-MD", // Nama owner
+    number: ["5491138403093"], // Format: 628xxx (tanpa + atau 0)
   },
 
   session: {
-    pairingNumber: "", // Nomor WA yang akan di-pair
+    pairingNumber: "5491138403093", // Nomor WA yang akan di-pair
     usePairingCode: true, // true = Pairing Code, false = QR Code
   },
 
   bot: {
-    name: "𝗢𝗨𝗥𝗜𝗡 𝗔𝗜", // Nama bot
+    name: "Nino AI", // Nama bot
     version: "2.6", // Versi bot
-    developer: "Zann", // Nama developer
+    developer: "sebas-MD", // Nama developer
   },
 
   mode: "public",
