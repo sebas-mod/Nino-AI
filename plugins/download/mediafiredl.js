@@ -5,7 +5,7 @@ const pluginConfig = {
   name: "mediafiredl",
   alias: ["mfdl", "mediafire", "mf"],
   category: "download",
-  description: "Download file dari MediaFire",
+  description: "Descargar archivo de MediaFire",
   usage: ".mfdl <url>",
   example: ".mfdl https://www.mediafire.com/file/xxx",
   isOwner: false,
@@ -35,13 +35,13 @@ async function handler(m, { sock }) {
     return m.reply(
       `⚠️ *ᴄᴀʀᴀ ᴘᴀᴋᴀɪ*\n\n` +
         `> \`${m.prefix}mfdl <url>\`\n\n` +
-        `> Contoh:\n` +
+        `> Ejemplo:\n` +
         `> \`${m.prefix}mfdl https://www.mediafire.com/file/xxx\``,
     );
   }
 
   if (!url.match(/mediafire\.com/i)) {
-    return m.reply(`❌ *URL tidak valid. Gunakan link MediaFire.*`);
+    return m.reply(`❌ *URL no valida. Usa un enlace de MediaFire.*`);
   }
   await m.react("🕕");
 

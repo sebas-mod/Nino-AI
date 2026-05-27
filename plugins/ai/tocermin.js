@@ -5,8 +5,8 @@ const pluginConfig = {
     name: 'tocermin',
     alias: ['mirror', 'tomirror'],
     category: 'ai',
-    description: 'Ubah foto menjadi efek cermin (mirror reflection)',
-    usage: '.tocermin (reply/kirim gambar)',
+    description: 'Convierte fotos en efecto espejo (reflejo)',
+    usage: '.tocermin (responde/envía una imagen)',
     example: '.tocermin',
     isOwner: false,
     isPremium: true,
@@ -28,7 +28,7 @@ async function handler(m, { sock }) {
     if (!isImage) {
         return m.reply(
             `🪞 *ᴛᴏ ᴄᴇʀᴍɪɴ*\n\n` +
-            `> Kirim/reply gambar untuk efek cermin\n\n` +
+            `> Envía/responde a una imagen para aplicar efecto espejo\n\n` +
             `\`${m.prefix}tocermin\``
         )
     }
@@ -45,7 +45,7 @@ async function handler(m, { sock }) {
         
         if (!buffer) {
             m.react('❌')
-            return m.reply(`❌ Gagal mendownload gambar`)
+            return m.reply(`❌ No se pudo descargar la imagen`)
         }
         
         const result = await live3d(buffer, PROMPT)

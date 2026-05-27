@@ -2,8 +2,8 @@ const pluginConfig = {
     name: 'cekhoki',
     alias: ['hoki', 'lucky'],
     category: 'cek',
-    description: 'Cek seberapa hoki kamu',
-    usage: '.cekhoki <nama>',
+    description: 'Comprueba que tan afortunado eres',
+    usage: '.cekhoki <nombre>',
     example: '.cekhoki Budi',
     isOwner: false,
     isPremium: false,
@@ -20,23 +20,23 @@ async function handler(m) {
                     
     let desc = ''
     if (percent >= 90) {
-        desc = 'HOKI DEWA! Main gacha pasti menang! 🍀✨'
+        desc = 'SUERTE DIVINA! En gacha seguro ganas! 🍀✨'
     } else if (percent >= 70) {
-        desc = 'Hoki banget! 🎰'
+        desc = 'Muy afortunado! 🎰'
     } else if (percent >= 50) {
-        desc = 'Lumayan hoki 🍀'
+        desc = 'Bastante afortunado 🍀'
     } else if (percent >= 30) {
-        desc = 'Sedikit hoki 😊'
+        desc = 'Un poco afortunado 😊'
     } else {
-        desc = 'Sabar ya, lagi apes 😅'
+        desc = 'Paciencia, hoy hay mala suerte 😅'
     }
     
-    let txt = mentioned === m.sender ? `Hai @${mentioned.split('@')[0]}
+    let txt = mentioned === m.sender ? `Hola @${mentioned.split('@')[0]}
     
-Tingkat kehokian kamu *${percent}%*
-\`\`\`${desc}\`\`\`` : `Kamu ingin ngecek tingkat kehokian @${mentioned.split('@')[0]} yak? 
+Tu nivel de suerte es *${percent}%*
+\`\`\`${desc}\`\`\`` : `Quieres comprobar el nivel de suerte de @${mentioned.split('@')[0]} verdad?
     
-Tingkat kehokian dia sebesar *${percent}%*
+Su nivel de suerte es *${percent}%*
 \`\`\`${desc}\`\`\``
     
     await m.reply(txt, { mentions: [mentioned] })

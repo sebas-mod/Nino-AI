@@ -35,7 +35,7 @@ async function threadsdl(url) {
         }
     }
 
-    if (end === -1) throw new Error('JSON tidak valid')
+    if (end === -1) throw new Error('JSON no valido')
 
     const parsed = JSON.parse(jsonString.slice(0, end))
     return parsed.v[0][1]
@@ -45,7 +45,7 @@ const pluginConfig = {
     name: 'threaddl',
     alias: ['tdl', 'threads', 'threadsdl'],
     category: 'download',
-    description: 'Download foto Threads (album)',
+    description: 'Descargar fotos de Threads (album)',
     usage: '.tdl <url>',
     example: '.tdl https://www.threads.net/@xxx/post/xxx',
     cooldown: 10,
@@ -56,7 +56,7 @@ const pluginConfig = {
 async function handler(m, { sock }) {
     const url = m.text?.trim()
     if (!url || !/threads/i.test(url)) {
-        return m.reply(`❌ Gunakan URL Threads yang valid`)
+        return m.reply(`❌ Usa una URL valida de Threads`)
     }
 
     m.react('🕕')
@@ -67,7 +67,7 @@ async function handler(m, { sock }) {
         const captionText =
             result.caption ||
             result.text ||
-            'No description available.'
+            'Sin descripcion disponible.'
 
         const username = result.user?.username || '-'
         const images = []
@@ -78,7 +78,7 @@ async function handler(m, { sock }) {
         }
 
         if (images.length === 0) {
-            throw new Error('Tidak ada gambar ditemukan')
+            throw new Error('No se encontraron imagenes')
         }
 
         const mediaList = []

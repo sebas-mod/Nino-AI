@@ -2,8 +2,8 @@ const pluginConfig = {
     name: 'cekintrovert',
     alias: ['introvert'],
     category: 'cek',
-    description: 'Cek tingkat introvert kamu',
-    usage: '.cekintrovert <nama>',
+    description: 'Comprueba tu nivel de introversion',
+    usage: '.cekintrovert <nombre>',
     example: '.cekintrovert Budi',
     isOwner: false,
     isPremium: false,
@@ -19,18 +19,18 @@ async function handler(m) {
     const mentioned = m.mentionedJid[0] || m.sender
                     
     let desc = ''
-    if (percent >= 90) desc = 'Rumah adalah surga! Stay home~ 🏠'
-    else if (percent >= 70) desc = 'Social battery terbatas 🔋'
-    else if (percent >= 50) desc = 'Ambivert, balance~ ⚖️'
-    else if (percent >= 30) desc = 'Cukup social butterfly 🦋'
-    else desc = 'Extrovert mode ON! 🎉'
+    if (percent >= 90) desc = 'La casa es el paraiso! Stay home~ 🏠'
+    else if (percent >= 70) desc = 'Bateria social limitada 🔋'
+    else if (percent >= 50) desc = 'Ambivertido, equilibrado~ ⚖️'
+    else if (percent >= 30) desc = 'Bastante social 🦋'
+    else desc = 'Modo extrovertido ON! 🎉'
     
-    let txt = mentioned === m.sender ? `Hai @${mentioned.split('@')[0]}
+    let txt = mentioned === m.sender ? `Hola @${mentioned.split('@')[0]}
     
-Tingkat keintrovertan kamu *${percent}%*
-\`\`\`${desc}\`\`\`` : `Kamu ingin ngecek tingkat keintrovertan @${mentioned.split('@')[0]} yak? 
+Tu nivel de introversion es *${percent}%*
+\`\`\`${desc}\`\`\`` : `Quieres comprobar el nivel de introversion de @${mentioned.split('@')[0]} verdad?
     
-Tingkat keintrovertan dia sebesar *${percent}%*
+Su nivel de introversion es *${percent}%*
 \`\`\`${desc}\`\`\``
     
     await m.reply(txt, { mentions: [mentioned] })

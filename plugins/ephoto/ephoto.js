@@ -50,9 +50,9 @@ const pluginConfig = {
     ],
     alias: ['ephoto'],
     category: 'ephoto',
-    description: 'Buat efek text keren dengan berbagai style',
-    usage: '.<effect> <text>',
-    example: '.glitchtext Ourin-AI',
+    description: 'Crea efectos de texto geniales con varios estilos',
+    usage: '.<efecto> <texto>',
+    example: '.glitchtext Nino AI',
     isOwner: false,
     isPremium: false,
     isGroup: false,
@@ -117,20 +117,20 @@ async function handler(m, { sock }) {
     if (command === 'ephoto') {
         const effectList = Object.keys(EFFECT_URLS).map(e => `• \`${m.prefix}${e}\``).join('\n')
         return m.reply(
-            `🎨 *ᴇᴘʜᴏᴛᴏ ᴇꜰꜰᴇᴄᴛs*\n\n` +
-            `> Buat efek text keren!\n\n` +
-            `╭┈┈⬡「 📋 *ᴅᴀꜰᴛᴀʀ ᴇꜰᴇᴋ* 」\n${effectList}\n╰┈┈┈┈┈┈┈┈⬡\n\n` +
-            `> *Contoh:* ${m.prefix}glitchtext Ourin-AI`
+            `🎨 *ᴇꜰᴇᴄᴛᴏꜱ ᴇᴘʜᴏᴛᴏ*\n\n` +
+            `> Crea efectos de texto geniales!\n\n` +
+            `╭┈┈⬡「 📋 *ʟɪꜱᴛᴀ ᴅᴇ ᴇꜰᴇᴄᴛᴏꜱ* 」\n${effectList}\n╰┈┈┈┈┈┈┈┈⬡\n\n` +
+            `> *Ejemplo:* ${m.prefix}glitchtext Nino AI`
         )
     }
     
     if (!text) {
-        return m.reply(`❌ *ᴇʀʀᴏʀ*\n\n> Masukkan text!\n> *Contoh:* ${m.prefix}${command} Ourin-AI`)
+        return m.reply(`❌ *ᴇʀʀᴏʀ*\n\n> Ingresa un texto!\n> *Ejemplo:* ${m.prefix}${command} Nino AI`)
     }
     
     const effectUrl = EFFECT_URLS[command]
     if (!effectUrl) {
-        return m.reply(`❌ Efek tidak ditemukan`)
+        return m.reply(`❌ Efecto no encontrado`)
     }
     
     await m.react('🕕')

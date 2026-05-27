@@ -5,9 +5,9 @@ const pluginConfig = {
   name: 'text2img2',
   alias: ['t2i2', 'genimg'],
   category: 'ai',
-  description: 'Generate image from text using AI',
+  description: 'Genera imágenes desde texto con IA',
   usage: '.text2img2 <prompt>',
-  example: '.text2img2 a futuristic city in mars',
+  example: '.text2img2 una ciudad futurista en Marte',
   isOwner: false,
   isPremium: false,
   isGroup: false,
@@ -18,7 +18,7 @@ const pluginConfig = {
 }
 
 async function handler(m, { sock }) {
-  if (!m.fullArgs) return m.reply(`Silahkan masukkan prompt.\nContoh: ${m.prefix + m.command} car`)
+  if (!m.fullArgs) return m.reply(`Ingresa un prompt.\nEjemplo: ${m.prefix + m.command} auto`)
 
   await m.react('⏳')
 
@@ -32,7 +32,7 @@ async function handler(m, { sock }) {
     })
 
     if (!response.data || response.data.length < 100) {
-      throw new Error('Invalid image data received')
+      throw new Error('Se recibieron datos de imagen inválidos')
     }
 
     await sock.sendMedia(m.chat, response.data, m.fullArgs, m, { type: 'image' })

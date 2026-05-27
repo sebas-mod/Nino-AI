@@ -6,9 +6,9 @@ const pluginConfig = {
   name: "ai-rewriter",
   alias: ["airewriter", "rewriteai"],
   category: "ai",
-  description: "Tulis ulang teks dengan tone tertentu",
-  usage: ".ai-rewriter <text> | <tone>",
-  example: ".ai-rewriter halo semuanya | professional",
+  description: "Reescribe texto con un tono específico",
+  usage: ".ai-rewriter <texto> | <tono>",
+  example: ".ai-rewriter hola a todos | profesional",
   isOwner: false,
   isPremium: false,
   isGroup: false,
@@ -41,13 +41,13 @@ async function handler(m) {
   if (!parsed.text) {
     return m.reply(
       `✍️ *AI REWRITER*\n\n` +
-        `> Tulis ulang teks dengan tone tertentu\n\n` +
-        `\`Contoh: ${m.prefix}ai-rewriter Halo semuanya | professional\``,
+        `> Reescribe texto con un tono específico\n\n` +
+        `\`Ejemplo: ${m.prefix}ai-rewriter Hola a todos | profesional\``,
     );
   }
 
   if (!config.APIkey?.covenant) {
-    return m.reply("❌ API key covenant tidak dikonfigurasi!");
+    return m.reply("❌ La API key de covenant no está configurada.");
   }
 
   m.react("🕕");
@@ -64,15 +64,15 @@ async function handler(m) {
     );
 
     if (!data?.status || !data?.data?.result) {
-      throw new Error(data?.message || "Gagal rewrite teks");
+      throw new Error(data?.message || "No se pudo reescribir el texto");
     }
 
     m.react("✅");
     await m.reply(
       `✍️ *AI REWRITER*\n\n` +
-        `> Tone: ${parsed.tone}\n` +
-        `> Cost: ${data?.usage?.cost ?? "-"}\n` +
-        `> Sisa Credit: ${data?.usage?.remaining ?? "-"}\n\n` +
+        `> Tono: ${parsed.tone}\n` +
+        `> Costo: ${data?.usage?.cost ?? "-"}\n` +
+        `> Créditos restantes: ${data?.usage?.remaining ?? "-"}\n\n` +
         `${data.data.result}`,
     );
   } catch (error) {

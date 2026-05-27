@@ -4,7 +4,7 @@ const pluginConfig = {
   name: "redditdl",
   alias: ["reddit", "reddl"],
   category: "download",
-  description: "Download video/image dari Reddit",
+  description: "Descargar video/imagen de Reddit",
   usage: ".redditdl <url>",
   example: ".redditdl https://www.reddit.com/r/xxx/comments/xxx",
   isOwner: false,
@@ -21,11 +21,11 @@ async function handler(m, { sock }) {
   if (!text) {
     m.react("❌");
     return m.reply(
-      `📱 *Reddit Downloader*\n\n` +
-        `Download video atau gambar dari Reddit.\n\n` +
-        `*PENGGUNAAN:*\n` +
-        `> *${m.prefix}redditdl <link>*\n\n` +
-        `*CONTOH:*\n` +
+      `📱 *Descargador de Reddit*\n\n` +
+        `Descarga videos o imagenes de Reddit.\n\n` +
+        `*USO:*\n` +
+        `> *${m.prefix}redditdl <enlace>*\n\n` +
+        `*EJEMPLO:*\n` +
         `> *${m.prefix}redditdl https://www.reddit.com/r/xxx/comments/xxx*`,
     );
   }
@@ -37,17 +37,17 @@ async function handler(m, { sock }) {
 
     if (!result.status) {
       m.react("☢");
-      return m.reply(`❌ *Reddit Gagal*\n\n> ${result.error}`);
+      return m.reply(`❌ *Reddit fallo*\n\n> ${result.error}`);
     }
 
     let caption =
       `📱 *Reddit*\n\n` +
       `> 📌 ${result.title}\n` +
-      `> 📁 ${result.results.length} media ditemukan`;
+      `> 📁 ${result.results.length} contenidos encontrados`;
 
     if (result.results.length === 0) {
       m.react("☢");
-      return m.reply("❌ Nggak ada media yang bisa di-download dari post itu");
+      return m.reply("❌ No hay contenido que se pueda descargar de esa publicacion");
     }
 
     for (const media of result.results) {
@@ -66,7 +66,7 @@ async function handler(m, { sock }) {
   } catch (e) {
     console.error(e);
     m.react("☢");
-    m.reply("❌ Gagal mengambil data Reddit, coba lagi nanti");
+    m.reply("❌ No se pudieron obtener los datos de Reddit, intenta de nuevo mas tarde");
   }
 }
 

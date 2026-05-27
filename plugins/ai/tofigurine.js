@@ -4,8 +4,8 @@ const pluginConfig = {
     name: 'tofigure3',
     alias: ['figurine3', 'tofigure3', 'bandai3', 'actionfigure3'],
     category: 'ai',
-    description: 'Ubah foto menjadi action figure/figurine koleksi',
-    usage: '.tofigure3 (reply/kirim gambar)',
+    description: 'Convierte fotos en figura de acción/figura coleccionable',
+    usage: '.tofigure3 (responde/envía una imagen)',
     example: '.tofigure3',
     isOwner: false,
     isPremium: true,
@@ -29,7 +29,7 @@ async function handler(m, { sock }) {
     if (!isImage) {
         return m.reply(
             `🎭 *ᴛᴏ ꜰɪɢᴜʀ 3*\n\n` +
-            `> Kirim/reply gambar untuk diubah ke figurine/action figure\n\n` +
+            `> Envía/responde a una imagen para convertirla en figurine/action figure\n\n` +
             `\`${m.prefix}tofigure3\``
         )
     }
@@ -46,7 +46,7 @@ async function handler(m, { sock }) {
         
         if (!buffer) {
             m.react('❌')
-            return m.reply(`❌ Gagal mendownload gambar`)
+            return m.reply(`❌ No se pudo descargar la imagen`)
         }
         
         

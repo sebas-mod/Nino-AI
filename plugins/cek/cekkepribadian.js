@@ -1,10 +1,10 @@
 const pluginConfig = {
-    name: 'cekkepribadian',
-    alias: ['kepribadian', 'personality'],
+    name: 'cekla personalidad de',
+    alias: ['la personalidad de', 'personality'],
     category: 'cek',
-    description: 'Cek kepribadian kamu',
-    usage: '.cekkepribadian <nama>',
-    example: '.cekkepribadian Budi',
+    description: 'Comprueba tu personalidad',
+    usage: '.cekla personalidad de <nombre>',
+    example: '.cekla personalidad de Budi',
     isOwner: false,
     isPremium: false,
     isGroup: false,
@@ -15,22 +15,22 @@ const pluginConfig = {
 }
 
 const personalities = [
-    { type: 'INTJ', title: 'The Architect', desc: 'Visioner, strategis, dan independen' },
-    { type: 'INTP', title: 'The Logician', desc: 'Analitis, inovatif, dan ingin tahu' },
-    { type: 'ENTJ', title: 'The Commander', desc: 'Tegas, ambisius, dan pemimpin alami' },
-    { type: 'ENTP', title: 'The Debater', desc: 'Cerdas, penasaran, dan suka tantangan' },
-    { type: 'INFJ', title: 'The Advocate', desc: 'Idealis, bijaksana, dan penuh empati' },
-    { type: 'INFP', title: 'The Mediator', desc: 'Kreatif, idealis, dan setia' },
-    { type: 'ENFJ', title: 'The Protagonist', desc: 'Karismatik, inspiratif, dan peduli' },
-    { type: 'ENFP', title: 'The Campaigner', desc: 'Antusias, kreatif, dan sosial' },
-    { type: 'ISTJ', title: 'The Logistician', desc: 'Bertanggung jawab, praktis, dan teliti' },
-    { type: 'ISFJ', title: 'The Defender', desc: 'Setia, suportif, dan reliable' },
-    { type: 'ESTJ', title: 'The Executive', desc: 'Terorganisir, tegas, dan tradisional' },
-    { type: 'ESFJ', title: 'The Consul', desc: 'Peduli, sosial, dan loyal' },
-    { type: 'ISTP', title: 'The Virtuoso', desc: 'Fleksibel, observan, dan praktis' },
-    { type: 'ISFP', title: 'The Adventurer', desc: 'Artistik, sensitif, dan spontan' },
-    { type: 'ESTP', title: 'The Entrepreneur', desc: 'Energik, perceptive, dan berani' },
-    { type: 'ESFP', title: 'The Entertainer', desc: 'Spontan, energik, dan fun' }
+    { type: 'INTJ', title: 'El Arquitecto', desc: 'Visionario, estrategico e independiente' },
+    { type: 'INTP', title: 'El Logico', desc: 'Analitico, innovador y curioso' },
+    { type: 'ENTJ', title: 'El Comandante', desc: 'Firme, ambicioso y lider natural' },
+    { type: 'ENTP', title: 'El Debatiente', desc: 'Inteligente, curioso y amante de los retos' },
+    { type: 'INFJ', title: 'El Defensor', desc: 'Idealista, sabio y empatico' },
+    { type: 'INFP', title: 'El Mediador', desc: 'Creativo, idealista y fiel' },
+    { type: 'ENFJ', title: 'El Protagonista', desc: 'Carismatico, inspirador y atento' },
+    { type: 'ENFP', title: 'El Activista', desc: 'Entusiasta, creativo y social' },
+    { type: 'ISTJ', title: 'El Logista', desc: 'Responsable, practico y detallista' },
+    { type: 'ISFJ', title: 'El Protector', desc: 'Fiel, solidario y confiable' },
+    { type: 'ESTJ', title: 'El Ejecutivo', desc: 'Organizado, firme y tradicional' },
+    { type: 'ESFJ', title: 'El Consul', desc: 'Atento, social y leal' },
+    { type: 'ISTP', title: 'El Virtuoso', desc: 'Flexible, observador y practico' },
+    { type: 'ISFP', title: 'El Aventurero', desc: 'Artistico, sensible y espontaneo' },
+    { type: 'ESTP', title: 'El Emprendedor', desc: 'Energico, perceptivo y valiente' },
+    { type: 'ESFP', title: 'El Animador', desc: 'Espontaneo, energico y divertido' }
 ]
 
 async function handler(m) {
@@ -38,12 +38,12 @@ async function handler(m) {
 
         const p = personalities[Math.floor(Math.random() * personalities.length)]
     
-    let txt = mentioned === m.sender ? `Hai @${mentioned.split('@')[0]}
+    let txt = mentioned === m.sender ? `Hola @${mentioned.split('@')[0]}
     
-Tingkat kepribadian kamu *${p.type} - ${p.title}*
-\`\`\`${p.desc}\`\`\`` : `Kamu ingin ngecek kepribadian @${mentioned.split('@')[0]} yak? 
+Tu personalidad es *${p.type} - ${p.title}*
+\`\`\`${p.desc}\`\`\`` : `Quieres comprobar la personalidad de @${mentioned.split('@')[0]} verdad?
     
-Kepribadian dia adalah *${p.type} - ${p.title}*
+Su personalidad es *${p.type} - ${p.title}*
 \`\`\`${p.desc}\`\`\``
     
     await m.reply(txt, { mentions: [mentioned] })

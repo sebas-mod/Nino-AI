@@ -2,8 +2,8 @@ const pluginConfig = {
     name: 'ceksial',
     alias: ['sial', 'apes'],
     category: 'cek',
-    description: 'Cek seberapa sial kamu',
-    usage: '.ceksial <nama>',
+    description: 'Comprueba que tan salado eres',
+    usage: '.ceksial <nombre>',
     example: '.ceksial Budi',
     isOwner: false,
     isPremium: false,
@@ -20,23 +20,23 @@ async function handler(m) {
                     
     let desc = ''
     if (percent >= 90) {
-        desc = 'SIAL BANGET! Mending di rumah aja! 😭'
+        desc = 'MUY SALADO! Mejor quedate en casa! 😭'
     } else if (percent >= 70) {
-        desc = 'Lagi apes nih~ 😢'
+        desc = 'Hoy hay mala suerte~ 😢'
     } else if (percent >= 50) {
-        desc = 'Lumayan sial 😓'
+        desc = 'Bastante salado 😓'
     } else if (percent >= 30) {
-        desc = 'Sedikit sial 😕'
+        desc = 'Un poco salado 😕'
     } else {
-        desc = 'Gak sial, hoki dong! 🍀'
+        desc = 'Sin mala suerte, con buena suerte! 🍀'
     }
     
-    let txt = mentioned === m.sender ? `Hai @${mentioned.split('@')[0]}
+    let txt = mentioned === m.sender ? `Hola @${mentioned.split('@')[0]}
     
-Tingkat kesialan kamu *${percent}%*
-\`\`\`${desc}\`\`\`` : `Kamu ingin ngecek tingkat kesialan @${mentioned.split('@')[0]} yak? 
+Tu nivel de mala suerte es *${percent}%*
+\`\`\`${desc}\`\`\`` : `Quieres comprobar el nivel de mala suerte de @${mentioned.split('@')[0]} verdad?
     
-Tingkat kesialan dia sebesar *${percent}%*
+Su nivel de mala suerte es *${percent}%*
 \`\`\`${desc}\`\`\``
     
     await m.reply(txt, { mentions: [mentioned] })

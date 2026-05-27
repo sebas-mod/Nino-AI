@@ -12,7 +12,7 @@ const pluginConfig = {
   name: "terabox",
   alias: ["tb", "tera", "teraboxdl", "tbdl"],
   category: "download",
-  description: "Download video/file dari TeraBox",
+  description: "Descargar video/archivo de TeraBox",
   usage: ".terabox <url>",
   example: ".terabox https://terabox.com/s/xxx",
   isOwner: false,
@@ -29,13 +29,13 @@ async function handler(m, { sock }) {
   if (!text) {
     m.react("❌");
     return m.reply(
-      `📦 *TeraBox Downloader*\n\n` +
-        `Download video atau file dari TeraBox.\n\n` +
-        `*PENGGUNAAN:*\n` +
-        `> *${m.prefix}terabox <link>*\n\n` +
-        `*CONTOH:*\n` +
+      `📦 *Descargador de TeraBox*\n\n` +
+        `Descarga video o archivo de TeraBox.\n\n` +
+        `*USO:*\n` +
+        `> *${m.prefix}terabox <enlace>*\n\n` +
+        `*EJEMPLO:*\n` +
         `> *${m.prefix}terabox https://terabox.com/s/xxx*\n\n` +
-        `_File dikirim sebagai dokumen, mungkin agak lama_`,
+        `_El archivo se envia como documento, puede tardar un poco_`,
     );
   }
 
@@ -46,14 +46,14 @@ async function handler(m, { sock }) {
 
     if (!result.status) {
       m.react("☢");
-      return m.reply(`❌ *TeraBox Gagal*\n\n> ${result.error}`);
+      return m.reply(`❌ *TeraBox fallo*\n\n> ${result.error}`);
     }
 
     let caption =
       `📦 *TeraBox*\n\n` +
       `> 📌 ${result.file_name}\n` +
-      `> 📏 Size: ${result.file_size}\n` +
-      `> ⏱️ Durasi: ${result.duration}`;
+      `> 📏 Tamano: ${result.file_size}\n` +
+      `> ⏱️ Duracion: ${result.duration}`;
 
     if (result.thumbnail) {
       await sock.sendMedia(m.chat, result.thumbnail, caption, m, {
@@ -120,7 +120,7 @@ async function handler(m, { sock }) {
   } catch (e) {
     console.error(e);
     m.react("☢");
-    m.reply("❌ Gagal mengambil data TeraBox, coba lagi nanti");
+    m.reply("❌ No se pudieron obtener los datos de TeraBox, intenta de nuevo mas tarde");
   }
 }
 

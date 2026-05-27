@@ -5,9 +5,9 @@ const pluginConfig = {
   name: "ktp-maker",
   alias: ["ktp", "makektp"],
   category: "canvas",
-  description: "Buat gambar KTP palsu untuk hiburan",
-  usage: ".ktp-maker | nik | nama | provinsi | kota | ttl | jk | darah | alamat | rt/rw | kel | kec | agama | status | kerja | wni",
-  example: ".ktp-maker | 3171234567890001 | Penguin | DKI JAKARTA | JAKARTA | Helsinki, 28-12-1969 | LAKI-LAKI | O | Jl. Open Source 1 | 001/001 | Linux | Kernel | Islam | KAWIN | Programmer | WNI",
+  description: "Crea una imagen KTP falsa para entretenimiento",
+  usage: ".ktp-maker | nik | nombre | provincia | ciudad | ttl | genero | sangre | direccion | rt/rw | kel | kec | religion | estado | trabajo | wni",
+  example: ".ktp-maker | 3171234567890001 | Penguin | DKI JAKARTA | JAKARTA | Helsinki, 28-12-1969 | HOMBRE | O | Calle Open Source 1 | 001/001 | Linux | Kernel | Islam | CASADO | Programador | WNI",
   cooldown: 20,
   energi: 2,
   isEnabled: true,
@@ -28,9 +28,9 @@ async function handler(m, { sock }) {
   if (!raw || !raw.includes("|")) {
     return m.reply(
       `🪪 *ᴋᴛᴘ ᴍᴀᴋᴇʀ*\n\n` +
-      `- Buat gambar KTP palsu untuk hiburan 🎭\n` +
-      `- Format dipisah pakai |\n\n` +
-      `\`${m.prefix}ktp-maker | NIK | Nama | Provinsi | Kota | TTL | JK | Gol.Darah | Alamat | RT/RW | Kel/Desa | Kecamatan | Agama | Status | Pekerjaan | WNI\``
+      `- Crea una imagen KTP falsa para entretenimiento 🎭\n` +
+      `- Separa el formato con |\n\n` +
+      `\`${m.prefix}ktp-maker | NIK | Nombre | Provincia | Ciudad | TTL | Genero | Tipo de sangre | Direccion | RT/RW | Kel/Desa | Kecamatan | Religion | Estado | Trabajo | WNI\``
     );
   }
 
@@ -38,8 +38,8 @@ async function handler(m, { sock }) {
   if (parts.length < 15) {
     return m.reply(
       `🪪 *ꜰᴏʀᴍᴀᴛ ᴋᴜʀᴀɴɢ*\n\n` +
-      `- Butuh 15 field, kamu cuma isi ${parts.length}\n` +
-      `- NIK | Nama | Prov | Kota | TTL | JK | Darah | Alamat | RT/RW | Kel | Kec | Agama | Status | Kerja | WNI`
+      `- Necesitas 15 campos, solo llenaste ${parts.length}\n` +
+      `- NIK | Nombre | Prov | Ciudad | TTL | Genero | Sangre | Direccion | RT/RW | Kel | Kec | Religion | Estado | Trabajo | WNI`
     );
   }
 

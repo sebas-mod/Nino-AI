@@ -2,8 +2,8 @@ const pluginConfig = {
     name: 'cekmalas',
     alias: ['malas', 'lazy'],
     category: 'cek',
-    description: 'Cek seberapa malas kamu',
-    usage: '.cekmalas <nama>',
+    description: 'Comprueba que tan perezoso eres',
+    usage: '.cekmalas <nombre>',
     example: '.cekmalas Budi',
     isOwner: false,
     isPremium: false,
@@ -20,23 +20,23 @@ async function handler(m) {
                     
     let desc = ''
     if (percent >= 90) {
-        desc = 'SUPER MALAS! Raja rebahan! 🛏️'
+        desc = 'SUPER PEREZOSO! Rey del descanso! 🛏️'
     } else if (percent >= 70) {
-        desc = 'Malas banget! 😴'
+        desc = 'Muy perezoso! 😴'
     } else if (percent >= 50) {
-        desc = 'Lumayan malas 🥱'
+        desc = 'Bastante perezoso 🥱'
     } else if (percent >= 30) {
-        desc = 'Sedikit malas 😊'
+        desc = 'Un poco perezoso 😊'
     } else {
-        desc = 'Rajin banget! 💪'
+        desc = 'Muy trabajador! 💪'
     }
     
-    let txt = mentioned === m.sender ? `Hai @${mentioned.split('@')[0]}
+    let txt = mentioned === m.sender ? `Hola @${mentioned.split('@')[0]}
     
-Tingkat kemalasan kamu *${percent}%*
-\`\`\`${desc}\`\`\`` : `Kamu ingin ngecek tingkat kemalasan @${mentioned.split('@')[0]} yak? 
+Tu nivel de pereza es *${percent}%*
+\`\`\`${desc}\`\`\`` : `Quieres comprobar el nivel de pereza de @${mentioned.split('@')[0]} verdad?
     
-Tingkat kemalasan dia sebesar *${percent}%*
+Su nivel de pereza es *${percent}%*
 \`\`\`${desc}\`\`\``
     
     await m.reply(txt, { mentions: [mentioned] })

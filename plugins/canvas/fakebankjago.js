@@ -63,9 +63,9 @@ const pluginConfig = {
     name: 'fakebankjago',
     alias: ['fakebankjago'],
     category: 'canvas',
-    description: 'Membuat gambar chat iPhone style',
-    usage: '.fakebankjago <text>',
-    example: '.fakebankjago Hai cantik',
+    description: 'Crea una imagen de banco falso',
+    usage: '.fakebankjago <nombre>,<monto>',
+    example: '.fakebankjago Zann,10000',
     isOwner: false,
     isPremium: false,
     isGroup: false,
@@ -78,20 +78,19 @@ const pluginConfig = {
 async function handler(m, { sock }) {
     const [nama,nominal] = m.text?.split(',')
     if (!nama || !nominal) {
-        return m.reply(`*FAKE BANK*\n\n> Masukkan teks untuk chat\n\n\`Contoh: ${m.prefix}fakebank Zann,10000\``)
+        return m.reply(`*FAKE BANK*\n\n> Ingresa texto para el chat\n\n\`Ejemplo: ${m.prefix}fakebank Zann,10000\``)
     }
-    if(isNaN(nominal)) return m.reply(`*HARAP MASUKKAN ANGKA*`)
+    if(isNaN(nominal)) return m.reply(`*POR FAVOR INGRESA UN NUMERO*`)
     m.react('🕕')
     
     try {
         const saldo = Number(nominal.replace(/[^0-9]/g, '')).toLocaleString('id-ID')
         const hour = new Date().toLocaleString('en-US', { timeZone: 'Asia/Jakarta', hour: '2-digit', hour12: false })
         const h = Number(hour)
-        let waktu = 'Malam'
-        if (h >= 4 && h < 11) waktu = 'Pagi'
-        else if (h >= 11 && h < 15) waktu = 'Siang'
-        else if (h >= 15 && h < 18) waktu = 'Sore'
-        const fake = await generateImage(saldo, `Selamat ${waktu}, ${nama}`)
+        let saludo = 'Buenas noches'
+        if (h >= 4 && h < 11) saludo = 'Buen dia'
+        else if (h >= 11 && h < 18) saludo = 'Buenas tardes'
+        const fake = await generateImage(saldo, `${saludo}, ${nama}`)
         await sock.sendMedia(m.chat, fake, null, m, {
             type: 'image',
         })

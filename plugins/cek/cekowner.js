@@ -4,8 +4,8 @@ const pluginConfig = {
     name: 'cekowner',
     alias: ['ownerinfo'],
     category: 'cek',
-    description: 'Cek apakah user adalah owner bot',
-    usage: '.cekowner @user',
+    description: 'Comprueba si el usuario es owner del bot',
+    usage: '.cekowner @usuario',
     example: '.cekowner',
     isOwner: false,
     isPremium: true,
@@ -46,19 +46,19 @@ async function handler(m, { sock }) {
     if (isOwnerUser) roles.push('👑 Owner')
     if (isPartnerUser) roles.push('🤝 Partner')
     if (isPremiumUser) roles.push('💎 Premium')
-    if (roles.length === 0) roles.push('👤 Free User')
+    if (roles.length === 0) roles.push('👤 Usuario gratis')
 
     const ownerList = db.data.owner || []
     const isInOwnerDb = ownerList.includes(targetNumber)
 
-    let txt = `📋 *CEK USER INFO*\n\n`
-    txt += `👤 User: @${targetNumber}\n`
-    txt += `🏷️ Role: *${roles.join(' • ')}*\n`
-    txt += `📊 Owner DB: *${isInOwnerDb ? 'Ya' : 'Tidak'}*\n`
+    let txt = `📋 *INFO DEL USUARIO*\n\n`
+    txt += `👤 Usuario: @${targetNumber}\n`
+    txt += `🏷️ Rol: *${roles.join(' • ')}*\n`
+    txt += `📊 Owner DB: *${isInOwnerDb ? 'Si' : 'No'}*\n`
     if (user) {
-        txt += `⚡ Energi: *${user.energi === -1 ? '∞' : (user.energi ?? 0)}*\n`
-        txt += `💰 Koin: *${user.koin === -1 ? '∞' : (user.koin ?? 0).toLocaleString('id-ID')}*\n`
-        txt += `⭐ Level: *${user.level ?? 1}*\n`
+        txt += `⚡ Energia: *${user.energi === -1 ? '∞' : (user.energi ?? 0)}*\n`
+        txt += `💰 Monedas: *${user.koin === -1 ? '∞' : (user.koin ?? 0).toLocaleString('id-ID')}*\n`
+        txt += `⭐ Nivel: *${user.level ?? 1}*\n`
     }
 
     await m.reply(txt, { mentions: [targetJid] })

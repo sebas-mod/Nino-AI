@@ -2,8 +2,8 @@ const pluginConfig = {
     name: 'cekganteng',
     alias: ['ganteng', 'handsome'],
     category: 'cek',
-    description: 'Cek seberapa ganteng kamu',
-    usage: '.cekganteng <nama>',
+    description: 'Comprueba que tan guapo eres',
+    usage: '.cekganteng <nombre>',
     example: '.cekganteng Budi',
     isOwner: false,
     isPremium: false,
@@ -20,23 +20,23 @@ async function handler(m) {
                     
     let desc = ''
     if (percent >= 90) {
-        desc = 'Ganteng maksimal! 😍🔥'
+        desc = 'Guapura maxima! 😍🔥'
     } else if (percent >= 70) {
-        desc = 'Ganteng banget! 😎'
+        desc = 'Muy guapo! 😎'
     } else if (percent >= 50) {
-        desc = 'Lumayan ganteng~ 👍'
+        desc = 'Bastante guapo~ 👍'
     } else if (percent >= 30) {
-        desc = 'Biasa aja sih 😅'
+        desc = 'Bastante normal 😅'
     } else {
-        desc = 'Mungkin inner beauty? 🤭'
+        desc = 'Tal vez belleza interior? 🤭'
     }
     
-    let txt = mentioned === m.sender ? `Hai @${mentioned.split('@')[0]}
+    let txt = mentioned === m.sender ? `Hola @${mentioned.split('@')[0]}
     
-Tingkat kegantengan kamu *${percent}%*
-\`\`\`${desc}\`\`\`` : `Kamu ingin ngecek tingkat kegantengan @${mentioned.split('@')[0]} yak? 
+Tu nivel de guapura es *${percent}%*
+\`\`\`${desc}\`\`\`` : `Quieres comprobar el nivel de guapura de @${mentioned.split('@')[0]} verdad?
     
-Tingkat kegantengan dia sebesar *${percent}%*
+Su nivel de guapura es *${percent}%*
 \`\`\`${desc}\`\`\``
     
     await m.reply(txt, { mentions: [mentioned] })

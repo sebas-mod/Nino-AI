@@ -2,8 +2,8 @@ const pluginConfig = {
     name: 'cekprocastinator',
     alias: ['procrastinator', 'nunda'],
     category: 'cek',
-    description: 'Cek tingkat suka menunda',
-    usage: '.cekprocastinator <nama>',
+    description: 'Comprueba tu nivel de procrastinacion',
+    usage: '.cekprocastinator <nombre>',
     example: '.cekprocastinator Budi',
     isOwner: false,
     isPremium: false,
@@ -19,18 +19,18 @@ async function handler(m) {
     const mentioned = m.mentionedJid[0] || m.sender
                     
     let desc = ''
-    if (percent >= 90) desc = 'Deadline? Besok aja deh~ 😴'
-    else if (percent >= 70) desc = 'Master procrastination! 🦥'
-    else if (percent >= 50) desc = 'Kadang nunda, kadang rajin 😅'
-    else if (percent >= 30) desc = 'Cukup produktif! 💪'
-    else desc = 'Disiplin tinggi! Salut! 🏆'
+    if (percent >= 90) desc = 'Deadline? Mejor manana~ 😴'
+    else if (percent >= 70) desc = 'Maestro de la procrastinacion! 🦥'
+    else if (percent >= 50) desc = 'A veces procrastina, a veces trabaja 😅'
+    else if (percent >= 30) desc = 'Bastante productivo! 💪'
+    else desc = 'Muy disciplinado! Respeto! 🏆'
     
-    let txt = mentioned === m.sender ? `Hai @${mentioned.split('@')[0]}
+    let txt = mentioned === m.sender ? `Hola @${mentioned.split('@')[0]}
     
-Tingkat keprocastinatoran kamu *${percent}%*
-\`\`\`${desc}\`\`\`` : `Kamu ingin ngecek tingkat keprocastinatoran @${mentioned.split('@')[0]} yak? 
+Tu nivel de procrastinacion es *${percent}%*
+\`\`\`${desc}\`\`\`` : `Quieres comprobar el nivel de procrastinacion de @${mentioned.split('@')[0]} verdad?
     
-Tingkat keprocastinatoran dia sebesar *${percent}%*
+Su nivel de procrastinacion es *${percent}%*
 \`\`\`${desc}\`\`\``
     
     await m.reply(txt, { mentions: [mentioned] })

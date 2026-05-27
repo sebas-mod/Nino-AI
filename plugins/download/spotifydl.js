@@ -5,7 +5,7 @@ const pluginConfig = {
   name: "spotifydl",
   alias: ["spdl", "spotify-dl", "spotdl"],
   category: "download",
-  description: "Download lagu dari Spotify",
+  description: "Descargar cancion de Spotify",
   usage: ".spdl <url>",
   example: ".spdl https://open.spotify.com/track/xxx",
   cooldown: 15,
@@ -30,7 +30,7 @@ async function handler(m, { sock }) {
     );
 
   if (!/open\.spotify\.com\/track/i.test(url))
-    return m.reply("❌ URL tidak valid");
+    return m.reply("❌ URL no valida");
 
   m.react("🕕");
 
@@ -46,7 +46,7 @@ async function handler(m, { sock }) {
     );
 
     if (!data?.status || !data?.downloadLink) {
-      throw new Error(data?.message || "Gagal mengambil lagu Spotify");
+      throw new Error(data?.message || "No se pudo obtener la cancion de Spotify");
     }
 
     const artist = formatArtists(data.author);

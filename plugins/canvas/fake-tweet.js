@@ -5,9 +5,9 @@ const pluginConfig = {
   name: "fake-tweet",
   alias: ["ftweet", "tweetfake"],
   category: "canvas",
-  description: "Buat tweet palsu untuk hiburan",
-  usage: ".fake-tweet | nama | username | teks",
-  example: ".fake-tweet | Penguin Torvalds | linux_enjoyer | Just setting up my twttr",
+  description: "Crea un tweet falso para entretenimiento",
+  usage: ".fake-tweet | nombre | usuario | texto",
+  example: ".fake-tweet | Penguin Torvalds | linux_enjoyer | Solo configurando mi twttr",
   cooldown: 15,
   energi: 1,
   isEnabled: true,
@@ -21,9 +21,9 @@ async function handler(m, { sock }) {
   if (!raw || !raw.includes("|")) {
     return m.reply(
       `🐦 *ꜰᴀᴋᴇ ᴛᴡᴇᴇᴛ*\n\n` +
-      `- Buat tweet palsu buat hiburan 😂\n` +
-      `- Format dipisah pakai |\n\n` +
-      `\`${m.prefix}fake-tweet | Nama | Username | Teks tweet\``
+      `- Crea un tweet falso para entretenimiento 😂\n` +
+      `- Separa el formato con |\n\n` +
+      `\`${m.prefix}fake-tweet | Nombre | Usuario | Texto del tweet\``
     );
   }
 
@@ -31,7 +31,7 @@ async function handler(m, { sock }) {
   if (parts.length < 4) {
     return m.reply(
       `🐦 *ꜰᴏʀᴍᴀᴛ ᴋᴜʀᴀɴɢ*\n\n` +
-      `- Butuh: Nama | Username | Teks tweet`
+      `- Necesitas: Nombre | Usuario | Texto del tweet`
     );
   }
 

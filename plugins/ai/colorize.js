@@ -5,8 +5,8 @@ const pluginConfig = {
   name: "colorize",
   alias: ["warnai"],
   category: "ai",
-  description: "Warnai foto hitam-putih jadi berwarna pakai AI",
-  usage: ".colorize (reply gambar)",
+  description: "Colorea fotos en blanco y negro con IA",
+  usage: ".colorize (responde a una imagen)",
   example: ".colorize",
   cooldown: 20,
   energi: 2,
@@ -35,8 +35,8 @@ async function handler(m, { sock }) {
   if (!img) {
     return m.reply(
       `🎨 *ᴄᴏʟᴏʀɪᴢᴇ*\n\n` +
-        `- Ubah foto hitam-putih jadi berwarna 🖼️\n` +
-        `- Reply gambar yang mau diwarnai\n\n` +
+        `- Convierte fotos en blanco y negro a color 🖼️\n` +
+        `- Responde a la imagen que quieres colorear\n\n` +
         `\`${m.prefix}colorize\``,
     );
   }

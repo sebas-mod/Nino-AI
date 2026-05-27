@@ -4,9 +4,9 @@ const pluginConfig = {
   name: "ourinbanana2",
   alias: [],
   category: "ai",
-  description: "Buat gambar dengan AI menggunakan prompt",
+  description: "Crea imágenes con IA usando un prompt",
   usage: ".ourinbanana2 <prompt>",
-  example: ".ourinbanana2 make it anime style",
+  example: ".ourinbanana2 hazlo estilo anime",
   isOwner: false,
   isPremium: false,
   isGroup: false,
@@ -21,8 +21,8 @@ async function handler(m, { sock }) {
   if (!prompt) {
     return m.reply(
       `🍌 *OURIN BANANA SUPER 2*\n\n` +
-        `> Buat gambar dengan AI\n\n` +
-        `\`Contoh: ${m.prefix}ourinbanana2 make a cat\``,
+        `> Crea imágenes con IA\n\n` +
+        `\`Ejemplo: ${m.prefix}ourinbanana2 crea un gato\``,
     );
   }
 
@@ -44,12 +44,12 @@ async function handler(m, { sock }) {
       error?.response?.data?.message ||
       error?.response?.data?.error ||
       error.message ||
-      "Terjadi kesalahan";
-    m.reply(`🍀 *Waduhh, sepertinya ini ada kendala*
+      "Ocurrió un error";
+    m.reply(`🍀 *Vaya, parece que hay un problema*
 
 ${msg}
 
-Silahkan coba lagi nanti, dimohon jangan spam`);
+Inténtalo de nuevo más tarde, por favor no hagas spam`);
   }
 }
 

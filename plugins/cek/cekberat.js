@@ -2,8 +2,8 @@ const pluginConfig = {
     name: 'cekberat',
     alias: ['berat', 'weight'],
     category: 'cek',
-    description: 'Cek berat badan random',
-    usage: '.cekberat <nama>',
+    description: 'Comprueba un peso corporal aleatorio',
+    usage: '.cekberat <nombre>',
     example: '.cekberat Budi',
     isOwner: false,
     isPremium: false,
@@ -20,23 +20,23 @@ async function handler(m) {
     
     let desc = ''
     if (berat >= 90) {
-        desc = 'Big boy/girl! 💪'
+        desc = 'Grande y fuerte! 💪'
     } else if (berat >= 70) {
-        desc = 'Berisi dan sehat! 😊'
+        desc = 'Con cuerpo y saludable! 😊'
     } else if (berat >= 55) {
-        desc = 'Ideal banget! 👍'
+        desc = 'Muy ideal! 👍'
     } else if (berat >= 45) {
-        desc = 'Langsing nih~ 🌸'
+        desc = 'Bien delgado~ 🌸'
     } else {
-        desc = 'Kurus banget, makan yang banyak! 🍔'
+        desc = 'Muy flaco, come mas! 🍔'
     }
     
-    let txt = mentioned === m.sender ? `Hai @${mentioned.split('@')[0]}
+    let txt = mentioned === m.sender ? `Hola @${mentioned.split('@')[0]}
     
-Berat badan kamu *${berat} kg*
-\`\`\`${desc}\`\`\`` : `Kamu ingin ngecek berat badan @${mentioned.split('@')[0]} yak? 
+Tu peso corporal es *${berat} kg*
+\`\`\`${desc}\`\`\`` : `Quieres comprobar el peso corporal de @${mentioned.split('@')[0]} verdad?
     
-Berat badan dia sebesar *${berat} kg*
+Su peso corporal es *${berat} kg*
 \`\`\`${desc}\`\`\``
     
     await m.reply(txt, { mentions: [mentioned] })

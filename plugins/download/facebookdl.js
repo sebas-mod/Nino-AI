@@ -4,7 +4,7 @@ const pluginConfig = {
     name: 'facebookdl',
     alias: ['fbdown', 'fb', 'facebook'],
     category: 'download',
-    description: 'Download video Facebook',
+    description: 'Descargar video de Facebook',
     usage: '.facebookdl <url>',
     example: '.facebookdl https://www.facebook.com/watch?v=xxx',
     isOwner: false,
@@ -23,13 +23,13 @@ async function handler(m, { sock }) {
         return m.reply(
             `⚠️ *ᴄᴀʀᴀ ᴘᴀᴋᴀɪ*\n\n` +
             `> \`${m.prefix}facebookdl <url>\`\n\n` +
-            `> Contoh:\n` +
+            `> Ejemplo:\n` +
             `> \`${m.prefix}fbdown https://www.facebook.com/watch?v=xxx\``
         )
     }
     
     if (!url.match(/facebook\.com|fb\.watch/i)) {
-        return m.reply(`❌ URL tidak valid. Gunakan link Facebook.`)
+        return m.reply(`❌ URL no valida. Usa un enlace de Facebook.`)
     }
     
     await m.react('🕕')
@@ -38,13 +38,13 @@ async function handler(m, { sock }) {
         const data = await fbdown(url)
         
         if (!data?.status) {
-            return m.reply(`❌ Gagal mengambil video. Coba link lain.`)
+            return m.reply(`❌ No se pudo obtener el video. Prueba con otro enlace.`)
         }
         
         const videoUrl = data.HD || data.Normal_video
         
         if (!videoUrl) {
-            return m.reply(`❌ Video tidak ditemukan.`)
+            return m.reply(`❌ Video no encontrado.`)
         }
         
         const quality = data.HD ? 'HD' : 'SD'

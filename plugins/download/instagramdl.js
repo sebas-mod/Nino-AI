@@ -3,7 +3,7 @@ const pluginConfig = {
   name: "instagramdl",
   alias: ["igdl", "ig", "instagram"],
   category: "download",
-  description: "Download video/foto Instagram",
+  description: "Descargar video/foto de Instagram",
   usage: ".instagramdl <url>",
   example: ".instagramdl https://www.instagram.com/reel/xxx",
   isOwner: false,
@@ -32,7 +32,7 @@ async function handler(m, { sock }) {
 
   if (!IG_REGEX.test(url)) {
     return m.reply(
-      `❌ URL tidak valid. Gunakan link Instagram (reel/post/story).`,
+      `❌ URL no valida. Usa un enlace de Instagram (reel/post/story).`,
     );
   }
 
@@ -43,11 +43,11 @@ async function handler(m, { sock }) {
 
     if (!result?.media?.length) {
       await m.react("❌");
-      return m.reply(`❌ Gagal mengambil media. Coba link lain.`);
+      return m.reply(`❌ No se pudo obtener el contenido. Prueba con otro enlace.`);
     }
 
     const isStory = url.includes("/stories/");
-    let caption = `📸 *Instagram ${isStory ? "Story" : "Downloader"}*\n`;
+    let caption = `📸 *Instagram ${isStory ? "Historia" : "Descargador"}*\n`;
     if (result.username && result.username !== "-")
       caption += `👤 @${result.username}\n`;
     if (result.likes && result.likes !== "-") caption += `❤️ ${result.likes}\n`;

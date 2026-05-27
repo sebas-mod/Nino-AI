@@ -5,7 +5,7 @@ const pluginConfig = {
     name: 'ukhty',
     alias: ['ukht'],
     category: 'asupan',
-    description: 'Video ukhty',
+    description: 'Video de ukhty',
     usage: '.ukhty',
     example: '.ukhty',
     isOwner: false,
@@ -35,7 +35,7 @@ async function handler(m, { sock }) {
         
         if (data.length === 0) {
             m.react('❌')
-            return m.reply(`❌ Data tidak tersedia`)
+            return m.reply(`❌ Datos no disponibles`)
         }
         
         const item = data[Math.floor(Math.random() * data.length)]
@@ -47,7 +47,7 @@ async function handler(m, { sock }) {
         
     } catch (error) {
         m.react('❌')
-        m.reply(`❌ *ᴇʀʀᴏʀ*\n\n> Video tidak ditemukan`)
+        m.reply(`❌ *ᴇʀʀᴏʀ*\n\n> Video no encontrado`)
     }
 }
 

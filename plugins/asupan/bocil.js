@@ -6,7 +6,7 @@ const pluginConfig = {
     name: 'bocil',
     alias: ['bocilvid'],
     category: 'asupan',
-    description: 'Video bocil',
+    description: 'Video de bocil',
     usage: '.bocil',
     example: '.bocil',
     isOwner: false,
@@ -36,7 +36,7 @@ async function handler(m, { sock }) {
         
         if (data.length === 0) {
             m.react('❌')
-            return m.reply(`❌ Data tidak tersedia`)
+            return m.reply(`❌ Datos no disponibles`)
         }
         
         const item = data[Math.floor(Math.random() * data.length)]
@@ -48,7 +48,7 @@ async function handler(m, { sock }) {
         
     } catch (error) {
         m.react('❌')
-        m.reply(`❌ *ᴇʀʀᴏʀ*\n\n> Video tidak ditemukan`)
+        m.reply(`❌ *ᴇʀʀᴏʀ*\n\n> Video no encontrado`)
     }
 }
 

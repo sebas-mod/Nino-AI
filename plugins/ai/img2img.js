@@ -6,9 +6,9 @@ const pluginConfig = {
   name: "img2img",
   alias: ["editimg", "nanobanana", "nano", "imgedit"],
   category: "ai",
-  description: "Edit gambar dengan AI menggunakan prompt",
-  usage: ".img2img <prompt> (reply gambar)",
-  example: ".img2img make it anime style",
+  description: "Edita imágenes con IA usando un prompt",
+  usage: ".img2img <prompt> (responde a una imagen)",
+  example: ".img2img hazlo estilo anime",
   isOwner: false,
   isPremium: false,
   isGroup: false,
@@ -24,20 +24,20 @@ async function handler(m, { sock }) {
     m.react("❌");
     return m.reply(
       `🎨 *Image to Image*\n\n` +
-        `Edit gambar pakai AI — tinggal reply gambar + kasih prompt.\n\n` +
-        `*PENGGUNAAN:*\n` +
-        `> *${m.prefix}img2img <prompt>* (reply gambar)\n\n` +
-        `*CONTOH:*\n` +
-        `> *${m.prefix}img2img make it anime style*\n` +
+        `Edita imágenes con IA — tinggal responde a una imagen + kasih prompt.\n\n` +
+        `*USO:*\n` +
+        `> *${m.prefix}img2img <prompt>* (responde a una imagen)\n\n` +
+        `*EJEMPLO:*\n` +
+        `> *${m.prefix}img2img hazlo estilo anime*\n` +
         `> *${m.prefix}img2img ubah jadi lukisan cat minyak*\n\n` +
-        `_Reply gambar dulu, lalu ketik command + prompt_`
+        `_Responde primero a una imagen y luego escribe el comando + prompt_`
     );
   }
 
   const isImage = m.isImage || (m.quoted && m.quoted.isImage);
   if (!isImage) {
     m.react("❌");
-    return m.reply(`🎨 *Image to Image*\n\n> Reply gambar dulu, lalu ketik command + prompt`);
+    return m.reply(`🎨 *Image to Image*\n\n> Responde primero a una imagen y luego escribe el comando + prompt`);
   }
 
   m.react("🕕");
@@ -52,14 +52,14 @@ async function handler(m, { sock }) {
 
     if (!mediaBuffer || !Buffer.isBuffer(mediaBuffer)) {
       m.react("☢");
-      return m.reply(`❌ *Gagal*\n\n> Gagal mengunduh gambar`);
+      return m.reply(`❌ *Falló*\n\n> No se pudo descargar la imagen`);
     }
 
     const result = await Img2Img(prompt, mediaBuffer, `upload_${Date.now()}.png`);
 
     if (!result.status) {
       m.react("☢");
-      return m.reply(`❌ *Edit Gagal*\n\n> ${result.error}`);
+      return m.reply(`❌ *La edición falló*\n\n> ${result.error}`);
     }
 
     await sock.sendMedia(m.chat, result.result?.url || result.result, `🎨 *Image to Image*\n\n> Prompt: *${prompt}*`, m, {

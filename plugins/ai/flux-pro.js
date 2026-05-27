@@ -6,9 +6,9 @@ const pluginConfig = {
   name: "flux-pro",
   alias: ["fluxpro", "flux"],
   category: "ai",
-  description: "Generate atau edit gambar dengan Covenant Flux",
+  description: "Genera o edita imágenes con Covenant Flux",
   usage: ".flux-pro <prompt> --model=flux-dev --ratio=1:1",
-  example: ".flux-pro buat gambar anime --model=flux-dev --ratio=1:1",
+  example: ".flux-pro crea una imagen anime --model=flux-dev --ratio=1:1",
   isOwner: false,
   isPremium: false,
   isGroup: false,
@@ -65,15 +65,15 @@ function buildCaption(result, usage, fallbackPrompt) {
     "",
     `> Model: ${result?.model || "-"}`,
     `> Mode: ${result?.mode || "-"}`,
-    `> Resolusi: ${result?.resolution || "-"}`,
-    `> Cost: ${usage?.cost ?? result?.cost_credits ?? "-"}`,
-    `> Sisa Credit: ${usage?.remaining ?? "-"}`,
+    `> Resolución: ${result?.resolution || "-"}`,
+    `> Costo: ${usage?.cost ?? result?.cost_credits ?? "-"}`,
+    `> Créditos restantes: ${usage?.remaining ?? "-"}`,
     "",
     `> Prompt: ${result?.prompt || fallbackPrompt || "-"}`,
   ];
 
   if (result?.reference_image) {
-    lines.push(`> Reference: ${result.reference_image}`);
+    lines.push(`> Referencia: ${result.reference_image}`);
   }
 
   return lines.join("\n").trim();
@@ -87,15 +87,15 @@ async function handler(m, { sock }) {
   if (!parsed.prompt) {
     return m.reply(
       `🎨 *FLUX PRO*\n\n` +
-        `> Buat atau edit gambar dengan AI\n\n` +
-        `\`Contoh text: ${m.prefix}flux-pro buat gambar anime --model=flux-dev --ratio=1:1\`\n` +
-        `\`Contoh edit: reply gambar + ${m.prefix}flux-pro ubah jadi anime --model=flux-dev --ratio=1:1\`\n\n` +
-        `> Kamu juga bisa pakai \`--url=https://...\``,
+        `> Crea o edita imágenes con IA\n\n` +
+        `\`Ejemplo de texto: ${m.prefix}flux-pro crea una imagen anime --model=flux-dev --ratio=1:1\`\n` +
+        `\`Ejemplo de edición: responde a una imagen + ${m.prefix}flux-pro conviértela en anime --model=flux-dev --ratio=1:1\`\n\n` +
+        `> También puedes usar \`--url=https://...\``,
     );
   }
 
   if (!config.APIkey?.covenant) {
-    return m.reply("❌ API key covenant tidak dikonfigurasi!");
+    return m.reply("❌ La API key de covenant no está configurada.");
   }
 
   m.react("🕕");
@@ -116,7 +116,7 @@ async function handler(m, { sock }) {
       const mediaBuffer = await getImageBuffer(m);
       if (!mediaBuffer || !Buffer.isBuffer(mediaBuffer)) {
         m.react("❌");
-        return m.reply("❌ Gagal mengunduh gambar referensi");
+        return m.reply("❌ No se pudo descargar la imagen de referencia");
       }
       files.push({
         name: "file",
@@ -138,7 +138,7 @@ async function handler(m, { sock }) {
     );
 
     if (!data?.status || !data?.data?.url) {
-      throw new Error(data?.message || "Gagal memproses Flux Pro");
+      throw new Error(data?.message || "No se pudo procesar Flux Pro");
     }
 
     m.react("✅");

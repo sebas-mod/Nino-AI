@@ -5,9 +5,9 @@ const pluginConfig = {
   name: "fake-xnxx",
   alias: ["fxnxx", "xnxxfake"],
   category: "canvas",
-  description: "Buat komentar XNXX palsu buat hiburan",
-  usage: ".fake-xnxx | nama | komentar | likes | dislikes",
-  example: ".fake-xnxx | John Doe | This is a sample comment | 1.2k | 24",
+  description: "Crea un comentario XNXX falso para entretenimiento",
+  usage: ".fake-xnxx | nombre | comentario | likes | dislikes",
+  example: ".fake-xnxx | John Doe | Este es un comentario de ejemplo | 1.2k | 24",
   cooldown: 15,
   energi: 1,
   isEnabled: true,
@@ -21,9 +21,9 @@ async function handler(m, { sock }) {
   if (!raw || !raw.includes("|")) {
     return m.reply(
       `🔞 *ꜰᴀᴋᴇ xɴxxx*\n\n` +
-      `- Buat komentar palsu buat hiburan 😂\n` +
-      `- Format dipisah pakai |\n\n` +
-      `\`${m.prefix}fake-xnxx | Nama | Komentar | Likes | Dislikes\``
+      `- Crea un comentario falso para entretenimiento 😂\n` +
+      `- Separa el formato con |\n\n` +
+      `\`${m.prefix}fake-xnxx | Nombre | Comentario | Likes | Dislikes\``
     );
   }
 
@@ -31,7 +31,7 @@ async function handler(m, { sock }) {
   if (parts.length < 3) {
     return m.reply(
       `🔞 *ꜰᴏʀᴍᴀᴛ ᴋᴜʀᴀɴɢ*\n\n` +
-      `- Butuh: Nama | Komentar | Likes | Dislikes`
+      `- Necesitas: Nombre | Comentario | Likes | Dislikes`
     );
   }
 

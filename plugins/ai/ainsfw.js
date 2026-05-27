@@ -5,9 +5,9 @@ const pluginConfig = {
     name: 'ainsfw',
     alias: ['nsfwai', 'aiimage18'],
     category: 'ai',
-    description: 'Generate AI image (NSFW - 18+)',
+    description: 'Genera imágenes con IA (NSFW - 18+)',
     usage: '.ainsfw <prompt>',
-    example: '.ainsfw beautiful anime girl',
+    example: '.ainsfw chica anime hermosa',
     isOwner: false,
     isPremium: true,
     isGroup: false,
@@ -80,7 +80,7 @@ async function generateNSFW(prompt, options = {}) {
     }
     
     if (!imageUrl) {
-        throw new Error('Timeout atau limit tercapai')
+        throw new Error('Tiempo agotado o límite alcanzado')
     }
     
     return imageUrl
@@ -92,16 +92,16 @@ async function handler(m, { sock }) {
     if (!prompt) {
         return m.reply(
             `🔞 *ᴀɪ ɴsꜰᴡ ɢᴇɴᴇʀᴀᴛᴏʀ*\n\n` +
-            `> Generate gambar AI (18+)\n\n` +
-            `⚠️ *Hanya untuk 18+ dan Private Chat*\n\n` +
-            `> *Contoh:*\n` +
-            `> ${m.prefix}ainsfw beautiful anime girl`
+            `> Genera imágenes con IA (18+)\n\n` +
+            `⚠️ *Solo para mayores de 18 y chat privado*\n\n` +
+            `> *Ejemplo:*\n` +
+            `> ${m.prefix}ainsfw chica anime hermosa`
         )
     }
     await m.react('🕕')
     try {
         const imageUrl = await generateNSFW(prompt)
-        await sock.sendMedia(m.chat, imageUrl, `🔞 *DONE BANG*`, m, {
+        await sock.sendMedia(m.chat, imageUrl, `🔞 *LISTO*`, m, {
             type: 'image'
         })
         await m.react('✅')

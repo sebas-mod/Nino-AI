@@ -2,8 +2,8 @@ const pluginConfig = {
     name: 'cekkpopers',
     alias: ['kpopers', 'kpop'],
     category: 'cek',
-    description: 'Cek tingkat kpopers kamu',
-    usage: '.cekkpopers <nama>',
+    description: 'Comprueba tu nivel de fan del K-pop',
+    usage: '.cekkpopers <nombre>',
     example: '.cekkpopers Budi',
     isOwner: false,
     isPremium: false,
@@ -19,18 +19,18 @@ async function handler(m) {
     const mentioned = m.mentionedJid[0] || m.sender
                     
     let desc = ''
-    if (percent >= 90) desc = 'ARMY/BLINK level max! 💜💗'
-    else if (percent >= 70) desc = 'Stan berat nih! 🎤'
-    else if (percent >= 50) desc = 'Casual listener~ 🎵'
-    else if (percent >= 30) desc = 'Tau dikit-dikit aja 😅'
-    else desc = 'Bukan kpopers 🤷'
+    if (percent >= 90) desc = 'ARMY/BLINK nivel maximo! 💜💗'
+    else if (percent >= 70) desc = 'Fan intenso! 🎤'
+    else if (percent >= 50) desc = 'Oyente casual~ 🎵'
+    else if (percent >= 30) desc = 'Solo sabes un poco 😅'
+    else desc = 'No es fan del K-pop 🤷'
     
-    let txt = mentioned === m.sender ? `Hai @${mentioned.split('@')[0]}
+    let txt = mentioned === m.sender ? `Hola @${mentioned.split('@')[0]}
     
-Tingkat kekpopersan kamu *${percent}%*
-\`\`\`${desc}\`\`\`` : `Kamu ingin ngecek tingkat kekpopersan @${mentioned.split('@')[0]} yak? 
+Tu nivel de fan del K-pop es *${percent}%*
+\`\`\`${desc}\`\`\`` : `Quieres comprobar el nivel de fan del K-pop de @${mentioned.split('@')[0]} verdad?
     
-Tingkat kekpopersan dia sebesar *${percent}%*
+Su nivel de fan del K-pop es *${percent}%*
 \`\`\`${desc}\`\`\``
     
     await m.reply(txt, { mentions: [mentioned] })

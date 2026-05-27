@@ -10,8 +10,8 @@ const pluginConfig = {
   name: "faceswap",
   alias: ["fs", "swapface"],
   category: "ai",
-  description: "Tukar wajah dari 2 gambar",
-  usage: ".faceswap (kirim/reply 2 gambar)",
+  description: "Intercambia rostros entre 2 imágenes",
+  usage: ".faceswap (envía/responde 2 imágenes)",
   example: ".faceswap",
   cooldown: 30,
   energi: 2,
@@ -36,7 +36,7 @@ async function uploadTo0x0(buffer, filename) {
     },
   );
 
-  if (!res.data?.status ? res.data.path : "") throw new Error("Upload gagal");
+  if (!res.data?.status ? res.data.path : "") throw new Error("La subida falló");
   return res.data;
 }
 
@@ -71,12 +71,12 @@ async function handler(m, { sock }) {
     if (!imageBuffer) {
       return m.reply(
         `🔄 *ꜰᴀᴄᴇsᴡᴀᴘ*\n\n` +
-          `> Tukar wajah dari 2 gambar\n\n` +
+          `> Intercambia rostros entre 2 imágenes\n\n` +
           `╭┈┈⬡「 📋 *ᴄᴀʀᴀ ᴘᴀᴋᴀɪ* 」\n` +
-          `┃ 1. Kirim gambar pertama (wajah sumber)\n` +
-          `┃ 2. Kirim gambar kedua (target)\n` +
+          `┃ 1. Envía la primera imagen (rostro de origen)\n` +
+          `┃ 2. Envía la segunda imagen (destino)\n` +
           `╰┈┈┈┈┈┈┈┈⬡\n\n` +
-          `> Kirim gambar pertama + caption \`${m.prefix}faceswap\``,
+          `> Envía la primera imagen + caption \`${m.prefix}faceswap\``,
       );
     }
 
@@ -95,16 +95,16 @@ async function handler(m, { sock }) {
 
     return m.reply(
       `✅ *ɢᴀᴍʙᴀʀ 1 ᴅɪsɪᴍᴘᴀɴ*\n\n` +
-        `> Sekarang kirim gambar kedua (target)\n` +
-        `> dengan caption \`${m.prefix}faceswap\`\n\n` +
-        `> ⏱️ Session berlaku 5 menit`,
+        `> Ahora envía la segunda imagen (destino)\n` +
+        `> con caption \`${m.prefix}faceswap\`\n\n` +
+        `> ⏱️ La sesión dura 5 minutos`,
     );
   }
 
   if (!imageBuffer) {
     return m.reply(
       `⚠️ *ᴋɪʀɪᴍ ɢᴀᴍʙᴀʀ ᴋᴇᴅᴜᴀ*\n\n` +
-        `> Kirim gambar kedua (target) + caption \`${m.prefix}faceswap\``,
+        `> Envía la segunda imagen (destino) + caption \`${m.prefix}faceswap\``,
     );
   }
 
@@ -113,7 +113,7 @@ async function handler(m, { sock }) {
   try {
     const targetUrl = await uploadTo0x0(imageBuffer, "target.jpg");
 
-    await m.reply("🔄 *ᴍᴇᴍᴘʀᴏsᴇs...*\n\n> Menukar wajah, tunggu sebentar...");
+    await m.reply("🔄 *ᴍᴇᴍᴘʀᴏsᴇs...*\n\n> Intercambiando rostros, espera un momento...");
 
     const apiUrl = `https://api.neoxr.eu/api/faceswap?source=${encodeURIComponent(session.sourceUrl)}&target=${encodeURIComponent(targetUrl)}&apikey=${NEOXR_APIKEY}`;
 
@@ -123,7 +123,7 @@ async function handler(m, { sock }) {
 
     if (!data?.status || !data?.data?.url) {
       m.react("❌");
-      return m.reply("❌ *ɢᴀɢᴀʟ*\n\n> API tidak merespon atau error");
+      return m.reply("❌ *ɢᴀɢᴀʟ*\n\n> La API no responde o devolvió un error");
     }
 
     await sock.sendMedia(m.chat, data.data.url, null, m, {

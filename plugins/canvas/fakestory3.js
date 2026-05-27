@@ -8,9 +8,9 @@ const pluginConfig = {
   name: "fakestory3",
   alias: ["fstory3", "igstory3", "quotestory"],
   category: "canvas",
-  description: "Fake Instagram story dengan text overlay",
-  usage: ".fakestory3 <nama>|<text1>|<text2>",
-  example: ".fakestory3 Misaki|Tersenyumlah|untuk menutupi kesedihan",
+  description: "Historia falsa de Instagram con texto superpuesto",
+  usage: ".fakestory3 <nombre>|<texto1>|<texto2>",
+  example: ".fakestory3 Misaki|Sonrie|para ocultar la tristeza",
   isOwner: false,
   isPremium: false,
   isGroup: false,
@@ -238,17 +238,17 @@ async function getAvatarBuffer(sock, jid) {
   if (fs.existsSync(DEFAULT_PP_PATH)) {
     return fs.readFileSync(DEFAULT_PP_PATH);
   }
-  throw new Error("Tidak dapat mengambil foto profil");
+  throw new Error("No se pudo obtener la foto de perfil");
 }
 async function handler(m, { sock }) {
   const input = m.args.join(" ");
   if (!input || !input.includes("|")) {
     return m.reply(
       `📷 *ꜰᴀᴋᴇ sᴛᴏʀʏ 3*\n\n` +
-        `> Reply gambar dengan format:\n` +
-        `> \`${m.prefix}fakestory3 nama|text1|text2\`\n\n` +
-        `> Contoh:\n` +
-        `> \`${m.prefix}fakestory3 Misaki|Tersenyumlah|untuk menutupi kesedihan\``,
+        `> Responde a una imagen con el formato:\n` +
+        `> \`${m.prefix}fakestory3 nombre|texto1|texto2\`\n\n` +
+        `> Ejemplo:\n` +
+        `> \`${m.prefix}fakestory3 Misaki|Sonrie|para ocultar la tristeza\``,
     );
   }
   const parts = input.split("|").map((s) => s.trim());
@@ -261,7 +261,7 @@ async function handler(m, { sock }) {
     const isImage = m.isImage || (m.quoted && m.quoted.isImage);
     if (!isImage) {
       m.react("❌");
-      return m.reply(`❌ *ɢᴀɢᴀʟ*\n\n> Reply gambar untuk membuat fake story!`);
+      return m.reply(`❌ *ɢᴀɢᴀʟ*\n\n> Responde a una imagen para crear una historia falsa!`);
     }
     let imageBuffer;
     if (m.isImage && m.download) {
@@ -271,7 +271,7 @@ async function handler(m, { sock }) {
     }
     if (!imageBuffer) {
       m.react("❌");
-      return m.reply(`❌ *ɢᴀɢᴀʟ*\n\n> Tidak bisa download gambar`);
+      return m.reply(`❌ *ɢᴀɢᴀʟ*\n\n> No se pudo descargar la imagen`);
     }
     const resultBuffer = await createFakeStory(
       username,
@@ -285,7 +285,7 @@ async function handler(m, { sock }) {
       m.chat,
       {
         image: resultBuffer,
-        caption: `📷 *ꜰᴀᴋᴇ sᴛᴏʀʏ*\n\n> ᴜsᴇʀɴᴀᴍᴇ: \`${username}\``,
+        caption: `📷 *ꜰᴀᴋᴇ sᴛᴏʀʏ*\n\n> ᴜsᴜᴀʀɪᴏ: \`${username}\``,
       },
       { quoted: m },
     );

@@ -4,7 +4,7 @@ const pluginConfig = {
     name: 'likeedl',
     alias: ['lkdl', 'likee', 'lk'],
     category: 'download',
-    description: 'Download video Likee',
+    description: 'Descargar video de Likee',
     usage: '.lkdl <url>',
     example: '.lkdl https://likee.video/@xxx',
     isOwner: false,
@@ -23,13 +23,13 @@ async function handler(m, { sock }) {
         return m.reply(
             `⚠️ *ᴄᴀʀᴀ ᴘᴀᴋᴀɪ*\n\n` +
             `> \`${m.prefix}lkdl <url>\`\n\n` +
-            `> Contoh:\n` +
+            `> Ejemplo:\n` +
             `> \`${m.prefix}lkdl https://likee.video/@xxx\``
         )
     }
     
     if (!url.match(/likee\.(video|com)/i)) {
-        return m.reply(`❌ URL tidak valid. Gunakan link Likee.`)
+        return m.reply(`❌ URL no valida. Usa un enlace de Likee.`)
     }
     
     await m.react('🕕')
@@ -38,13 +38,13 @@ async function handler(m, { sock }) {
         const data = await likee(url)
         
         if (!data) {
-            return m.reply(`❌ Gagal mengambil video. Coba link lain.`)
+            return m.reply(`❌ No se pudo obtener el video. Prueba con otro enlace.`)
         }
         
         const videoUrl = data.without_watermark || data.with_watermark
         
         if (!videoUrl) {
-            return m.reply(`❌ Video tidak ditemukan.`)
+            return m.reply(`❌ Video no encontrado.`)
         }
         
         await sock.sendMedia(m.chat, videoUrl, null, m, {

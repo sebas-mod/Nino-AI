@@ -3,7 +3,7 @@ const pluginConfig = {
     name: 'clankick',
     alias: ['kickclan'],
     category: 'clan',
-    description: 'Kick member dari clan (leader only)',
+    description: 'Expulsa un miembro del clan (solo líder)',
     usage: '.clankick @user',
     example: '.clankick @user',
     isOwner: false,
@@ -19,24 +19,24 @@ async function handler(m) {
     const db = getDatabase()
     const user = db.getUser(m.sender)
 
-    if (!user?.clanId) return m.reply(`❌ Kamu belum punya clan`)
+    if (!user?.clanId) return m.reply(`❌ No tienes un clan`)
     if (!db.db.data.clans) db.db.data.clans = {}
 
     const clan = db.db.data.clans[user.clanId]
-    if (!clan) return m.reply(`❌ Clan tidak ditemukan`)
-    if (clan.leader !== m.sender) return m.reply(`❌ Hanya leader yang bisa kick`)
+    if (!clan) return m.reply(`❌ Clan no encontrado`)
+    if (clan.leader !== m.sender) return m.reply(`❌ Solo el líder puede expulsar`)
 
     const target = m.mentionedJid?.[0] || m.quoted?.sender
     if (!target) {
         return m.reply(
-            `👢 *CLAN KICK*\n\n` +
-            `Tag atau reply member yang mau dikeluarkan\n\n` +
-            `Contoh: *.clankick @user*`
+            `👢 *EXPULSAR DEL CLAN*\n\n` +
+            `Etiqueta o responde al miembro que quieres expulsar\n\n` +
+            `Ejemplo: *.clankick @user*`
         )
     }
 
-    if (target === m.sender) return m.reply(`❌ Tidak bisa kick diri sendiri`)
-    if (!clan.members.includes(target)) return m.reply(`❌ User bukan member clan ini`)
+    if (target === m.sender) return m.reply(`❌ No puedes expulsarte a ti mismo`)
+    if (!clan.members.includes(target)) return m.reply(`❌ Ese usuario no es miembro de este clan`)
 
     clan.members = clan.members.filter(jid => jid !== target)
     db.setUser(target, { clanId: null })
@@ -45,9 +45,9 @@ async function handler(m) {
     const emblem = clan.emblem || '🏰'
 
     await m.reply(
-        `${emblem} *KICKED*\n\n` +
-        `@${target.split('@')[0]} dikeluarkan dari *${clan.name}*\n` +
-        `Sisa members: ${clan.members.length}/50`,
+        `${emblem} *EXPULSADO*\n\n` +
+        `@${target.split('@')[0]} fue expulsado de *${clan.name}*\n` +
+        `Miembros restantes: ${clan.members.length}/50`,
         { mentions: [target] }
     )
 }

@@ -6,9 +6,9 @@ const pluginConfig = {
   name: "feelbetter",
   alias: ["fb", "feelbetterbot", "healing"],
   category: "ai",
-  description: "Chat dengan FeelBetterBot — AI yang siap mendengarkan tanpa menghakimi",
-  usage: ".feelbetter <curhat/pertanyaan>",
-  example: ".feelbetter lagi sedih nih",
+  description: "Chat con FeelBetterBot — IA lista para escuchar sin juzgar",
+  usage: ".feelbetter <desahogo/pregunta>",
+  example: ".feelbetter estoy triste",
   isOwner: false,
   isPremium: false,
   isGroup: false,
@@ -23,13 +23,13 @@ async function handler(m, { sock }) {
   if (!text) {
     return m.reply(
       `💚 *FeelBetterBot*\n\n` +
-        `AI yang siap mendengarkan curhatan kamu — tanpa menghakimi, dengan hangat dan empatik.\n\n` +
-        `*PENGGUNAAN:*\n` +
-        `> *${m.prefix}feelbetter <curhatan>*\n\n` +
-        `*CONTOH:*\n` +
+        `IA lista para escuchar lo que quieras contar — sin juzgar, con calidez y empatía.\n\n` +
+        `*USO:*\n` +
+        `> *${m.prefix}feelbetter <desahogo>*\n\n` +
+        `*EJEMPLO:*\n` +
         `> *${m.prefix}feelbetter lagi sedih nih*\n` +
-        `> *${m.prefix}feelbetter aku capek banget belakangan*\n\n` +
-        `_Bot ini bukan pengganti profesional, tapi bisa jadi tempat curhat yang aman_`
+        `> *${m.prefix}feelbetter últimamente estoy muy cansado*\n\n` +
+        `_Este bot no reemplaza a un profesional, pero puede ser un espacio seguro para desahogarte_`
     );
   }
 
@@ -41,7 +41,7 @@ async function handler(m, { sock }) {
     if (!result.status) {
       await m.react("☢");
       return m.reply(
-        `❌ *FeelBetter Gagal*\n\n> ${result.error || "Gagal mendapatkan respons"}`
+        `❌ *FeelBetter falló*\n\n> ${result.error || "No se pudo obtener respuesta"}`
       );
     }
 

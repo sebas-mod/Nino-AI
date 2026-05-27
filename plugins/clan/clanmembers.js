@@ -3,7 +3,7 @@ const pluginConfig = {
     name: 'clanmembers',
     alias: ['clanmember', 'guildmembers'],
     category: 'clan',
-    description: 'Lihat daftar member clan',
+    description: 'Mira la lista de miembros del clan',
     usage: '.clanmembers',
     example: '.clanmembers',
     isOwner: false,
@@ -19,11 +19,11 @@ async function handler(m) {
     const db = getDatabase()
     const user = db.getUser(m.sender)
 
-    if (!user?.clanId) return m.reply(`❌ Kamu belum punya clan`)
+    if (!user?.clanId) return m.reply(`❌ No tienes un clan`)
     if (!db.db.data.clans) db.db.data.clans = {}
 
     const clan = db.db.data.clans[user.clanId]
-    if (!clan) return m.reply(`❌ Clan tidak ditemukan`)
+    if (!clan) return m.reply(`❌ Clan no encontrado`)
 
     const emblem = clan.emblem || '🏰'
     const mentions = []
@@ -36,13 +36,13 @@ async function handler(m) {
         mentions.push(jid)
 
         const role = isLeader ? '👑' : '•'
-        return `${role} @${jid.split('@')[0]}  Lv.${level} · Rp ${koin}`
+        return `${role} @${jid.split('@')[0]}  Nv.${level} · Rp ${koin}`
     })
 
     await m.reply(
-        `${emblem} *${clan.name}* — Members\n\n` +
+        `${emblem} *${clan.name}* — Miembros\n\n` +
         memberLines.join('\n') +
-        `\n\n${clan.members.length}/50 members`,
+        `\n\n${clan.members.length}/50 miembros`,
         { mentions }
     )
 }

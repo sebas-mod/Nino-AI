@@ -8,8 +8,8 @@ const pluginConfig = {
   name: "cekfemboy",
   alias: ["femboy"],
   category: "cek",
-  description: "Cek seberapa femboy kamu",
-  usage: ".cekfemboy <nama>",
+  description: "Comprueba que tan femboy eres",
+  usage: ".cekfemboy <nombre>",
   example: ".cekfemboy Budi",
   isOwner: false,
   isPremium: false,
@@ -33,7 +33,7 @@ async function convertGifToMp4(buffer) {
     await queueFFmpeg(
       `ffmpeg -y -ignore_loop 0 -i "${gifPath}" -t 30 -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2" -c:v libx264 -pix_fmt yuv420p -movflags faststart -preset ultrafast -an "${mp4Path}"`,
     );
-    if (!fs.existsSync(mp4Path)) throw new Error("Gagal convert GIF");
+    if (!fs.existsSync(mp4Path)) throw new Error("No se pudo convertir el GIF");
     return fs.readFileSync(mp4Path);
   } finally {
     try {
@@ -50,7 +50,7 @@ async function handler(m, { sock }) {
   const inputName = m.text?.trim();
   const nama =
     mentioned === m.sender
-      ? inputName || m.pushName || "Kamu"
+      ? inputName || m.pushName || "Tu"
       : `@${mentioned.split("@")[0]}`;
 
   try {
@@ -70,10 +70,10 @@ async function handler(m, { sock }) {
 
     let txt =
       mentioned === m.sender
-        ? `Hai @${mentioned.split("@")[0]}
+        ? `Hola @${mentioned.split("@")[0]}
 
 ${result.hasil}`
-        : `Kamu ingin ngecek tingkat kefemboyan @${mentioned.split("@")[0]} yak? 
+        : `Quieres comprobar el nivel femboy de @${mentioned.split("@")[0]} verdad?
 
 ${result.hasil}`;
 

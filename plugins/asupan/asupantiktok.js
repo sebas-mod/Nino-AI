@@ -6,7 +6,7 @@ const pluginConfig = {
   name: "asupantiktok",
   alias: ["tiktokasupan", "ttasupan"],
   category: "asupan",
-  description: "Video TikTok dari username random atau spesifik",
+  description: "Video de TikTok de un usuario aleatorio o especificado",
   usage: ".asupantiktok [username]",
   example: ".asupantiktok natajadeh",
   isOwner: false,
@@ -93,7 +93,7 @@ async function handler(m, { sock }) {
 
     if (!data) {
       m.react("❌");
-      return m.reply(`🚩 *Username Tidak Ditemukan*\n\n> Username: ${query}`);
+      return m.reply(`🚩 *Usuario no encontrado*\n\n> Usuario: ${query}`);
     }
 
     const video = data;
@@ -108,7 +108,7 @@ async function handler(m, { sock }) {
     });
   } catch (error) {
     m.react("❌");
-    m.reply(`🚩 *Username Tidak Ditemukan*\n\n> Username: ${query}`);
+    m.reply(`🚩 *Usuario no encontrado*\n\n> Usuario: ${query}`);
   }
 }
 

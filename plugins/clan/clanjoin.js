@@ -3,8 +3,8 @@ const pluginConfig = {
     name: 'clanjoin',
     alias: ['joinclan', 'guildjoin'],
     category: 'clan',
-    description: 'Gabung ke clan',
-    usage: '.clanjoin <clan_id>',
+    description: 'Únete a un clan',
+    usage: '.clanjoin <id_clan>',
     example: '.clanjoin clan_123456',
     isOwner: false,
     isPremium: false,
@@ -24,15 +24,15 @@ async function handler(m) {
 
     if (!clanId) {
         return m.reply(
-            `🏰 *JOIN CLAN*\n\n` +
-            `Masukkan ID clan!\n\n` +
-            `Contoh: *.clanjoin clan_123456*\n` +
-            `Cek ID: *.clanleaderboard*`
+            `🏰 *UNIRSE AL CLAN*\n\n` +
+            `Ingresa el ID del clan!\n\n` +
+            `Ejemplo: *.clanjoin clan_123456*\n` +
+            `Ver ID: *.clanleaderboard*`
         )
     }
 
     if (user.clanId) {
-        return m.reply(`❌ Kamu sudah punya clan\nKeluar dulu: *.clanleave*`)
+        return m.reply(`❌ Ya tienes un clan\nSal primero: *.clanleave*`)
     }
 
     if (!db.db.data.clans) db.db.data.clans = {}
@@ -40,9 +40,9 @@ async function handler(m) {
     const clan = db.db.data.clans[clanId]
         || Object.values(db.db.data.clans).find(c => c.name.toLowerCase() === clanId.toLowerCase())
         || Object.values(db.db.data.clans).find(c => c.id.toLowerCase() === clanId.toLowerCase())
-    if (!clan) return m.reply(`❌ Clan tidak ditemukan`)
-    if (!clan.isOpen) return m.reply(`❌ *${clan.name}* sedang tertutup`)
-    if (clan.members.length >= MAX_MEMBERS) return m.reply(`❌ *${clan.name}* sudah penuh (${MAX_MEMBERS}/${MAX_MEMBERS})`)
+    if (!clan) return m.reply(`❌ Clan no encontrado`)
+    if (!clan.isOpen) return m.reply(`❌ *${clan.name}* está cerrado`)
+    if (clan.members.length >= MAX_MEMBERS) return m.reply(`❌ *${clan.name}* está lleno (${MAX_MEMBERS}/${MAX_MEMBERS})`)
 
     clan.members.push(m.sender)
     db.setUser(m.sender, { clanId })
@@ -51,11 +51,11 @@ async function handler(m) {
     const emblem = clan.emblem || '🏰'
 
     await m.reply(
-        `${emblem} *WELCOME!*\n\n` +
-        `@${m.sender.split('@')[0]} bergabung ke *${clan.name}*\n\n` +
-        `Leader: @${clan.leader.split('@')[0]}\n` +
-        `Members: ${clan.members.length}/${MAX_MEMBERS}\n\n` +
-        `Lihat info: *.claninfo*`,
+        `${emblem} *BIENVENIDO!*\n\n` +
+        `@${m.sender.split('@')[0]} se unió a *${clan.name}*\n\n` +
+        `Líder: @${clan.leader.split('@')[0]}\n` +
+        `Miembros: ${clan.members.length}/${MAX_MEMBERS}\n\n` +
+        `Ver info: *.claninfo*`,
         { mentions: [m.sender, clan.leader] }
     )
 }

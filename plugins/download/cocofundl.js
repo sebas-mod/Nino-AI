@@ -4,7 +4,7 @@ const pluginConfig = {
     name: 'cocofundl',
     alias: ['cfdl', 'cocofun', 'cf'],
     category: 'download',
-    description: 'Download video CocoFun',
+    description: 'Descargar video de CocoFun',
     usage: '.cfdl <url>',
     example: '.cfdl https://www.cocofun.com/share/post/xxx',
     isOwner: false,
@@ -23,13 +23,13 @@ async function handler(m, { sock }) {
         return m.reply(
             `⚠️ *ᴄᴀʀᴀ ᴘᴀᴋᴀɪ*\n\n` +
             `> \`${m.prefix}cfdl <url>\`\n\n` +
-            `> Contoh:\n` +
+            `> Ejemplo:\n` +
             `> \`${m.prefix}cfdl https://www.cocofun.com/share/post/xxx\``
         )
     }
     
     if (!url.match(/cocofun\.com/i)) {
-        return m.reply(`❌ URL tidak valid. Gunakan link CocoFun.`)
+        return m.reply(`❌ URL no valida. Usa un enlace de CocoFun.`)
     }
     
     await m.react('🕕')
@@ -38,14 +38,14 @@ async function handler(m, { sock }) {
         const data = await cocofun(url)
         
         if (!data?.status || !data?.result) {
-            return m.reply(`❌ Gagal mengambil video. Coba link lain.`)
+            return m.reply(`❌ No se pudo obtener el video. Prueba con otro enlace.`)
         }
         
         const result = data.result
         const videoUrl = result.no_watermark || result.watermark
         
         if (!videoUrl) {
-            return m.reply(`❌ Video tidak ditemukan.`)
+            return m.reply(`❌ Video no encontrado.`)
         }
         
         await sock.sendMedia(m.chat, videoUrl, null, m, {

@@ -6,9 +6,9 @@ const pluginConfig = {
   name: "qwen3",
   alias: ["qwen", "qw3"],
   category: "ai",
-  description: "Chat dengan Qwen3 80B via OverChat",
-  usage: ".qwen3 <pertanyaan>",
-  example: ".qwen3 Apa itu machine learning?",
+  description: "Chat con Qwen3 80B vía OverChat",
+  usage: ".qwen3 <pregunta>",
+  example: ".qwen3 ¿Qué es machine learning?",
   isOwner: false,
   isPremium: false,
   isGroup: false,
@@ -23,13 +23,13 @@ async function handler(m, { sock }) {
   if (!text) {
     return m.reply(
       `🔵 *Qwen3 80B*\n\n` +
-        `Tanya apa aja ke AI Qwen3 — model besar dari Alibaba yang jago bahasa apa aja.\n\n` +
-        `*PENGGUNAAN:*\n` +
-        `> *${m.prefix}qwen3 <pertanyaan>*\n\n` +
-        `*CONTOH:*\n` +
+        `Pregúntale cualquier cosa a Qwen3 — un modelo grande de Alibaba que domina varios idiomas.\n\n` +
+        `*USO:*\n` +
+        `> *${m.prefix}qwen3 <pregunta>*\n\n` +
+        `*EJEMPLO:*\n` +
         `> *${m.prefix}qwen3 Apa itu machine learning?*\n` +
-        `> *${m.prefix}qwen3 Buat resep masakan Indonesia*\n\n` +
-        `_Model 80B, jadi agak lama tapi jawabannya mantap_`
+        `> *${m.prefix}qwen3 Crea una receta de comida indonesia*\n\n` +
+        `_Modelo 80B, puede tardar un poco pero responde muy bien_`
     );
   }
 
@@ -41,7 +41,7 @@ async function handler(m, { sock }) {
     if (!result.status) {
       await m.react("☢");
       return m.reply(
-        `❌ *Qwen3 Gagal*\n\n> ${result.error || "Gagal mendapatkan respons"}`
+        `❌ *Qwen3 falló*\n\n> ${result.error || "No se pudo obtener respuesta"}`
       );
     }
 

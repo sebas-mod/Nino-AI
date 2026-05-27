@@ -105,7 +105,7 @@ const pluginConfig = {
   name: ["tiktok", "tt", "ttmp4"],
   alias: ["tiktokdl", "ttdown"],
   category: "download",
-  description: "Download video/slide TikTok tanpa watermark",
+  description: "Descargar video/slide de TikTok sin marca de agua",
   usage: ".tiktok <url>",
   example: ".tiktok https://vt.tiktok.com/xxx",
   isOwner: false,
@@ -124,7 +124,7 @@ async function handler(m, { sock }) {
   if (!text) {
     m.react("❌");
     return m.reply(
-      `📌 Contoh: *${prefix + command} https://vt.tiktok.com/...*`,
+      `📌 Ejemplo: *${prefix + command} https://vt.tiktok.com/...*`,
     );
   }
   m.react("🕕");
@@ -151,13 +151,13 @@ async function handler(m, { sock }) {
         m.chat,
         {
           footer:
-            "> 🌿 Mau dapetin audio nya juga? kalau mau bisa tekan tombol dibawah",
+            "> 🌿 Tambien quieres el audio? Si lo quieres, toca el boton de abajo",
           text: "",
           interactiveButtons: [
             {
               name: "quick_reply",
               buttonParamsJson: JSON.stringify({
-                title: "📩 Unduh Audionya",
+                title: "📩 Descargar audio",
                 id: `${m.prefix}ttmp3 ${text}`,
               }),
             },
@@ -181,7 +181,7 @@ async function handler(m, { sock }) {
   } catch (e) {
     console.error(e);
     m.react("❌");
-    m.reply("Coba lagi nanti, atau bisa coba " + m.prefix + "tt2");
+    m.reply("Intenta de nuevo mas tarde, o prueba con " + m.prefix + "tt2");
   }
 }
 

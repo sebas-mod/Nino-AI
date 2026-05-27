@@ -6,9 +6,9 @@ const pluginConfig = {
     name: 'iqc',
     alias: ['iqchat', 'iphonechat'],
     category: 'canvas',
-    description: 'Membuat gambar chat iPhone style',
-    usage: '.iqc <text>',
-    example: '.iqc Hai cantik',
+    description: 'Crea una imagen de chat estilo iPhone',
+    usage: '.iqc <texto>',
+    example: '.iqc Hola linda',
     isOwner: false,
     isPremium: false,
     isGroup: false,
@@ -21,7 +21,7 @@ const pluginConfig = {
 async function handler(m, { sock }) {
     const text = m.args.join(' ')
     if (!text) {
-        return m.reply(`📱 *ɪǫᴄ ᴄʜᴀᴛ*\n\n> Masukkan teks untuk chat\n\n\`Contoh: ${m.prefix}iqc Hai cantik\``)
+        return m.reply(`📱 *ɪǫᴄ ᴄʜᴀᴛ*\n\n> Ingresa texto para el chat\n\n\`Ejemplo: ${m.prefix}iqc Hola linda\``)
     }
     
     m.react('🕕')

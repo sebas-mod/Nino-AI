@@ -6,7 +6,7 @@ const pluginConfig = {
     name: 'githubdl',
     alias: ['gitdl', 'gitclone', 'repodownload'],
     category: 'download',
-    description: 'Download repository GitHub sebagai ZIP',
+    description: 'Descargar repositorio de GitHub como ZIP',
     usage: '.githubdl <user> <repo> <branch>',
     example: '.githubdl niceplugin NiceBot main',
     isOwner: false,
@@ -39,14 +39,14 @@ async function handler(m, { sock }) {
         return m.reply(
             `⚠️ *ᴄᴀʀᴀ ᴘᴀᴋᴀɪ*\n\n` +
             `> \`${m.prefix}githubdl <user> <repo> <branch>\`\n\n` +
-            `> Contoh:\n` +
+            `> Ejemplo:\n` +
             `> \`${m.prefix}githubdl niceplugin NiceBot main\`\n` +
             `> \`${m.prefix}githubdl https://github.com/user/repo\``
         )
     }
     
     if (!repo) {
-        return m.reply(`❌ *ʀᴇᴘᴏ ᴅɪʙᴜᴛᴜʜᴋᴀɴ*\n\n> Masukkan nama repository`)
+        return m.reply(`❌ *ʀᴇᴘᴏ ᴅɪʙᴜᴛᴜʜᴋᴀɴ*\n\n> Ingresa el nombre del repositorio`)
     }
     
     await m.react('🕕')
@@ -56,7 +56,7 @@ async function handler(m, { sock }) {
         
         if (!repoInfo.ok) {
             await m.react('❌')
-            return m.reply(`❌ *ʀᴇᴘᴏ ᴛɪᴅᴀᴋ ᴅɪᴛᴇᴍᴜᴋᴀɴ*\n\n> \`${username}/${repo}\` tidak ada`)
+            return m.reply(`❌ *ʀᴇᴘᴏ ᴛɪᴅᴀᴋ ᴅɪᴛᴇᴍᴜᴋᴀɴ*\n\n> \`${username}/${repo}\` no existe`)
         }
         
         const repoData = await repoInfo.json()
@@ -68,12 +68,12 @@ async function handler(m, { sock }) {
         const checkRes = await fetch(zipUrl, { method: 'HEAD' })
         if (!checkRes.ok) {
             await m.react('❌')
-            return m.reply(`❌ *ʙʀᴀɴᴄʜ ᴛɪᴅᴀᴋ ᴀᴅᴀ*\n\n> Branch \`${branch}\` tidak ditemukan\n> Default: \`${defaultBranch}\``)
+            return m.reply(`❌ *ʙʀᴀɴᴄʜ ᴛɪᴅᴀᴋ ᴀᴅᴀ*\n\n> Rama \`${branch}\` no encontrada\n> Predeterminada: \`${defaultBranch}\``)
         }
         
         await sock.sendMedia(m.chat, zipUrl, null, m, {
             type: 'document',
-            fileName: `${repo} - Branch: ${branch}.zip`,
+            fileName: `${repo} - Rama: ${branch}.zip`,
             mimetype: 'application/zip',
             contextInfo: {
                 forwardingScore: 99,

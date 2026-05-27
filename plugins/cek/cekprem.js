@@ -4,8 +4,8 @@ const pluginConfig = {
     name: 'cekprem',
     alias: ['cekpremium', 'preminfo'],
     category: 'cek',
-    description: 'Cek detail status premium user',
-    usage: '.cekprem @user',
+    description: 'Comprueba el detalle del estado premium del usuario',
+    usage: '.cekprem @usuario',
     example: '.cekprem',
     isOwner: false,
     isPremium: true,
@@ -45,34 +45,34 @@ async function handler(m) {
     const isConfigOwner = config.isOwner(targetNumber)
 
     if (!premData && !isConfigPrem && !isConfigOwner) {
-        return m.reply(`❌ @${targetNumber} bukan premium`, { mentions: [jid] })
+        return m.reply(`❌ @${targetNumber} no es premium`, { mentions: [jid] })
     }
 
     const user = db.getUser(jid)
     const now = Date.now()
 
-    let txt = `💎 *DETAIL PREMIUM*\n\n`
-    txt += `👤 User: @${targetNumber}\n`
+    let txt = `💎 *DETALLE PREMIUM*\n\n`
+    txt += `👤 Usuario: @${targetNumber}\n`
 
     if (isConfigOwner) {
-        txt += `🏷️ Role: *👑 Owner (Permanent)*\n`
+        txt += `🏷️ Rol: *👑 Owner (Permanente)*\n`
     } else if (typeof premData === 'string' || !premData?.expired) {
-        txt += `🏷️ Role: *💎 Premium (Permanent)*\n`
+        txt += `🏷️ Rol: *💎 Premium (Permanente)*\n`
     } else {
         const remaining = Math.ceil((premData.expired - now) / (1000 * 60 * 60 * 24))
         const totalDays = premData.addedAt ? Math.ceil((premData.expired - premData.addedAt) / (1000 * 60 * 60 * 24)) : '?'
-        txt += `📛 Nama: *${premData.name || 'Unknown'}*\n`
-        txt += `📅 Mulai: *${premData.addedAt ? formatDate(premData.addedAt) : 'Unknown'}*\n`
-        txt += `⏳ Expired: *${formatDate(premData.expired)}*\n`
-        txt += `🗓️ Durasi: *${totalDays} hari*\n`
-        txt += `📊 Sisa: *${remaining > 0 ? remaining + ' hari' : '⚠️ Expired'}*\n`
+        txt += `📛 Nombre: *${premData.name || 'Desconocido'}*\n`
+        txt += `📅 Inicio: *${premData.addedAt ? formatDate(premData.addedAt) : 'Desconocido'}*\n`
+        txt += `⏳ Vence: *${formatDate(premData.expired)}*\n`
+        txt += `🗓️ Duracion: *${totalDays} dias*\n`
+        txt += `📊 Restante: *${remaining > 0 ? remaining + ' dias' : '⚠️ Vencido'}*\n`
     }
 
     if (user) {
-        txt += `⚡ Energi: *${user.energi === -1 ? '∞' : (user.energi ?? 0)}*\n`
-        txt += `💰 Koin: *${user.koin === -1 ? '∞' : (user.koin ?? 0).toLocaleString('id-ID')}*\n`
+        txt += `⚡ Energia: *${user.energi === -1 ? '∞' : (user.energi ?? 0)}*\n`
+        txt += `💰 Monedas: *${user.koin === -1 ? '∞' : (user.koin ?? 0).toLocaleString('id-ID')}*\n`
         txt += `⭐ Exp: *${(user.exp ?? 0).toLocaleString('id-ID')}*\n`
-        txt += `📊 Level: *${user.level ?? 1}*\n`
+        txt += `📊 Nivel: *${user.level ?? 1}*\n`
     }
 
     await m.reply(txt, { mentions: [jid] })

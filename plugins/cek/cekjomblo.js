@@ -2,8 +2,8 @@ const pluginConfig = {
     name: 'cekjomblo',
     alias: ['jomblo', 'single'],
     category: 'cek',
-    description: 'Cek tingkat kejombloan kamu',
-    usage: '.cekjomblo <nama>',
+    description: 'Comprueba tu nivel de solteria',
+    usage: '.cekjomblo <nombre>',
     example: '.cekjomblo Budi',
     isOwner: false,
     isPremium: false,
@@ -19,18 +19,18 @@ async function handler(m) {
     const mentioned = m.mentionedJid[0] || m.sender
                     
     let desc = ''
-    if (percent >= 90) desc = 'Jomblo abadi! Single is happiness~ 💔😎'
-    else if (percent >= 70) desc = 'Strong independent person! 💪'
-    else if (percent >= 50) desc = 'MasihPDKT mode ON 😍'
-    else if (percent >= 30) desc = 'Ada yang naksir kayaknya~ 👀'
-    else desc = 'Soon taken! 💕'
+    if (percent >= 90) desc = 'Soltero eterno! Single is happiness~ 💔😎'
+    else if (percent >= 70) desc = 'Persona fuerte e independiente! 💪'
+    else if (percent >= 50) desc = 'Modo conquista ON 😍'
+    else if (percent >= 30) desc = 'Parece que alguien esta interesado~ 👀'
+    else desc = 'Pronto con pareja! 💕'
     
-    let txt = mentioned === m.sender ? `Hai @${mentioned.split('@')[0]}
+    let txt = mentioned === m.sender ? `Hola @${mentioned.split('@')[0]}
     
-Tingkat kejombloan kamu *${percent}%*
-\`\`\`${desc}\`\`\`` : `Kamu ingin ngecek tingkat kejombloan @${mentioned.split('@')[0]} yak? 
+Tu nivel de solteria es *${percent}%*
+\`\`\`${desc}\`\`\`` : `Quieres comprobar el nivel de solteria de @${mentioned.split('@')[0]} verdad?
     
-Tingkat kejombloan dia sebesar *${percent}%*
+Su nivel de solteria es *${percent}%*
 \`\`\`${desc}\`\`\``
     
     await m.reply(txt, { mentions: [mentioned] })

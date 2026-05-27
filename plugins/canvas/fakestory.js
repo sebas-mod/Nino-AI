@@ -9,9 +9,9 @@ const pluginConfig = {
   name: "fakestory",
   alias: ["fstory", "fakeinsta", "igstory"],
   category: "canvas",
-  description: "Membuat fake Instagram story dengan 2 gambar",
-  usage: ".fakestory <nama>",
-  example: ".fakestory Misaki (reply 2 gambar)",
+  description: "Crea una historia falsa de Instagram con 2 imagenes",
+  usage: ".fakestory <nombre>",
+  example: ".fakestory Misaki (responde 2 imagenes)",
   isOwner: false,
   isPremium: false,
   isGroup: false,
@@ -197,7 +197,7 @@ async function getAvatarBuffer(sock, jid) {
   if (fs.existsSync(DEFAULT_PP_PATH)) {
     return fs.readFileSync(DEFAULT_PP_PATH);
   }
-  throw new Error("Tidak dapat mengambil foto profil");
+  throw new Error("No se pudo obtener la foto de perfil");
 }
 async function handler(m, { sock }) {
   const username = m.args.join(" ").trim() || m.pushName || "User";
@@ -212,9 +212,9 @@ async function handler(m, { sock }) {
       m.react("❌");
       return m.reply(
         `📷 *ꜰᴀᴋᴇ sᴛᴏʀʏ*\n\n` +
-          `> Reply 1 atau 2 gambar!\n\n` +
-          `> Format: \`${m.prefix}fakestory <nama>\`\n` +
-          `> Contoh: \`${m.prefix}fakestory Misaki\``,
+          `> Responde 1 o 2 imagenes!\n\n` +
+          `> Formato: \`${m.prefix}fakestory <nombre>\`\n` +
+          `> Ejemplo: \`${m.prefix}fakestory Misaki\``,
       );
     }
     if (m.isImage && m.download) {
@@ -226,7 +226,7 @@ async function handler(m, { sock }) {
     }
     if (!imageTopBuffer) {
       m.react("❌");
-      return m.reply(`❌ *ɢᴀɢᴀʟ*\n\n> Tidak bisa download gambar`);
+      return m.reply(`❌ *ɢᴀɢᴀʟ*\n\n> No se pudo descargar la imagen`);
     }
     const resultBuffer = await createFakeStory(
       username,
