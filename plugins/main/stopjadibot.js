@@ -48,8 +48,8 @@ async function handler(m, { sock }) {
         await m.reply(
             `🛑 *ᴊᴀᴅɪʙᴏᴛ ᴅɪʜᴇɴᴛɪᴋᴀɴ*\n\n` +
             `> 📱 Numero: *@${sender.split('@')[0]}*\n` +
-            `> ⏱️ Uptime: *${uptime}*\n` +
-            `> 💾 Session: *Tersimpan*\n\n` +
+            `> ⏱️ Tiempo activo: *${uptime}*\n` +
+            `> 💾 Sesion: *Guardada*\n\n` +
             `Escribe \`${m.prefix}jadibot\` para activarlo de nuevo.`,
             { mentions: [sender] }
         )

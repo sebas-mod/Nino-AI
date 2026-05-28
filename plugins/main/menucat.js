@@ -70,7 +70,7 @@ function getContextInfo() {
       serverMessageId: 127,
     },
     externalAdReply: {
-      title: `Categoria Menu`,
+      title: `Menu de categoria`,
       body: botName,
       sourceUrl: config.saluran?.link || "",
       mediaType: 1,
@@ -111,7 +111,7 @@ async function handler(m, { sock, db }) {
         serverMessageId: 127,
       },
       externalAdReply: {
-        title: title || "Categoria Menu",
+        title: title || "Menu de categoria",
         body: body || botName,
         sourceUrl: saluranLink,
         mediaType: 1,
@@ -362,7 +362,7 @@ async function handler(m, { sock, db }) {
   txt += `╰───────⬣\n\n`;
   txt += `Total: \`${allCommands.length}\` comandos\n`;
   if (caseCommands.length > 0) {
-    txt += `(${pluginCommands.length} plugin + ${caseCommands.length} case)`;
+    txt += `(${pluginCommands.length} plugin + ${caseCommands.length} casos)`;
   }
   try {
     switch (menucatVariant) {
@@ -413,7 +413,7 @@ async function handler(m, { sock, db }) {
       case 4: {
         const cmdRows = allCommands.map((cmd) => ({
           title: `${prefix}${toSmallCaps(cmd)}`,
-          description: `Command ${matchedCat}`,
+          description: `Comando ${matchedCat}`,
           id: `${prefix}${cmd}`,
         }));
         const chunkSize = 10;
@@ -422,7 +422,7 @@ async function handler(m, { sock, db }) {
           const chunk = cmdRows.slice(i, i + chunkSize);
           const partNum = Math.floor(i / chunkSize) + 1;
           sections.push({
-            title: `${emoji} ${matchedCat.toUpperCase()} — Part ${partNum}`,
+            title: `${emoji} ${matchedCat.toUpperCase()} — Parte ${partNum}`,
             rows: chunk,
           });
         }

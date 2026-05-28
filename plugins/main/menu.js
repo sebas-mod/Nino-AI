@@ -225,7 +225,7 @@ async function buildMenuText(
   const totalCases = getCaseCount();
   const casesByCategory = getCasesByCategory();
   const totalFeatures = totalCommands + totalCases;
-  let userRole = "User",
+  let userRole = "Usuario",
     roleEmoji = "👤";
   if (m.isOwner) {
     userRole = "Owner";
@@ -237,7 +237,7 @@ async function buildMenuText(
   const greeting = getTimeGreeting();
   const uptimeFormatted = formatUptime(uptime);
   const totalUsuarios = db.getUserCount();
-  let txt = `Hola *@${m.pushName || "User"}* 🪸
+  let txt = `Hola *@${m.pushName || "Usuario"}* 🪸
 Soy ${botConfig.bot?.name || "Nino AI"}, un bot de WhatsApp listo para ayudarte.  
 Puedes usarme para buscar informacion, obtener datos o ayudar con cosas simples directamente desde WhatsApp — practico y sin complicaciones.`;
   const botInfoLines = [
@@ -252,7 +252,7 @@ Puedes usarme para buscar informacion, obtener datos o ayudar con cosas simples 
   ];
   const userInfoLines = [
     `🙋 ɴᴀᴍᴀ     : ${m.pushName}`,
-    `🎭 ʀᴏʟᴇ     : ${roleEmoji} ${userRole}`,
+    `🎭 ʀᴏʟ     : ${roleEmoji} ${userRole}`,
     `🎟 ᴇɴᴇʀɢɪ   : ${m.isOwner || m.isPremium ? "∞ Ilimitado" : (user?.energi ?? 25)}`,
     `⚡ ʟᴇᴠᴇʟ    : ${Math.floor((user?.exp || 0) / 20000) + 1}`,
     `✨ ᴇxᴘ       : ${(user?.exp ?? 0).toLocaleString()}`,
@@ -279,8 +279,8 @@ Puedes usarme para buscar informacion, obtener datos o ayudar con cosas simples 
 
   if (useBracketBoxStyle) {
     txt += `\n\n`;
-    txt += createBracketBox("BOT INFO", botInfoLines);
-    txt += createBracketBox("USER INFO", userInfoLines);
+    txt += createBracketBox("INFO DEL BOT", botInfoLines);
+    txt += createBracketBox("INFO DEL USUARIO", userInfoLines);
   } else {
     txt += `\n\n╭─〔 🤖 *ʙᴏᴛ ɪɴꜰᴏ* 〕\n`;
     txt += `*│* 🖐 ɴᴀᴍᴀ     : *${botConfig.bot?.name || "Nino AI"}*\n`;
@@ -294,7 +294,7 @@ Puedes usarme para buscar informacion, obtener datos o ayudar con cosas simples 
     txt += `╰────────────────⬣\n\n`;
     txt += `╭─〔 👤 *ᴜsᴇʀ ɪɴꜰᴏ* 〕\n`;
     txt += `*│* 🙋 ɴᴀᴍᴀ     : *${m.pushName}*\n`;
-    txt += `*│* 🎭 ʀᴏʟᴇ     : *${roleEmoji} ${userRole}*\n`;
+    txt += `*│* 🎭 ʀᴏʟ     : *${roleEmoji} ${userRole}*\n`;
     txt += `*│* 🎟 ᴇɴᴇʀɢɪ   : *${m.isOwner || m.isPremium ? "∞ Ilimitado" : (user?.energi ?? 25)}*\n`;
     txt += `*│* ⚡ ʟᴇᴠᴇʟ    : *${Math.floor((user?.exp || 0) / 20000) + 1}*\n`;
     txt += `*│* ✨ ᴇxᴘ       : *${(user?.exp ?? 0).toLocaleString()}*\n`;
@@ -610,7 +610,7 @@ async function handler(m, { sock, config: botConfig, db, uptime }) {
           id: `${prefix}menucat ${cat}`,
           description: `${cmds.length} comandos`,
         }));
-        let headerText = `*@${m.pushName || "User"}* 🪸
+        let headerText = `*@${m.pushName || "Usuario"}* 🪸
 Soy ${botConfig.bot?.name || "Nino AI"}, un bot de WhatsApp listo para ayudarte.  
 Puedes usarme para buscar informacion, obtener datos o ayudar con cosas simples directamente desde WhatsApp — practico y sin complicaciones.\n\n`;
         headerText += `╭┈┈⬡「 🤖 *ʙᴏᴛ ɪɴꜰᴏ* 」\n`;
@@ -960,7 +960,7 @@ Puedes usarme para buscar informacion, obtener datos o ayudar con cosas simples 
         menuText += `┃ 👤 *${m.pushName}*\n`;
         menuText += `┃ 🏷️ ${role}\n`;
         menuText += `┃ 🎫 Energi  ➤ ${m.isOwner || m.isPremium ? "∞ Ilimitado" : (user?.energi ?? 25)}\n`;
-        menuText += `┃ ⚡ Level   ➤ ${Math.floor((user?.exp || 0) / 20000) + 1}\n`;
+        menuText += `┃ ⚡ Nivel   ➤ ${Math.floor((user?.exp || 0) / 20000) + 1}\n`;
         menuText += `┃ ✨ Exp     ➤ ${(user?.exp ?? 0).toLocaleString()}\n`;
         menuText += `┃ 💰 Koin    ➤ ${(user?.koin ?? 0).toLocaleString()}\n`;
         const v8rpg = user?.rpg || {};
@@ -975,7 +975,7 @@ Puedes usarme para buscar informacion, obtener datos o ayudar con cosas simples 
         menuText += `┏━━〔 ⚡ *𝗦𝗬𝗦𝗧𝗘𝗠 𝗦𝗧𝗔𝗧𝗦* 〕━━┓\n`;
         menuText += `┃ ⏱️ Uptime  ➤ ${uptimeFormatted}\n`;
         menuText += `┃ 🔧 Mode    ➤ ${botMode.toUpperCase()}\n`;
-        menuText += `┃ 📊 Total   ➤ ${totalCmds} Commands\n`;
+        menuText += `┃ 📊 Total   ➤ ${totalCmds} comandos\n`;
         menuText += `┃ 👥 Usuarios   ➤ ${db.getUserCount()} Activos\n`;
         menuText += `┗━━━━━━━━━━━━━━━━━━━━━━┛\n\n`;
         menuText += `╭══════════════════════╮\n`;
@@ -992,7 +992,7 @@ Puedes usarme para buscar informacion, obtener datos o ayudar con cosas simples 
           menuText += `└───────────────────\n\n`;
         }
         menuText += `╭━━〔 💡 *𝗧𝗜𝗣𝗦* 〕━━╮\n`;
-        menuText += `│ ❸ Follow channel ${saluranLink}\n`;
+        menuText += `│ ❸ Sigue el canal ${saluranLink}\n`;
         menuText += `╰━━━━━━━━━━━━━━━━━━╯\n\n`;
         menuText += `> ${randomSparkle()} *${botConfig.bot?.name || "nino"}* v${botConfig.bot?.version || "1.7.1"} ${randomSparkle()}`;
         let thumbV8 = thumbBuffer;
@@ -1020,7 +1020,7 @@ Puedes usarme para buscar informacion, obtener datos o ayudar con cosas simples 
               status: "INQUIRY",
               surface: "CATALOG",
               message: `${botConfig.bot?.name || "Nino AI"} Menu`,
-              orderTitle: `📋 ${totalCmds} Commands`,
+              orderTitle: `📋 ${totalCmds} comandos`,
               sellerJid: botConfig.botNumber
                 ? `${botConfig.botNumber}@s.whatsapp.net`
                 : m.sender,
@@ -1196,14 +1196,14 @@ Puedes usarme para buscar informacion, obtener datos o ayudar con cosas simples 
             console.error("[Menu V10] Media prep error:", e.message);
           }
           const footerText = `
-Hola *@${m.pushName || "User"}* 🪸
+Hola *@${m.pushName || "Usuario"}* 🪸
 Soy ${botConfig.bot?.name || "Nino AI"}, un bot de WhatsApp listo para ayudarte.  
 Puedes usarme para buscar informacion, obtener datos o ayudar con cosas simples directamente desde WhatsApp — practico y sin complicaciones.
 ─────────────────────────
 Nombre    : ${botConfig.bot?.name || "Nino AI"}
 Version : v${botConfig.bot?.version || "1.9.0"}
-Runtime : Node.js ${process.version}
-Bot Up  : ${uptimeFormatted}
+Entorno : Node.js ${process.version}
+Bot activo  : ${uptimeFormatted}
 Mi owner   : ${botConfig.owner?.name || "Sebas-MD"}
 ─────────────────────────
 Toca el boton de abajo para mostrar el menu`;
@@ -1306,7 +1306,7 @@ Toca el boton de abajo para mostrar el menu`;
             id: `${prefix}menucat ${cat}`,
             description: `Contiene ${cmds.length} comandos`,
           }));
-          const titleText = `Hola Kak *@${m.pushName}*\n\nAntes que nada, gracias por usar nuestro bot\n\n╭─ \`INFORMASI BOT\` 𝜗ৎ\n┆ ᵎᵎ Nombre Bot : *${botConfig.bot?.name || "Nino AI"}*\n┆ ᵎᵎ Owner del bot : *${botConfig.owner?.name || "Nino AI"}*\n┆ ᵎᵎ Prefix : *${prefix}*\n┆ ᵎᵎ Total comandos : *${totalCmds}*\n┆ ᵎᵎ Tu rol : ${m.isOwner ? "Owner" : m.isPremium ? "Premium" : "Usuario normal"}\n╰─────\n\ntoca el boton de abajo para elegir el menu`;
+          const titleText = `Hola *@${m.pushName}*\n\nAntes que nada, gracias por usar nuestro bot\n\n╭─ \`INFO DEL BOT\` 𝜗ৎ\n┆ ᵎᵎ Nombre del bot : *${botConfig.bot?.name || "Nino AI"}*\n┆ ᵎᵎ Propietario del bot : *${botConfig.owner?.name || "Nino AI"}*\n┆ ᵎᵎ Prefijo : *${prefix}*\n┆ ᵎᵎ Total de comandos : *${totalCmds}*\n┆ ᵎᵎ Tu rol : ${m.isOwner ? "Owner" : m.isPremium ? "Premium" : "Usuario normal"}\n╰─────\n\nToca el boton de abajo para elegir el menu`;
           await sock.sendMessage(
             m.chat,
             {
@@ -1333,7 +1333,7 @@ Toca el boton de abajo para mostrar el menu`;
                 },
                 externalAdReply: {
                   title: botConfig.bot?.name || "Nino AI",
-                  body: "Runtime: " + process.uptime() + "s",
+                  body: "Tiempo activo: " + process.uptime() + "s",
                   mediaType: 1,
                   thumbnail: fs.existsSync("./assets/images/ourin-v11.jpg")
                     ? fs.readFileSync("./assets/images/ourin-v11.jpg")
@@ -1505,7 +1505,7 @@ Toca el boton de abajo para mostrar el menu`;
             m.chat,
             {
               interactiveMessage: {
-                title: `🌾 *𝘏𝘪! ${m.pushName}*\n\n𝘛𝘩𝘢𝘯𝘬𝘴 𝘧𝘰𝘳 𝘮𝘦𝘴𝘴𝘢𝘨𝘪𝘯𝘨 𝘶𝘴. 𝘠𝘰𝘶’𝘳𝘦 𝘯𝘰𝘸 𝘤𝘩𝘢𝘵𝘵𝘪𝘯𝘨 𝘸𝘪𝘵𝘩 𝘰𝘶𝘳 𝘈𝘶𝘵𝘰𝘮𝘢𝘵𝘪𝘤 𝘞𝘩𝘢𝘵𝘴𝘈𝘱𝘱 𝘉𝘰𝘵. \n\n╭─「 *${m.pushName}* 」\n│ • Bot Version     : *${botConfig.bot?.version || "2.1.0"}*\n│ • Database        : ${formatBytes(bytes)}\n╰──`,
+                title: `🌾 *Hola! ${m.pushName}*\n\nGracias por escribirnos. Ahora estas chateando con nuestro bot automatico de WhatsApp. \n\n╭─「 *${m.pushName}* 」\n│ • Version del bot : *${botConfig.bot?.version || "2.1.0"}*\n│ • Base de datos   : ${formatBytes(bytes)}\n╰──`,
                 footer:
                   botConfig.settings?.footer ||
                   `© ${botConfig.bot?.name || "Nino AI"} 2026`,
@@ -1527,7 +1527,7 @@ Toca el boton de abajo para mostrar el menu`;
                 },
                 externalAdReply: {
                   title: botConfig.bot?.name || "Nino AI",
-                  body: `🍃 OWNER BOT: ${botConfig.owner?.name || "Nino AI"}`,
+                  body: `🍃 OWNER DEL BOT: ${botConfig.owner?.name || "Nino AI"}`,
                   mediaType: 1,
                   thumbnail: fs.existsSync("./assets/images/ourin-v11.jpg")
                     ? fs.readFileSync("./assets/images/ourin-v11.jpg")
@@ -1722,7 +1722,7 @@ Toca el boton de abajo para mostrar el menu`;
             // 6. Nombre de usuario (grande y claro, no usar toUpperCase() para proteger emojis)
             ctx.fillStyle = fgColor;
             ctx.font = "900 42px sans-serif";
-            let displayName = data.name || "User";
+            let displayName = data.name || "Usuario";
             if (displayName.length > 15)
               displayName = displayName.substring(0, 15) + "...";
             ctx.fillText(displayName, 230, 100);
@@ -1839,7 +1839,7 @@ Toca el boton de abajo para mostrar el menu`;
             if (ppUrl) resolvedAvatarUrl = ppUrl;
           } catch (e) {}
           bannerThumbV13 = await createProfileCard({
-            name: m.pushName || profileUser.name || "User",
+            name: m.pushName || profileUser.name || "Usuario",
             level: level,
             currentXp: exp - currentLevelExp,
             requiredXp: nextLevelExp - currentLevelExp,
@@ -2002,7 +2002,7 @@ ${menuSorted.map(({ cat }) => `│ *${prefix}menucat ${cat}*`).join("\n")}
                       locationMessage: {
                         degreesLatitude: 0,
                         degreesLongitude: 0,
-                        name: `꫶ᥫ᭡꫶ ${m.pushName || "User"}`,
+                        name: `꫶ᥫ᭡꫶ ${m.pushName || "Usuario"}`,
                         url: `https://ss.ss`,
                         address: `Que tengas un buen dia :3`,
                         jpegThumbnail: await (await getSharp())(docuThumbV14)
@@ -2015,14 +2015,14 @@ ${menuSorted.map(({ cat }) => `│ *${prefix}menucat ${cat}*`).join("\n")}
                     body: { text: null },
                     footer: {
                       text:
-                        `Halo kak *${m.pushName}* ≽^• ˕ • ྀི≼\n` +
+                        `Hola *${m.pushName}* ≽^• ˕ • ྀི≼\n` +
                         `*⌞ INFO USUARIO ⌝*\n` +
-                        `‧ Number    : +${m.sender.split("@")[0]}\n` +
-                        `‧ Name    : ${m.pushName}\n\n` +
+                        `‧ Numero    : +${m.sender.split("@")[0]}\n` +
+                        `‧ Nombre    : ${m.pushName}\n\n` +
                         `*⌞ INFO BOT ⌝*\n` +
-                        `‧ Name    : ${botConfig.bot?.name || "Bot"}\n` +
+                        `‧ Nombre  : ${botConfig.bot?.name || "Bot"}\n` +
                         `‧ Version : ${botConfig.bot?.version || "v1.0.0"}\n` +
-                        `‧ Prefix  : ${m.prefix || "No Prefix"}\n\n` +
+                        `‧ Prefijo : ${m.prefix || "Sin prefijo"}\n\n` +
                         `*⌞ COMO USAR ⌝*\n` +
                         `‧ Toca el boton para ver el menu de categorias\n` +
                         `‧ Toca *VER TODO EL MENU* para todas las funciones`,
@@ -2146,7 +2146,7 @@ ${menuSorted.map(({ cat }) => `│ *${prefix}menucat ${cat}*`).join("\n")}
                 status: "INQUIRY",
                 surface: "CATALOG",
                 message: `★ Gracias\n✦ Hay un error? Reportalo al owner`,
-                orderTitle: `📋 ${totalCmds} Commands`,
+                orderTitle: `📋 ${totalCmds} comandos`,
                 sellerJid: botConfig.botNumber
                   ? `${botConfig.botNumber}@s.whatsapp.net`
                   : m.sender,
@@ -2203,10 +2203,10 @@ Espero que tu experiencia sea agradable y disfrutes usar este bot 🌟
 → *Propietario*: ${botConfig?.owner?.name}
 → *Prefix*: ${m?.prefix}
 ☁︎ *TUS ESTADISTICAS* ☁︎
-→ *Username*: ${m?.pushName}
-→ *Role*: ${m?.isOwner ? "Owner" : m?.isPremium ? "Premium" : "Usuario normal"}
+→ *Usuario*: ${m?.pushName}
+→ *Rol*: ${m?.isOwner ? "Owner" : m?.isPremium ? "Premium" : "Usuario normal"}
 → *Energi*: ${m?.isOwner || m?.isPremium ? "∞ Ilimitado" : (db.getUser(m.sender)?.energi ?? 25)}
-→ *Level*: ${Math.floor((db.getUser(m.sender)?.exp || 0) / 20000) + 1}
+→ *Nivel*: ${Math.floor((db.getUser(m.sender)?.exp || 0) / 20000) + 1}
 → *Exp*: ${(db.getUser(m.sender)?.exp ?? 0).toLocaleString()}
 → *Koin*: ${(db.getUser(m.sender)?.koin ?? 0).toLocaleString()}
 ${(() => {
@@ -2358,7 +2358,7 @@ Toca el boton de abajo para elegir categoria`,
                 status: "INQUIRY",
                 surface: "CATALOG",
                 message: `★ ${config.bot.name}`,
-                orderTitle: `📋 ${totalCmds} Commands`,
+                orderTitle: `📋 ${totalCmds} comandos`,
                 sellerJid: botConfig.botNumber
                   ? `${botConfig.botNumber}@s.whatsapp.net`
                   : m.sender,
@@ -2377,7 +2377,7 @@ Toca el boton de abajo para elegir categoria`,
               },
             },
           };
-          const userRole = db.getUser(m.sender)?.role || "MEMBER";
+          const userRole = db.getUser(m.sender)?.role || "MIEMBRO";
           await sock.sendMessage(
             m.chat,
             {
@@ -2386,7 +2386,7 @@ Toca el boton de abajo para elegir categoria`,
                 title: `🌾 𝖪𝖾𝗇𝖺𝗅𝗂𝗇, 𝖺𝗄𝗎 𝖺𝖽𝖺𝗅𝖺𝗁 ${config.bot.name}, 𝗒𝖺𝗇𝗀 𝖽𝗂𝗋𝖺𝗇𝖼𝖺𝗇𝗀 𝗈𝗅𝖾𝗁 *${config.bot.developer}*.  
                 
 𝖣𝗂𝗌𝗂𝗇𝗂, 𝖺𝗄𝗎 𝖻𝗂𝗌𝖺 𝗆𝖾𝗅𝖺𝗄𝗎𝗄𝖺𝗇 𝖻𝖺𝗇𝗒𝖺𝗄 𝗁𝖺𝗅, 𝖾𝗇𝗍𝖺𝗁 𝗂𝗍𝗎 𝗆𝖾𝗆𝖻𝗎𝖺𝗍 𝗌𝗍𝗂𝗄𝖾𝗋, 𝗆𝖾𝗇𝗒𝖾𝖽𝗂𝖺𝗄𝖺𝗇 𝗍𝖾𝗆𝗉𝖺𝗍 𝖻𝖾𝗋𝗆𝖺𝗂𝗇 𝗀𝖺𝗆𝖾, 𝗇𝗀𝗈𝖻𝗋𝗈𝗅 ( 𝗅𝖾𝗐𝖺𝗍 𝖺𝗂 ) 𝖽𝖺𝗇  𝗅𝖺𝗂𝗇 𝗅𝖺𝗂𝗇.`,
-                footer: `╭─「 *USER PROFILE* 」\n│ • Name      : *${m.pushName}*\n│ • Role      : *${userRole}*\n│ • Level     : *${Math.floor(((db.getUser(m.sender) || {}).exp || 0) / 20000) + 1}*\n│ • Exp       : *${((db.getUser(m.sender) || {}).exp || 0).toLocaleString()}*\n│ • Energi    : *${m.isOwner || m.isPremium ? "∞ Ilimitado" : ((db.getUser(m.sender) || {}).energi ?? 25)}*\n│ • Koin      : *${((db.getUser(m.sender) || {}).koin || 0).toLocaleString()}*\n╰─「 *BOT INFO* 」\n│ • Version   : *v${botConfig.bot?.version || "2.1.0"}*\n│ • Mode      : *${(botConfig.mode || "public").toUpperCase()}*\n│ • Prefix    : *[ ${prefix} ]*\n╰──`,
+                footer: `╭─「 *PERFIL DEL USUARIO* 」\n│ • Nombre    : *${m.pushName}*\n│ • Rol       : *${userRole}*\n│ • Nivel     : *${Math.floor(((db.getUser(m.sender) || {}).exp || 0) / 20000) + 1}*\n│ • Exp       : *${((db.getUser(m.sender) || {}).exp || 0).toLocaleString()}*\n│ • Energia   : *${m.isOwner || m.isPremium ? "∞ Ilimitado" : ((db.getUser(m.sender) || {}).energi ?? 25)}*\n│ • Koin      : *${((db.getUser(m.sender) || {}).koin || 0).toLocaleString()}*\n╰─「 *INFO DEL BOT* 」\n│ • Version   : *v${botConfig.bot?.version || "2.1.0"}*\n│ • Modo      : *${(botConfig.mode || "public").toUpperCase()}*\n│ • Prefijo   : *[ ${prefix} ]*\n╰──`,
                 image: fs.readFileSync("./assets/images/ourin.jpg"),
                 contextInfo: {
                   mentionedJid: [m.sender],
@@ -2456,7 +2456,7 @@ Toca el boton de abajo para elegir categoria`,
             status: "INQUIRY",
             surface: "CATALOG",
             message: `★ ${config.bot.name}`,
-            orderTitle: `📋 ${totalCmds} Commands`,
+            orderTitle: `📋 ${totalCmds} comandos`,
             sellerJid: botConfig.botNumber
               ? `${botConfig.botNumber}@s.whatsapp.net`
               : m.sender,

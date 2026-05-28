@@ -108,22 +108,22 @@ async function handler(m, { sock }) {
         const tableData = [
             ['WA Roundtrip', `${waRoundtrip} ms`],
             ['Velocidad de respuesta de tu bot', `${totalExec} ms`],
-            ['Status', 'Online'],
+            ['Estado', 'En linea'],
             ['Hostname', os.hostname()],
-            ['Platform', `${os.platform()} ${os.arch()}`],
+            ['Plataforma', `${os.platform()} ${os.arch()}`],
             ['Node', process.version],
             ['CPU', `${cpus[0]?.model?.slice(0, 25)}`],
-            ['Cores', `${cpus.length}`],
-            ['CPU Load', `${cpuPct}%`],
+            ['Nucleos', `${cpus.length}`],
+            ['Carga CPU', `${cpuPct}%`],
             ['RAM', `${fmtSize(totalMem - freeMem)} / ${fmtSize(totalMem)}`],
             ['Heap', `${fmtSize(heap.heapUsed)} / ${fmtSize(heap.heapTotal)}`],
-            ['Disk', `${fmtSize(diskUsed)} / ${fmtSize(diskTotal)}`],
-            ['Network', net.iface],
+            ['Disco', `${fmtSize(diskUsed)} / ${fmtSize(diskTotal)}`],
+            ['Red', net.iface],
             ['Usuarios', `${dbUsuarios}`],
             ['Premium', `${dbPremium}`],
-            ['Groups', `${dbGroups}`],
-            ['Uptime Bot', fmtUp(process.uptime())],
-            ['Uptime Server', fmtUp(os.uptime())],
+            ['Grupos', `${dbGroups}`],
+            ['Tiempo activo del bot', fmtUp(process.uptime())],
+            ['Tiempo activo del servidor', fmtUp(os.uptime())],
         ]
 
         await sock.sendTable(
@@ -133,7 +133,7 @@ async function handler(m, { sock }) {
             tableData,
             m,
             {
-                headerText: `${config.bot?.name || 'Nino AI'} *STATUS*\n\n- 🎄 A continuacion esta estadisticas bot kita`,
+                headerText: `${config.bot?.name || 'Nino AI'} *ESTADO*\n\n- 🎄 A continuacion estan las estadisticas del bot`,
                 footer: '🍃 Monitoreo en tiempo real'
             }
         )

@@ -7,7 +7,7 @@ const pluginConfig = {
     name: 'system',
     alias: ['ram', 'cpu', 'disk', 'latency', 'ping'],
     category: 'main',
-    description: 'Muestra informacion del sistema (RAM, CPU, Disk, Latency)',
+    description: 'Muestra informacion del sistema (RAM, CPU, disco, latencia)',
     usage: '.ram | .cpu | .disk | .ping',
     isGroup: false,
     isBotAdmin: false,
@@ -44,7 +44,7 @@ async function getDiskUso() {
             const { stdout } = await execAsync('df -h /');
             const lines = stdout.trim().split('\n');
             const parts = lines[1].replace(/\s+/g, ' ').split(' ');
-            return `💿 *Disk Uso*\nTotal: ${parts[1]}\nUsado: ${parts[2]}\nLibre: ${parts[3]}\nUse%: ${parts[4]}`;
+            return `💿 *Uso de disco*\nTotal: ${parts[1]}\nUsado: ${parts[2]}\nLibre: ${parts[3]}\nUso%: ${parts[4]}`;
         }
     } catch (e) {
         return '❌ No se pudo obtener la informacion del disco';
@@ -65,7 +65,7 @@ async function handler(m, { sock }) {
                              `Total: ${formatSize(totalMem)}\n` +
                              `Usado: ${formatSize(usedMem)}\n` +
                              `Libre: ${formatSize(freeMem)}\n` +
-                             `Platform: ${os.platform()} (${os.arch()})`;
+                             `Plataforma: ${os.platform()} (${os.arch()})`;
                 m.reply(text);
             }
             break;
@@ -76,17 +76,17 @@ async function handler(m, { sock }) {
                 const speed = cpus[0].speed;
                 const cores = cpus.length;
                 
-                const text = `🖥️ *CPU INFO*\n\n` +
-                             `Model: ${model}\n` +
+                const text = `🖥️ *INFORMACION DE CPU*\n\n` +
+                             `Modelo: ${model}\n` +
                              `Velocidad: ${speed} MHz\n` +
                              `Nucleos: ${cores} Core(s)\n` +
-                             `Uptime: ${formatSize(os.uptime())} (Wrong format, raw seconds)`; 
+                             `Tiempo activo: ${formatSize(os.uptime())} (formato incorrecto, segundos sin procesar)`; 
                 const uptime = os.uptime();
                 const hours = Math.floor(uptime / 3600);
                 const minutes = Math.floor((uptime % 3600) / 60);
                 const seconds = Math.floor(uptime % 60);
                 const uptimeStr = `${hours}h ${minutes}m ${seconds}s`;
-                m.reply(`🖥️ *CPU INFO*\n\nModel: ${model}\nVelocidad: ${speed} MHz\nNucleos: ${cores}\nServer Uptime: ${uptimeStr}`);
+                m.reply(`🖥️ *INFORMACION DE CPU*\n\nModelo: ${model}\nVelocidad: ${speed} MHz\nNucleos: ${cores}\nTiempo activo del servidor: ${uptimeStr}`);
             }
             break;
 
@@ -101,17 +101,17 @@ async function handler(m, { sock }) {
                 const now = Date.now();
                 const latency = now - timestamp;
                 let speed = '';
-                if (latency < 100) speed = '🚀 Fast';
-                else if (latency < 500) speed = '⚡ Good';
+                if (latency < 100) speed = '🚀 Rapida';
+                else if (latency < 500) speed = '⚡ Buena';
                 else if (latency < 1000) speed = '🐢 Oke';
-                else speed = '🐌 Slow';
+                else speed = '🐌 Lenta';
                 m.reply(`📶 *Pong!*\nLatencia: ${latency}ms\nRespuesta: ${speed}`);
             }
             break;
         }
     } catch (e) {
-        console.error('System Plugin Error:', e);
-        m.reply('❌ Ocurrio un error mengambil data sistem.');
+        console.error('Error del plugin de sistema:', e);
+        m.reply('❌ Ocurrio un error al obtener los datos del sistema.');
     }
 }
 

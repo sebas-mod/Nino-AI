@@ -77,16 +77,16 @@ async function handler(m, { sock, db, uptime, config: botConfig }) {
     };
 
     const table = [
-      "📊 Bot Statistics",
-      "Key | Valor",
-      `Bot | ${statsObj.bot};;Version | ${statsObj.version};;Uptime | ${statsObj.uptime}`,
-      `Usuarios | ${statsObj.database.users};;Premium | ${statsObj.database.premium};;Groups | ${statsObj.database.groups}`,
-      `Platform | ${statsObj.system.platform};;Node | ${statsObj.system.node};;CPU Load | ${statsObj.system.cpuLoad}`,
-      `RAM | ${statsObj.system.ram};;Heap | ${statsObj.system.heap};;Updated | ${statsObj.updated}`,
+      "📊 Estadisticas del bot",
+      "Clave | Valor",
+      `Bot | ${statsObj.bot};;Version | ${statsObj.version};;Tiempo activo | ${statsObj.uptime}`,
+      `Usuarios | ${statsObj.database.users};;Premium | ${statsObj.database.premium};;Grupos | ${statsObj.database.groups}`,
+      `Plataforma | ${statsObj.system.platform};;Node | ${statsObj.system.node};;Carga CPU | ${statsObj.system.cpuLoad}`,
+      `RAM | ${statsObj.system.ram};;Heap | ${statsObj.system.heap};;Actualizado | ${statsObj.updated}`,
     ];
 
     await sock.sendTableV2(m.chat, table, m, {
-      title: "📊 Estas son estadisticas dari bot kami",
+      title: "📊 Estas son las estadisticas de nuestro bot",
       footer: botConfig?.bot?.name,
     });
   } catch (error) {

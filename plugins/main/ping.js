@@ -110,7 +110,7 @@ async function render(s, pf) {
   ctx.fillStyle = "#e2e8f0";
   ctx.font = "bold 22px Arial";
   ctx.textAlign = "left";
-  ctx.fillText("⚡ PERFORMANCE MONITOR", 30, 38);
+  ctx.fillText("⚡ MONITOR DE RENDIMIENTO", 30, 38);
   ctx.fillStyle = "#64748b";
   ctx.font = "10px Arial";
   ctx.fillText(
@@ -121,7 +121,7 @@ async function render(s, pf) {
   ctx.restore();
 
   const pc = s.ping < 80 ? "#4ade80" : s.ping < 200 ? "#fbbf24" : "#f87171";
-  const pl = s.ping < 80 ? "FAST" : s.ping < 200 ? "NORMAL" : "SLOW";
+  const pl = s.ping < 80 ? "RAPIDO" : s.ping < 200 ? "NORMAL" : "LENTO";
   ctx.save();
   rr(ctx, W - 130, 18, 106, 46, 23);
   ctx.fillStyle = `${pc}18`;
@@ -265,7 +265,7 @@ async function render(s, pf) {
   ctx.fillStyle = "#22d3ee";
   ctx.font = "bold 10px Arial";
   ctx.textAlign = "left";
-  ctx.fillText("NETWORK", 405, topY + 16);
+  ctx.fillText("RED", 405, topY + 16);
   ctx.fillStyle = "#22d3ee";
   ctx.font = "bold 14px Arial";
   ctx.fillText(`↓ ${fmtSize(s.networkRx)}`, 405, topY + 40);
@@ -281,20 +281,20 @@ async function render(s, pf) {
   ctx.fill();
   ctx.fillStyle = "#cbd5e1";
   ctx.font = "9px Arial";
-  ctx.fillText(s.ping < 100 ? " Online" : " Stable", 412, topY + 80);
+  ctx.fillText(s.ping < 100 ? " En linea" : " Estable", 412, topY + 80);
 
   glassPanel(650, topY, 225, 105, "#a78bfa");
   ctx.fillStyle = "#a78bfa";
   ctx.font = "bold 10px Arial";
   ctx.textAlign = "left";
-  ctx.fillText("UPTIME", 665, topY + 16);
+  ctx.fillText("TIEMPO ACTIVO", 665, topY + 16);
   ctx.fillStyle = "#a78bfa";
   ctx.font = "bold 18px Arial";
   ctx.fillText(s.uptimeBot, 665, topY + 44);
   ctx.fillStyle = "#94a3b8";
   ctx.font = "9px Arial";
-  ctx.fillText("Bot Runtime", 665, topY + 64);
-  ctx.fillText(`Server: ${s.uptimeServer}`, 665, topY + 80);
+  ctx.fillText("Tiempo del bot", 665, topY + 64);
+  ctx.fillText(`Servidor: ${s.uptimeServer}`, 665, topY + 80);
 
   const cy = 210,
     cw = 210,
@@ -307,11 +307,11 @@ async function render(s, pf) {
   ctx.textAlign = "left";
   ctx.fillText("SERVER", P + 14, cy + 16);
   let ry = cy + 34;
-  sRow(P + 14, ry, "Hostname", s.hostname, "#e2e8f0", 175);
+  sRow(P + 14, ry, "Host", s.hostname, "#e2e8f0", 175);
   ry += 16;
-  sRow(P + 14, ry, "Platform", s.platform, "#22d3ee", 175);
+  sRow(P + 14, ry, "Plataforma", s.platform, "#22d3ee", 175);
   ry += 16;
-  sRow(P + 14, ry, "Arch", s.arch, "#cbd5e1", 175);
+  sRow(P + 14, ry, "Arquitectura", s.arch, "#cbd5e1", 175);
   ry += 16;
   sRow(P + 14, ry, "Node.js", s.nodeVersion, "#4ade80", 175);
   ry += 16;
@@ -324,20 +324,20 @@ async function render(s, pf) {
   ctx.fillText("CPU", P + cw + cg + 14, cy + 16);
   ry = cy + 34;
   const cx2 = P + cw + cg + 14;
-  sRow(cx2, ry, "Model", s.cpuModel.substring(0, 20), "#e2e8f0", 175);
+  sRow(cx2, ry, "Modelo", s.cpuModel.substring(0, 20), "#e2e8f0", 175);
   ry += 16;
-  sRow(cx2, ry, "Cores", `${s.cpuCores}C @ ${s.cpuSpeed}MHz`, "#22d3ee", 175);
+  sRow(cx2, ry, "Nucleos", `${s.cpuCores}C @ ${s.cpuSpeed}MHz`, "#22d3ee", 175);
   ry += 16;
   sRow(
     cx2,
     ry,
-    "Load",
+    "Carga",
     `${s.cpuLoad}%`,
     cpuN > 80 ? "#f87171" : "#4ade80",
     175,
   );
   ry += 16;
-  sRow(cx2, ry, "Load Avg", s.loadAvg, "#fbbf24", 175);
+  sRow(cx2, ry, "Carga prom.", s.loadAvg, "#fbbf24", 175);
   ry += 20;
   rr(ctx, cx2, ry, 175, 4, 2);
   ctx.fillStyle = "#1e293b";
@@ -360,14 +360,14 @@ async function render(s, pf) {
   ctx.fillStyle = "#f472b6";
   ctx.font = "bold 10px Arial";
   ctx.textAlign = "left";
-  ctx.fillText("MEMORY", P + (cw + cg) * 2 + 14, cy + 16);
+  ctx.fillText("MEMORIA", P + (cw + cg) * 2 + 14, cy + 16);
   ry = cy + 34;
   const mx = P + (cw + cg) * 2 + 14;
   sRow(mx, ry, "Total", fmtSize(s.ramTotal), "#e2e8f0", 175);
   ry += 16;
-  sRow(mx, ry, "Used", fmtSize(s.ramUsed), "#fbbf24", 175);
+  sRow(mx, ry, "Usado", fmtSize(s.ramUsed), "#fbbf24", 175);
   ry += 16;
-  sRow(mx, ry, "Free", fmtSize(s.ramTotal - s.ramUsed), "#4ade80", 175);
+  sRow(mx, ry, "Libre", fmtSize(s.ramTotal - s.ramUsed), "#4ade80", 175);
   ry += 16;
   sRow(mx, ry, "Heap/RSS", `${s.heapUsed}/${s.rss}`, "#22d3ee", 175);
   ry += 20;
@@ -392,7 +392,7 @@ async function render(s, pf) {
   ctx.fillStyle = "#fbbf24";
   ctx.font = "bold 10px Arial";
   ctx.textAlign = "left";
-  ctx.fillText("PERF TRACE", P + (cw + cg) * 3 + 14, cy + 16);
+  ctx.fillText("TRAZA DE RENDIMIENTO", P + (cw + cg) * 3 + 14, cy + 16);
   ry = cy + 34;
   const px = P + (cw + cg) * 3 + 14;
   sRow(
@@ -404,20 +404,20 @@ async function render(s, pf) {
     175,
   );
   ry += 16;
-  sRow(px, ry, "CPU Sample", `${pf.cpuSample}ms`, "#22d3ee", 175);
+  sRow(px, ry, "Muestra CPU", `${pf.cpuSample}ms`, "#22d3ee", 175);
   ry += 16;
   sRow(px, ry, "Canvas", `${pf.canvasTime}ms`, "#a78bfa", 175);
   ry += 16;
   sRow(
     px,
     ry,
-    "Total Exec",
+    "Ejecucion total",
     `${pf.totalExec}ms`,
     pf.totalExec < 2000 ? "#4ade80" : "#fbbf24",
     175,
   );
   ry += 16;
-  sRow(px, ry, "GC Pause", `${pf.gcPause}ms`, "#f472b6", 175);
+  sRow(px, ry, "Pausa GC", `${pf.gcPause}ms`, "#f472b6", 175);
 
   const by = 355,
     bw = 280,
@@ -427,13 +427,13 @@ async function render(s, pf) {
   ctx.fillStyle = "#fbbf24";
   ctx.font = "bold 10px Arial";
   ctx.textAlign = "left";
-  ctx.fillText("PROCESS", P + 14, by + 16);
+  ctx.fillText("PROCESO", P + 14, by + 16);
   ry = by + 34;
   sRow(P + 14, ry, "PID", `#${s.pid}`, "#fbbf24", 115);
   sRow(P + 14 + 135, ry, "Handles", s.activeHandles, "#4ade80", 105);
   ry += 16;
   sRow(P + 14, ry, "External", s.external, "#94a3b8", 115);
-  sRow(P + 14 + 135, ry, "Requests", s.activeRequests, "#22d3ee", 105);
+  sRow(P + 14 + 135, ry, "Solicitudes", s.activeRequests, "#22d3ee", 105);
   ry += 16;
   sRow(P + 14, ry, "Buffers", s.arrayBuffers, "#94a3b8", 115);
   sRow(P + 14 + 135, ry, "RSS", s.rss, "#f472b6", 105);
@@ -442,7 +442,7 @@ async function render(s, pf) {
   ctx.fillStyle = "#4ade80";
   ctx.font = "bold 10px Arial";
   ctx.textAlign = "left";
-  ctx.fillText("STORAGE", P + bw + cg + 14, by + 16);
+  ctx.fillText("ALMACENAMIENTO", P + bw + cg + 14, by + 16);
   ry = by + 34;
   const sx = P + bw + cg + 14;
   sRow(sx, ry, "Total", fmtSize(s.diskTotal), "#e2e8f0", 240);
@@ -450,13 +450,13 @@ async function render(s, pf) {
   sRow(
     sx,
     ry,
-    "Used",
+    "Usado",
     `${fmtSize(s.diskUsed)} (${diskPct.toFixed(1)}%)`,
     "#fbbf24",
     240,
   );
   ry += 16;
-  sRow(sx, ry, "Free", fmtSize(s.diskTotal - s.diskUsed), "#4ade80", 240);
+  sRow(sx, ry, "Libre", fmtSize(s.diskTotal - s.diskUsed), "#4ade80", 240);
 
   glassPanel(P + (bw + cg) * 2, by, W - P * 2 - (bw + cg) * 2, bh, "#22d3ee");
   ctx.fillStyle = "#22d3ee";
@@ -469,13 +469,13 @@ async function render(s, pf) {
   ry += 16;
   sRow(dx, ry, "Premium", s.dbPremium, "#fbbf24", 240);
   ry += 16;
-  sRow(dx, ry, "Groups", s.dbGroups, "#4ade80", 240);
+  sRow(dx, ry, "Grupos", s.dbGroups, "#4ade80", 240);
 
   ctx.fillStyle = "#334155";
   ctx.font = "8px Arial";
   ctx.textAlign = "center";
   ctx.fillText(
-    `${config.bot?.name || "Ourin"} Performance Monitor • rendered in ${pf.canvasTime}ms`,
+    `${config.bot?.name || "Nino AI"} Monitor de rendimiento • renderizado en ${pf.canvasTime}ms`,
     W / 2,
     H - 8,
   );
@@ -658,7 +658,7 @@ async function handler(m, { sock }) {
       v8Version: process.versions.v8,
       uptimeBot: fmtUp(process.uptime()),
       uptimeServer: fmtUp(os.uptime()),
-      cpuModel: cpus[0]?.model?.trim() || "Unknown",
+      cpuModel: cpus[0]?.model?.trim() || "Desconocido",
       cpuVelocidad: cpus[0]?.speed || 0,
       cpuNucleos: cpus.length,
       cpuLoad: cpuPct,
@@ -715,7 +715,7 @@ async function handler(m, { sock }) {
     const caption =
       `╭─〔 🏓 *ʀᴇsᴘᴏɴsᴇ* 〕───⬣\n` +
       `│  ◦ WA Roundtrip: *${waRoundtrip}ms* ${ic}\n` +
-      `│  ◦ Status: *Online*\n` +
+      `│  ◦ Estado: *En linea*\n` +
       `╰───────⬣\n\n` +
       `╭─〔 🖥 *sᴇʀᴠᴇʀ* 〕───⬣\n` +
       `│  ◦ Host: *${s.hostname}*\n` +
@@ -725,9 +725,9 @@ async function handler(m, { sock }) {
       `╰───────⬣\n\n` +
       `╭─〔 💻 *ᴄᴘᴜ* 〕───⬣\n` +
       `│  ◦ ${s.cpuModel.substring(0, 32)}\n` +
-      `│  ◦ *${s.cpuCores}* cores @ *${s.cpuSpeed}* MHz\n` +
-      `│  ◦ Load: *${s.cpuLoad}%*\n` +
-      `│  ◦ Avg: *${s.loadAvg}*\n` +
+      `│  ◦ *${s.cpuCores}* nucleos @ *${s.cpuSpeed}* MHz\n` +
+      `│  ◦ Carga: *${s.cpuLoad}%*\n` +
+      `│  ◦ Promedio: *${s.loadAvg}*\n` +
       `╰───────⬣\n\n` +
       `╭─〔 🧠 *ᴍᴇᴍᴏʀʏ* 〕───⬣\n` +
       `│  ◦ *${fmtSize(s.ramUsed)}* / *${fmtSize(s.ramTotal)}* (${ramPct}%)\n` +
@@ -745,18 +745,18 @@ async function handler(m, { sock }) {
       `╰───────⬣\n\n` +
       `╭─〔 🗄 *ᴅᴀᴛᴀʙᴀsᴇ* 〕───⬣\n` +
       `│  ◦ Usuarios: *${dbUsuarios}* │ Premium: *${dbPremium}*\n` +
-      `│  ◦ Groups: *${dbGroups}*\n` +
+      `│  ◦ Grupos: *${dbGroups}*\n` +
       `╰───────⬣\n\n` +
       `╭─〔 ⏱ *ᴜᴘᴛɪᴍᴇ* 〕───⬣\n` +
       `│  ◦ Bot: *${s.uptimeBot}*\n` +
-      `│  ◦ Server: *${s.uptimeServer}*\n` +
+      `│  ◦ Servidor: *${s.uptimeServer}*\n` +
       `╰───────⬣\n\n` +
       `╭─〔 📈 *ᴘᴇʀꜰ ᴛʀᴀᴄᴇ* 〕───⬣\n` +
       `│  ◦ WA Roundtrip: *${waRoundtrip}ms*\n` +
-      `│  ◦ CPU Sample: *${cpuSample}ms*\n` +
-      `│  ◦ Canvas Render: *${canvasTime}ms*\n` +
-      `│  ◦ GC Pause: *${gcPause}ms*\n` +
-      `│  ◦ Total Exec: *${totalExec}ms*\n` +
+      `│  ◦ Muestra CPU: *${cpuSample}ms*\n` +
+      `│  ◦ Render de canvas: *${canvasTime}ms*\n` +
+      `│  ◦ Pausa GC: *${gcPause}ms*\n` +
+      `│  ◦ Ejecucion total: *${totalExec}ms*\n` +
       `│  ◦ Handles: *${s.activeHandles}* │ Req: *${s.activeRequests}*\n` +
       `╰───────⬣`;
 

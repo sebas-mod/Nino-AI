@@ -105,12 +105,12 @@ const rewards = [
 ];
 
 const rarityColors = {
-  common: "⚪ Common",
-  uncommon: "🟢 Uncommon",
-  rare: "🔵 Rare",
-  epic: "🟣 Epic",
-  legendary: "🟡 Legendary",
-  mythic: "🌟 MYTHIC",
+  common: "⚪ Comun",
+  uncommon: "🟢 Poco comun",
+  rare: "🔵 Raro",
+  epic: "🟣 Epico",
+  legendary: "🟡 Legendario",
+  mythic: "🌟 MITICO",
 };
 
 function getRandomReward() {
@@ -169,7 +169,7 @@ async function handler(m, { sock }) {
 
   db.save();
 
-  let text = `${createGachaAnimation()} *ɢᴀᴄʜᴀ ʀᴇsᴜʟᴛ*\n\n`;
+  let text = `${createGachaAnimation()} *RESULTADO GACHA*\n\n`;
   text += `╭─────────────╮\n`;
   text += `│  ${reward.emoji} ${reward.emoji} ${reward.emoji}  │\n`;
   text += `╰─────────────╯\n\n`;
@@ -177,9 +177,9 @@ async function handler(m, { sock }) {
   if (reward.rarity === "mythic") {
     text += `🎊🎊🎊 *JACKPOT!* 🎊🎊🎊\n\n`;
   } else if (reward.rarity === "legendary") {
-    text += `✨ *LEGENDARY PULL!* ✨\n\n`;
+    text += `✨ *TIRADA LEGENDARIA!* ✨\n\n`;
   } else if (reward.rarity === "epic") {
-    text += `💜 *EPIC PULL!* 💜\n\n`;
+    text += `💜 *TIRADA EPICA!* 💜\n\n`;
   }
 
   text += `*Rareza:* ${rarityColors[reward.rarity]}\n`;

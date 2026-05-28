@@ -11,7 +11,7 @@ const pluginConfig = {
         'topenergi', 'topenergy'
     ],
     category: 'main',
-    description: 'Ver leaderboard global (koin, exp, energi)',
+    description: 'Ver ranking global (koin, exp, energia)',
     usage: '.leaderboard',
     example: '.topkoin',
     isOwner: false,
@@ -88,7 +88,7 @@ async function handler(m, { sock }) {
             maxEnergiUser.jid.includes('@') ? maxEnergiUser.jid : maxEnergiUser.jid + "@s.whatsapp.net"
         ]
         
-        const overviewText = `🏆 *LEADERBOARD OVERVIEW* 🏆\n\n` +
+        const overviewText = `🏆 *RESUMEN DEL RANKING* 🏆\n\n` +
             `_Elige un boton de abajo para ver el ranking!_`
             try {
                 await sock.sendButton(m.chat, fs.readFileSync(path.join(process.cwd(), 'assets', 'images', 'ourin.jpg')), overviewText, m, {
@@ -155,7 +155,7 @@ async function handler(m, { sock }) {
     top10.forEach((u, i) => {
         const medal = MEDALS[i] || `${i + 1}.`
         const pct = totalField > 0 ? ((u[field] / totalField) * 100).toFixed(1) : 0
-        const isMe = u.jid === senderJid ? " *(You)*" : ""
+        const isMe = u.jid === senderJid ? " *(Tu)*" : ""
         
         text += `┃ ${medal} @${u.jid.split('@')[0]}${isMe}\n`
         text += `┃    └ ${formatValor(u)} (${pct}%)\n`
@@ -168,7 +168,7 @@ async function handler(m, { sock }) {
     
     const myRankIndex = users.findIndex(u => u.jid === senderJid)
     if (myRankIndex !== -1) {
-        text += `> Tu posicion: *#${myRankIndex + 1}* dari *${formatNumber(users.length)}* user.`
+        text += `> Tu posicion: *#${myRankIndex + 1}* de *${formatNumber(users.length)}* usuarios.`
     } else {
         text += `> Aun no estas registrado en la base de datos.`
     }

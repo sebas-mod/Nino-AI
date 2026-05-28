@@ -5,7 +5,7 @@ const pluginConfig = {
     alias: ['jadibotqr', 'becomebot', 'bot'],
     category: 'main',
     description: 'Convierte tu numero en bot (codigo de vinculacion / QR)',
-    usage: '.jadibot atau .jadibot qr',
+    usage: '.jadibot o .jadibot qr',
     example: '.jadibot',
     isOwner: false,
     isPremium: true,

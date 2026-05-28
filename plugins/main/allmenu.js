@@ -117,7 +117,7 @@ async function handler(m, { sock, config: botConfig, db, uptime }) {
   }
   const totalCases = getCaseCount();
   const totalFeatures = totalCommands + totalCases;
-  let userRole = "User",
+  let userRole = "Usuario",
     roleEmoji = "👤";
   if (m.isOwner) {
     userRole = "Owner";
@@ -127,15 +127,15 @@ async function handler(m, { sock, config: botConfig, db, uptime }) {
     roleEmoji = "💎";
   }
   const greeting = getTimeGreeting();
-  let txt = `Hola *@${m.pushName || "User"}* 🪸
+  let txt = `Hola *@${m.pushName || "Usuario"}* 🪸
 Soy ${botConfig.bot?.name || "Nino AI"}, un bot de WhatsApp listo para ayudarte.  
 Puedes usarme para buscar informacion, obtener datos o ayudar con cosas simples directamente desde WhatsApp — practico y sin complicaciones.
 `;
   txt += createBracketBox("🤖", "KETERANGAN", [
-    "Ⓞ = Owner Only",
-    "ⓟ = Premium Only",
-    "Ⓛ = Limit Required",
-    "Ⓐ = Admin Only",
+    "Ⓞ = Solo owner",
+    "ⓟ = Solo premium",
+    "Ⓛ = Requiere limite",
+    "Ⓐ = Solo admin",
   ]);
   const categoryOrder = [
     "owner",

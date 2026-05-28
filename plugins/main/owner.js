@@ -55,7 +55,7 @@ async function handler(m, { sock, config: botConfig }) {
             ...(cardMedia || {}),
           }),
           body: proto.Message.InteractiveMessage.Body.fromObject({
-            text: `Rules:\n- No hagas spam\n- No hagas videollamadas/llamadas sin permiso\n- No lo uses para bugs/baneos`,
+            text: `Reglas:\n- No hagas spam\n- No hagas videollamadas/llamadas sin permiso\n- No lo uses para bugs/baneos`,
           }),
           footer: proto.Message.InteractiveMessage.Footer.fromObject({
             text: botName,
@@ -92,7 +92,7 @@ async function handler(m, { sock, config: botConfig }) {
                 text: botName,
               }),
               header: proto.Message.InteractiveMessage.Header.fromObject({
-                title: "Owner Info",
+                title: "Informacion del owner",
                 hasMediaAttachment: false,
               }),
               carouselMessage:
@@ -132,7 +132,7 @@ async function handler(m, { sock, config: botConfig }) {
       { quoted: m.raw },
     );
   } else {
-    const ownerText = `👑 *ᴏᴡɴᴇʀ ɪɴꜰᴏʀᴍᴀᴛɪᴏɴ*\n\n╭┈┈⬡「 📋 *ᴅᴇᴛᴀɪʟ* 」\n┃ ㊗ ɴᴀᴍᴀ: *${ownerNumbers.map((n) => getOwnerName(n)).join(", ")}*\n┃ ㊗ ʙᴏᴛ: *${botName}*\n┃ ㊗ sᴛᴀᴛᴜs: *🟢 Online*\n╰┈┈⬡\n\n> _Si tienes preguntas o problemas,_\n> _contacta al owner de arriba!_\n> _📞 Tarjeta de contacto abajo._`;
+    const ownerText = `👑 *ᴏᴡɴᴇʀ ɪɴꜰᴏʀᴍᴀᴛɪᴏɴ*\n\n╭┈┈⬡「 📋 *ᴅᴇᴛᴀɪʟ* 」\n┃ ㊗ ɴᴀᴍᴀ: *${ownerNumbers.map((n) => getOwnerName(n)).join(", ")}*\n┃ ㊗ ʙᴏᴛ: *${botName}*\n┃ ㊗ sᴛᴀᴛᴜs: *🟢 En linea*\n╰┈┈⬡\n\n> _Si tienes preguntas o problemas,_\n> _contacta al owner de arriba!_\n> _📞 Tarjeta de contacto abajo._`;
 
     await m.reply(ownerText);
 

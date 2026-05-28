@@ -48,7 +48,7 @@ async function handler(m, { sock, config: botConfig }) {
 
         await sock.sendTable(
             m.chat,
-            '📜 Aturan Bot',
+            '📜 Reglas del bot',
             ['No', 'Regla'],
             tableData,
             m,

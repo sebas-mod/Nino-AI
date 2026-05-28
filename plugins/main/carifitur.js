@@ -11,7 +11,7 @@ const pluginConfig = {
   alias: ["searchcmd", "findcmd", "cari", "search", "cf"],
   category: "main",
   description: "Busca funciones por palabra clave con detalle completo",
-  usage: ".carifitur <keyword>",
+  usage: ".carifitur <palabra clave>",
   example: ".carifitur sticker",
   isOwner: false,
   isPremium: false,
@@ -141,7 +141,7 @@ async function handler(m, { sock }) {
     return m.reply(
       `🔍 *ᴄᴀʀɪ ꜰɪᴛᴜʀ*\n\n` +
         `╭┈┈⬡「 📋 *ᴄᴀʀᴀ ᴘᴀᴋᴀɪ* 」\n` +
-        `┃ \`${m.prefix}carifitur <keyword>\`\n` +
+        `┃ \`${m.prefix}carifitur <palabra clave>\`\n` +
         `╰┈┈⬡\n\n` +
         `> Ejemplo:\n` +
         `\`${m.prefix}carifitur sticker\`\n` +
@@ -164,7 +164,7 @@ async function handler(m, { sock }) {
           matchScore,
           getSimilarity(plugin.name, keyword) * 1.2,
         );
-        matchReason = "nama";
+        matchReason = "nombre";
       }
       for (const alias of plugin.alias) {
         if (matchesKeyword(alias, keyword)) {
@@ -182,7 +182,7 @@ async function handler(m, { sock }) {
           matchScore,
           getSimilarity(plugin.description, keyword) * 0.8,
         );
-        matchReason = matchReason || "deskripsi";
+        matchReason = matchReason || "descripcion";
       }
       if (matchesKeyword(plugin.category, keyword)) {
         isMatch = true;
@@ -222,7 +222,7 @@ async function handler(m, { sock }) {
       text += `\n`;
     }
     if (topMatches.length > 5) {
-      text += `_+${topMatches.length - 5} hasil lainnya disponibles_`;
+      text += `_+${topMatches.length - 5} resultados mas disponibles_`;
     }
     const buttons = topMatches.slice(0, 10).map((p, i) => ({
       title: `${m.prefix}${p.name}`,
