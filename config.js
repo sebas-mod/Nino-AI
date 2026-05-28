@@ -13,19 +13,19 @@ const config = {
   },
 
   owner: {
-    name: "Zann", // Nombre del Sebas MD
+    name: "SebasMD", // Nombre del Sebas MD
     number: [""], // Format: 628xxx (tanpa + atau 0)
   },
 
   session: {
     pairingNumber: "", // Nomor WA yang akan di-pair
-    usePairingCode: true, // true = Pairing Code, false = QR Code
+    usePairingCode: false, // true = Pairing Code, false = QR Code
   },
 
   bot: {
     name: "𝗡𝗜𝗡𝗢 𝗔𝗜", // Nombre del bot
     version: "2.6", // Versión del bot
-    developer: "Zann", // Nombre del desarrollador
+    developer: "sebas MD", // Nombre del desarrollador
   },
 
   mode: "public",
@@ -80,7 +80,7 @@ const config = {
 
   sticker: {
     packname: "𝗡𝗜𝗡𝗢 𝗔𝗜", // Nombre del paquete de stickers
-    author: "Zann", // Autor del sticker
+    author: "SebasMD", // Autor del sticker
   },
 
   saluran: {
