@@ -3,13 +3,14 @@ import {
   getParticipantJids,
 } from "../../src/lib/ourin-lid.js";
 import te from "../../src/lib/ourin-error.js";
+
 const pluginConfig = {
-  name: "tagall",
+  name: "todos",
   alias: ["all", "everyone"],
   category: "group",
   description: "Etiqueta a todos los miembros del grupo",
-  usage: ".tagall <mensaje>",
-  example: ".tagall Halo semua!",
+  usage: ".todos <mensaje>",
+  example: ".todos Hola a todos!",
   isOwner: false,
   isPremium: false,
   isGroup: true,
@@ -22,14 +23,14 @@ const pluginConfig = {
 };
 
 async function handler(m, { sock }) {
-  const text = m.text || "Tag All Miembros";
+  const text = m.text || "Nino AI los invoca🌸";
 
   try {
     const groupMeta = m.groupMetadata;
     const participants = groupMeta.participants || [];
 
     if (participants.length === 0) {
-      await m.reply(`❌ *ɢᴀɢᴀʟ*\n\n> No hay miembro di grupo ini.`);
+      await m.reply(`❌ *ERROR*\n\n> No hay miembros en este grupo.`);
       return;
     }
 
@@ -38,20 +39,22 @@ async function handler(m, { sock }) {
     });
 
     if (targetParticipants.length === 0) {
-      await m.reply(`❌ *ɢᴀɢᴀʟ*\n\n> No hay miembro lain yang bisa di-tag.`);
+      await m.reply(`❌ *ERROR*\n\n> No hay otros miembros para etiquetar.`);
       return;
     }
 
     const mentions = getParticipantJids(targetParticipants);
     const miembroList = targetParticipants
-      .map((participant) => `@${getParticipantJid(participant).split("@")[0]}`)
+      .map((participant) => `🌸 @${getParticipantJid(participant).split("@")[0]}`)
       .join("\n")
       .trim();
 
     await m.reply(
-      `*Mensaje:* ${text}\n\n` +
-        `\`\`\`━━━ ${targetParticipants.length} MEMBER TOTAL ━━━\`\`\`\n` +
-        miembroList,
+      `*Nino AI los invoca*\n\n` +
+        `*Participantes:* ${targetParticipants.length}\n\n` +
+        `${miembroList}\n\n` +
+        `https://chat.whatsapp.com/GmFsmsfQm18GGnfRwMeYgQ\n\n` +
+        `by Nino AI🌸`,
       { mentions: mentions },
     );
   } catch (error) {

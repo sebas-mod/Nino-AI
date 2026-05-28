@@ -3,7 +3,7 @@ import { getParticipantJids } from '../../src/lib/ourin-lid.js'
 import te from '../../src/lib/ourin-error.js'
 const pluginConfig = {
     name: 'hidetag2',
-    alias: ['h2', 'ht2'],
+    alias: ['h2', 'n'],
     category: 'group',
     description: 'Hidetag con estilo fakeQuoted',
     usage: '.h2 <text> o reply mensaje',
@@ -40,7 +40,7 @@ async function handler(m, { sock }) {
                 remoteJid: 'status@broadcast'
             },
             message: {
-                conversation: config.bot?.name || 'Ourin MD'
+                conversation: config.bot?.name || 'Nino Al'
             }
         }
         if (m.quoted) {
