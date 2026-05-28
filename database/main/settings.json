@@ -11,7 +11,7 @@
   "cmdVn": false,
   "autoSholatKota": {
     "id": "1301",
-    "nama": "KOTA JAKARTA"
+    "nama": "nino nakano"
   },
   "onlyGc": false,
   "onlyPc": false,
@@ -23,7 +23,7 @@
   "similarity": false,
   "botRules": null,
   "goodbyeType": 5,
-  "onlyAdmin": false,
+  "onlyAdmin": true,
   "selfAdmin": false,
   "publicAdmin": false,
   "_lastEnergiDefault": 99999,
@@ -53,10 +53,10 @@
   "storeTransactions": {},
   "storeLists": [],
   "autoReadSW": {
-    "enabled": true
+    "enabled": false
   },
   "autoReactSW": {
-    "enabled": true,
+    "enabled": false,
     "emoji": "🔥"
   },
   "customPaymentText": "",
