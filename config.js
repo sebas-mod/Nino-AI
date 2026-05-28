@@ -7,9 +7,9 @@ import * as ownerPremiumDb from "./src/lib/ourin-premium-db.js";
 
 // Prioriza leer el objeto config hasta el final
 const config = {
-  info: {
-    website: "https://youtu.be/dQw4w9WgXcQ",
-    grupwa: "https://chat.whatsapp.com/xxxx",
+ info: {
+  website: "https://whatsapp.com/channel/0029VarbyoN2ZjCkcPW7q33F",
+  grupwa: "https://chat.whatsapp.com/GmFsmsfQm18GGnfRwMeYgQ",
   },
 
   owner: {

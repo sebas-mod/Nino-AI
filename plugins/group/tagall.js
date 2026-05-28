@@ -5,12 +5,12 @@ import {
 import te from "../../src/lib/ourin-error.js";
 
 const pluginConfig = {
-  name: "todos",
+  name: "tagall",
   alias: ["all", "everyone"],
   category: "group",
   description: "Etiqueta a todos los miembros del grupo",
-  usage: ".todos <mensaje>",
-  example: ".todos Hola a todos!",
+  usage: ".tagall <mensaje>",
+  example: ".tagall Hola a todos!",
   isOwner: false,
   isPremium: false,
   isGroup: true,
@@ -23,7 +23,7 @@ const pluginConfig = {
 };
 
 async function handler(m, { sock }) {
-  const text = m.text || "Nino AI los invoca🌸";
+  const text = m.text || "𝐄𝐬𝐭𝐚𝐧 𝐭𝐨𝐝𝐨𝐬 𝐢𝐧𝐯𝐨𝐜𝐚𝐝𝐨𝐬";
 
   try {
     const groupMeta = m.groupMetadata;
@@ -50,8 +50,9 @@ async function handler(m, { sock }) {
       .trim();
 
     await m.reply(
-      `*Nino AI los invoca*\n\n` +
-        `*Participantes:* ${targetParticipants.length}\n\n` +
+      `🌸 𝐍𝐢𝐧𝐨 𝐀𝐈 𝐥𝐨𝐬 𝐢𝐧𝐯𝐨𝐜𝐚 𝐛𝐛𝐬 :\n\n` +
+        `𝐏𝐚𝐫𝐭𝐢𝐜𝐢𝐩𝐚𝐧𝐭𝐞𝐬: ${targetParticipants.length}\n` +
+        `𝐌𝐞𝐧𝐬𝐚𝐣𝐞: ${text}\n\n` +
         `${miembroList}\n\n` +
         `https://chat.whatsapp.com/GmFsmsfQm18GGnfRwMeYgQ\n\n` +
         `by Nino AI🌸`,
