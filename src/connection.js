@@ -238,13 +238,25 @@ async function startConnection(options = {}) {
 
   const { state, saveCreds } = await useMultiFileAuthState(sessionPath);
 
-  const { version, isLatest } = await fetchLatestBaileysVersion();
+  let waVersion = [2, 3000, 1033105955];
+  try {
+    const latest = await fetchLatestBaileysVersion();
+    if (Array.isArray(latest?.version) && latest.version.length === 3) {
+      waVersion = latest.version;
+    }
+  } catch (error) {
+    colors.logger.warn(
+      "whatsapp",
+      `gagal cek versi terbaru, pakai fallback ${waVersion.join(".")}`,
+    );
+  }
+  const version = waVersion;
 
   const usePairingCode = config.session?.usePairingCode === true;
   const pairingNumber = config.session?.pairingNumber || "";
 
   const sock = makeWASocket({
-    version: [2, 3000, 1033105955],
+    version: waVersion,
     logger,
     printQRInTerminal:
       !usePairingCode && (config.session?.printQRInTerminal ?? true),
@@ -300,11 +312,28 @@ async function startConnection(options = {}) {
 
     phoneNumber = phoneNumber.replace(/[^0-9]/g, "");
 
+    if (!/^\d{8,15}$/.test(phoneNumber)) {
+      colors.logger.error(
+        "pairing",
+        "nomor tidak valid. Gunakan format internasional tanpa +, spasi, atau 0 depan. Contoh: 5491123456789",
+      );
+      return sock;
+    }
+
     colors.logger.info("pairing", `meminta kode untuk ${phoneNumber}`);
 
     try {
       await new Promise((resolve) => setTimeout(resolve, 3000));
-      const code = await sock.requestPairingCode(phoneNumber, "OURINNAI");
+      let code;
+      try {
+        code = await sock.requestPairingCode(phoneNumber, "OURINNAI");
+      } catch (customCodeError) {
+        colors.logger.warn(
+          "pairing",
+          `kode personalizado rechazado: ${customCodeError.message}. Reintentando con codigo automatico`,
+        );
+        code = await sock.requestPairingCode(phoneNumber);
+      }
       console.log("");
       console.log(
         colors.createBanner(
@@ -323,7 +352,13 @@ async function startConnection(options = {}) {
       );
       console.log("");
     } catch (error) {
-      colors.logger.error("pairing", `gagal: ${error.message}`);
+      const statusCode = error?.output?.statusCode || error?.status || error?.code;
+      const detail = statusCode ? ` (${statusCode})` : "";
+      colors.logger.error("pairing", `gagal${detail}: ${error.message}`);
+      colors.logger.warn(
+        "pairing",
+        "si ya existe una sesion vieja, borra storage/session y vuelve a iniciar",
+      );
     }
   }
 
