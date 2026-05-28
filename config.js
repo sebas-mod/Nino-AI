@@ -14,7 +14,7 @@ const config = {
 
   owner: {
     name: "SebasMD", // Nombre del Sebas MD
-    number: [""], // Format: 628xxx (tanpa + atau 0)
+    number: ["5491138403093"], // Format: 628xxx (tanpa + atau 0)
   },
 
   session: {
