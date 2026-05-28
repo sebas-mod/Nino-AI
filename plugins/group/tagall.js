@@ -5,12 +5,12 @@ import {
 import te from "../../src/lib/ourin-error.js";
 
 const pluginConfig = {
-  name: "tagall",
+  name: "todos",
   alias: ["all", "everyone"],
   category: "group",
   description: "Etiqueta a todos los miembros del grupo",
-  usage: ".tagall <mensaje>",
-  example: ".tagall Hola a todos!",
+  usage: ".todos <mensaje>",
+  example: ".todos Hola a todos!",
   isOwner: false,
   isPremium: false,
   isGroup: true,
