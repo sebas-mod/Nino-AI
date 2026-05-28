@@ -203,6 +203,22 @@ function askQuestion(question) {
   });
 }
 
+function getSessionPath() {
+  return path.join(
+    process.cwd(),
+    "storage",
+    config.session?.folderName || "session",
+  );
+}
+
+function clearSessionFolder() {
+  const sessionPath = getSessionPath();
+  if (fs.existsSync(sessionPath)) {
+    fs.rmSync(sessionPath, { recursive: true, force: true });
+    colors.logger.warn("whatsapp", `sesion anterior eliminada: ${sessionPath}`);
+  }
+}
+
 /**
  * Memulai koneksi WhatsApp
  * @param {Object} options - Opsi koneksi
@@ -226,11 +242,7 @@ async function startConnection(options = {}) {
     connectionState.sock = null;
   }
 
-  const sessionPath = path.join(
-    process.cwd(),
-    "storage",
-    config.session?.folderName || "session",
-  );
+  const sessionPath = getSessionPath();
 
   if (!fs.existsSync(sessionPath)) {
     fs.mkdirSync(sessionPath, { recursive: true });
@@ -324,16 +336,12 @@ async function startConnection(options = {}) {
 
     try {
       await new Promise((resolve) => setTimeout(resolve, 3000));
-      let code;
-      try {
-        code = await sock.requestPairingCode(phoneNumber, "OURINNAI");
-      } catch (customCodeError) {
-        colors.logger.warn(
-          "pairing",
-          `kode personalizado rechazado: ${customCodeError.message}. Reintentando con codigo automatico`,
-        );
-        code = await sock.requestPairingCode(phoneNumber);
-      }
+      const customPairingCode = config.session?.customPairingCode
+        ? String(config.session.customPairingCode).replace(/[^a-zA-Z0-9]/g, "")
+        : "";
+      const code = customPairingCode
+        ? await sock.requestPairingCode(phoneNumber, customPairingCode)
+        : await sock.requestPairingCode(phoneNumber);
       console.log("");
       console.log(
         colors.createBanner(
@@ -357,7 +365,7 @@ async function startConnection(options = {}) {
       colors.logger.error("pairing", `gagal${detail}: ${error.message}`);
       colors.logger.warn(
         "pairing",
-        "si ya existe una sesion vieja, borra storage/session y vuelve a iniciar",
+        `si ya existe una sesion vieja, borra ${path.relative(process.cwd(), sessionPath)} y vuelve a iniciar`,
       );
     }
   }
@@ -416,9 +424,21 @@ async function startConnection(options = {}) {
       if (sc === DisconnectReason.loggedOut || sc === 401) {
         colors.logger.error(
           "whatsapp",
-          "sesi habis — hapus folder storage lalu restart",
+          "sesi habis - eliminando sesion para pedir login nuevo",
         );
+        try {
+          clearSessionFolder();
+        } catch (error) {
+          colors.logger.error(
+            "whatsapp",
+            `no se pudo borrar la sesion: ${error.message}`,
+          );
+        }
         connectionState.reconnectAttempts = 0;
+        if (usePairingCode) {
+          colors.logger.info("whatsapp", "reiniciando pairing en 5 segundos");
+          setTimeout(() => startConnection(options), 5e3);
+        }
         return;
       }
 
@@ -1259,11 +1279,7 @@ function getUptime() {
  */
 async function logout() {
   try {
-    const sessionPath = path.join(
-      process.cwd(),
-      "storage",
-      config.session?.folderName || "session",
-    );
+    const sessionPath = getSessionPath();
 
     if (connectionState.sock) {
       await connectionState.sock.logout();
