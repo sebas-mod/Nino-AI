@@ -1,6 +1,7 @@
 import {
   makeWASocket,
   DisconnectReason,
+  Browsers,
   useMultiFileAuthState,
   makeCacheableSignalKeyStore,
   fetchLatestBaileysVersion,
@@ -265,7 +266,12 @@ async function startConnection(options = {}) {
   const version = waVersion;
 
   const usePairingCode = config.session?.usePairingCode === true;
-  const pairingNumber = config.session?.pairingNumber || "";
+  const pairingNumber =
+    config.session?.pairingNumber ||
+    process.env.PAIRING_NUMBER ||
+    process.env.PHONE_NUMBER ||
+    "";
+  let pairingCodeRequested = false;
 
   const sock = makeWASocket({
     version: waVersion,
@@ -276,7 +282,7 @@ async function startConnection(options = {}) {
       creds: state.creds,
       keys: makeCacheableSignalKeyStore(state.keys, logger),
     },
-    browser: ["Ubuntu", "Chrome", "20.0.0"],
+    browser: Browsers.windows("Chrome"),
     syncFullHistory: false,
     markOnlineOnConnect: false,
     generateHighQualityLinkPreview: false,
@@ -308,10 +314,21 @@ async function startConnection(options = {}) {
   connectionState.sock = sock;
   extendSocket(sock);
 
-  if (usePairingCode && !sock.authState.creds.registered) {
+  async function requestLoginPairingCode() {
+    if (!usePairingCode || sock.authState.creds.registered || pairingCodeRequested) {
+      return;
+    }
+    pairingCodeRequested = true;
     let phoneNumber = pairingNumber;
 
     if (!phoneNumber || phoneNumber === "") {
+      if (!process.stdin?.isTTY) {
+        colors.logger.error(
+          "pairing",
+          "pairingNumber vacio. En panel configura config.session.pairingNumber o la variable PAIRING_NUMBER",
+        );
+        return;
+      }
       console.log("");
       colors.logger.warn("pairing", "nomor pairing belum diatur di config");
       console.log("");
@@ -329,7 +346,7 @@ async function startConnection(options = {}) {
         "pairing",
         "nomor tidak valid. Gunakan format internasional tanpa +, spasi, atau 0 depan. Contoh: 5491123456789",
       );
-      return sock;
+      return;
     }
 
     colors.logger.info("pairing", `meminta kode untuk ${phoneNumber}`);
@@ -360,6 +377,7 @@ async function startConnection(options = {}) {
       );
       console.log("");
     } catch (error) {
+      pairingCodeRequested = false;
       const statusCode = error?.output?.statusCode || error?.status || error?.code;
       const detail = statusCode ? ` (${statusCode})` : "";
       colors.logger.error("pairing", `gagal${detail}: ${error.message}`);
@@ -385,9 +403,14 @@ async function startConnection(options = {}) {
 
     const S = {
       C: "close",
+      I: "connecting",
       O: "open",
       N: "@newsletter",
     };
+
+    if (c === S.I) {
+      await requestLoginPairingCode();
+    }
 
     if (c === S.C) {
       connectionState.isConnected = false;

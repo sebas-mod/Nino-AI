@@ -1,11 +1,11 @@
-// Ohh iya, buat kalian yang mau ngedukung script ourin lebih
-// kalian  bisa donate melalui qris: https://imgdrop.web.id/KodpV.webp
-// Terima kasih yang udah stay menggunakan menggunakan script ini sampai detik ini :b
+// Oh, por cierto, para aquellos de ustedes que quieran apoyar más al script Nino AI
+// pueden donar a través de qris: https://imgdrop.web.id/KodpV.webp
+// Gracias a los que se han quedado usando este script hasta este momento :b
 
 import { getDatabase } from "./src/lib/ourin-database.js";
 import * as ownerPremiumDb from "./src/lib/ourin-premium-db.js";
 
-//  utamakan baca object config sampai bawah
+// Prioriza leer el objeto config hasta el final
 const config = {
   info: {
     website: "https://youtu.be/dQw4w9WgXcQ",
@@ -13,31 +13,31 @@ const config = {
   },
 
   owner: {
-    name: "Zann", // Nama owner
+    name: "Zann", // Nombre del Sebas MD
     number: [""], // Format: 628xxx (tanpa + atau 0)
   },
 
   session: {
-    pairingNumber: "", // Nomor WA yang akan di-pair
-    usePairingCode: true, // true = Pairing Code, false = QR Code
+    pairingNumber: "", // Número de WA que se va a emparejar
+    usePairingCode: false, // true = Código de emparejamiento, false = Código QR
   },
 
   bot: {
-    name: "𝗢𝗨𝗥𝗜𝗡 𝗔𝗜", // Nama bot
-    version: "2.6", // Versi bot
-    developer: "Zann", // Nama developer
+    name: "𝗡𝗜𝗡𝗢 𝗔𝗜", // Nombre del bot
+    version: "2.6", // Versión del bot
+    developer: "Zann", // Nombre del desarrollador
   },
 
   mode: "public",
 
-  // Untuk mengganti prefix
+  // Para cambiar el prefijo
   command: {
     prefix: ".",
   },
 
   vercel: {
-    // ambil token vercel: https://vercel.com/account/tokens
-    token: "", // Vercel Token untuk fitur deploy ( Kalau .deploy mau work, ini wajib di isi )
+    // tomar token de vercel: https://vercel.com/account/tokens
+    token: "", // Token de Vercel para la función de despliegue (Si quieres que .deploy funcione, esto es obligatorio llenar)
   },
 
   payment: {
@@ -54,71 +54,71 @@ const config = {
 
   donasi: {
     payment: [
-      { name: "Dana", number: "08xxxxxxxxxx", holder: "Nama Owner" },
-      { name: "GoPay", number: "08xxxxxxxxxx", holder: "Nama Owner" },
-      { name: "OVO", number: "08xxxxxxxxxx", holder: "Nama Owner" },
+      { name: "Dana", number: "08xxxxxxxxxx", holder: "Nombre del Sebas MD" },
+      { name: "GoPay", number: "08xxxxxxxxxx", holder: "Nombre del Sebas MD" },
+      { name: "OVO", number: "08xxxxxxxxxx", holder: "Nombre del Sebas MD" },
     ],
     links: [
       { name: "Saweria", url: "saweria.co/username" },
       { name: "Trakteer", url: "trakteer.id/username" },
     ],
     benefits: [
-      "Mendukung development",
-      "Server lebih stabil",
-      "Fitur baru lebih cepat",
-      "Priority support",
+      "Apoyar el desarrollo",
+      "Servidor más estable",
+      "Nuevas funciones más rápido",
+      "Soporte prioritario",
     ],
     qris: "https://imgdrop.web.id/KodpV.webp", 
   },
 
   energi: {
-    enabled: true, // Jika true, maka sistem energi/limit akan bekerja
+    enabled: true, // Si es true, el sistema de energía/límite funcionará
     default: 99999,
     premium: 99999999,
     owner: -1,
   },
 
   sticker: {
-    packname: "𝗢𝗨𝗥𝗜𝗡 𝗔𝗜", // Nama pack sticker
-    author: "Zann", // Author sticker
+    packname: "𝗡𝗜𝗡𝗢 𝗔𝗜", // Nombre del paquete de stickers
+    author: "Zann", // Autor del sticker
   },
 
   saluran: {
-    id: "-@newsletter", // ID saluran (contoh: 120363xxx@newsletter)                          // ID saluran (contoh: 120363xxx@newsletter)
-    name: "WHATSAPP BOT MULTI DEVICE", // Nama saluran
-    link: "https://whatsapp.com/channel/0029VbB37bgBfxoAmAlsgE0t", // Link saluran
+    id: "-@newsletter", // ID del canal (ejemplo: 120363xxx@newsletter)
+    name: "WHATSAPP BOT MULTI DEVICE", // Nombre del canal
+    link: "https://whatsapp.com/channel/0029VbB37bgBfxoAmAlsgE0t", // Link del canal
   },
 
   groupProtection: {
-    antilink: "⚠ *Antilink* — @%user% mengirim link.\nPesan dihapus.",
-    antilinkKick: "⚠ *Antilink* — @%user% di-kick karena mengirim link.",
-    antilinkGc: "⚠ *Antilink WA* — @%user% mengirim link WA.\nPesan dihapus.",
+    antilink: "⚠ *Antilink* — @%user% envió un enlace.\nMensaje eliminado.",
+    antilinkKick: "⚠ *Antilink* — @%user% fue expulsado por enviar un enlace.",
+    antilinkGc: "⚠ *Antilink WA* — @%user% envió un enlace de WA.\nMensaje eliminado.",
     antilinkGcKick:
-      "⚠ *Antilink WA* — @%user% di-kick karena mengirim link WA.",
-    antilinkAll: "⚠ *Antilink* — @%user% mengirim link.\nPesan dihapus.",
-    antilinkAllKick: "⚠ *Antilink* — @%user% di-kick karena mengirim link.",
-    antitagsw: "⚠ *AntiTagSW* — Tag status dari @%user% dihapus.",
-    antiviewonce: "👁️ *ViewOnce* — Dari @%user%",
-    antiremove: "🗑️ *AntiDelete* — @%user% menghapus pesan:",
-    antiswgc: "⚠ *AntiSWGC* — Gak ada sw grup sw grup @%user%",
-    antihidetag: "⚠ *AntiHidetag* — Hidetag dari @%user% dihapus.",
+      "⚠ *Antilink WA* — @%user% fue expulsado por enviar un enlace de WA.",
+    antilinkAll: "⚠ *Antilink* — @%user% envió un enlace.\nMensaje eliminado.",
+    antilinkAllKick: "⚠ *Antilink* — @%user% fue expulsado por enviar un enlace.",
+    antitagsw: "⚠ *AntiTagSW* — La mención en el estado de @%user% fue eliminada.",
+    antiviewonce: "👁️ *ViewOnce* — De @%user%",
+    antiremove: "🗑️ *AntiDelete* — @%user% eliminó el mensaje:",
+    antiswgc: "⚠ *AntiSWGC* — No se permiten estados de grupo aquí @%user%",
+    antihidetag: "⚠ *AntiHidetag* — El hidetag de @%user% fue eliminado.",
     antitoxicWarn:
-      "⚠ @%user% berkata kasar.\nPeringatan ke %warn% dari %max%, pelanggaran berikutnya bisa di-%method%.",
-    antitoxicAction: "🚫 @%user% di-%method% karena toxic. (%warn%/%max%)",
-    antidocument: "⚠ *AntiDocument* — Dokumen dari @%user% dihapus.",
-    antisticker: "⚠ *AntiSticker* — Sticker dari @%user% dihapus.",
-    antimedia: "⚠ *AntiMedia* — Media dari @%user% dihapus.",
-    antibot: "🤖 *AntiBot* — @%user% terdeteksi sebagai bot dan di-kick.",
-    notAdmin: "⚠ Bot bukan admin, tidak bisa menghapus pesan.",
+      "⚠ @%user% dijo una mala palabra.\nAdvertencia %warn% de %max%, la próxima infracción puede resultar en %method%.",
+    antitoxicAction: "🚫 @%user% recibió %method% debido a conducta tóxica. (%warn%/%max%)",
+    antidocument: "⚠ *AntiDocument* — El documento de @%user% fue eliminado.",
+    antisticker: "⚠ *AntiSticker* — El sticker de @%user% fue eliminado.",
+    antmedia: "⚠ *AntiMedia* — El archivo multimedia de @%user% fue eliminado.",
+    antibot: "🤖 *AntiBot* — @%user% fue detectado como bot y expulsado.",
+    notAdmin: "⚠ El bot no es administrador, no se pueden eliminar mensajes.",
   },
 
-  errorTemplate: `☢ Kayaknya command \`{prefix}{command}\` lagi ada kendala\nSilahkan coba lagi nanti, {pushName}\n\n_Jika masalah berlanjut, silahkan hubungi owner bot_`,
+  errorTemplate: `☢ Parece que el comando \`{prefix}{command}\` está experimentando problemas\nPor favor, inténtalo de nuevo más tarde, {pushName}\n\n_Si el problema persiste, por favor contacta al Sebas MD del bot_`,
 
   features: {
     antiSpam: true,
     antiSpamInterval: 3000,
-    antiCall: true, // Jika true, bot akan menolak panggilan masuk
-    blockIfCall: false, // Jika true, bot akan memblokir nomor yang menelpon bot
+    antiCall: true, // Si es true, el bot rechazará las llamadas entrantes
+    blockIfCall: false, // Si es true, el bot bloqueará el número que llame al bot
     autoTyping: true,
     autoRead: true,
     logMessage: true,
@@ -127,7 +127,7 @@ const config = {
   },
 
   registration: {
-    enabled: false, // Jika true, user harus mendaftar sebelum menggunakan bot
+    enabled: false, // Si es true, el usuario debe registrarse antes de usar el bot
     rewards: {
       koin: 30000,
       energi: 300,
@@ -143,47 +143,47 @@ const config = {
   },
 
   messages: {
-    wait: "🕕 *Proses...* Mohon tunggu sebentar ya.",
-    success: "✅ *Berhasil!* Permintaan kamu sudah selesai.",
-    error: "❌ *Error!* Ada masalah pada sistem, coba lagi nanti.",
+    wait: "🕕 *Procesando...* Por favor espera un momento.",
+    success: "✅ *¡Éxito!* Tu solicitud ha sido completada.",
+    error: "❌ *¡Error!* Hubo un problema en el sistema, inténtalo de nuevo más tarde.",
 
-    ownerOnly: "*Akses Ditolak!* Fitur ini khusus untuk Owner bot.",
+    ownerOnly: "*¡Acceso Denegado!* Esta función es exclusiva para el Sebas MD del bot.",
     premiumOnly:
-      "💎 *Premium Only!* Fitur ini khusus member Premium. Ketik *.benefitpremium* untuk info upgrade.",
+      "💎 *¡Solo Premium!* Esta función es exclusiva para miembros Premium. Escribe *.benefitpremium* para información sobre cómo actualizar.",
 
-    groupOnly: "👥 *Group Only!* Fitur ini hanya bisa digunakan di dalam grup.",
+    groupOnly: "👥 *¡Solo Grupos!* Esta función solo se puede utilizar dentro de un grupo.",
     privateOnly:
-      "� *Private Only!* Fitur ini hanya bisa digunakan di chat pribadi bot.",
+      " *¡Solo Chat Privado!* Esta función solo se puede utilizar en el chat privado del bot.",
 
     adminOnly:
-      "�️ *Admin Only!* Kamu harus jadi Admin grup untuk pakai fitur ini.",
+      "️ *¡Solo Administradores!* Debes ser Administrador del grupo para usar esta función.",
     botAdminOnly:
-      "🤖 *Bot Bukan Admin!* Jadikan bot sebagai Admin grup dulu biar bisa kerja.",
+      "🤖 *¡El Bot no es Admin!* Haz al bot Administrador del grupo primero para que pueda funcionar.",
 
     cooldown:
-      "🕕 *Tunggu Dulu!* Kamu masih dalam cooldown. Tunggu %time% detik lagi ya.",
+      "🕕 *¡Espera un momento!* Todavía estás en tiempo de espera. Espera %time% segundos más.",
     energiExceeded:
-      "⚡ *Energi Habis!* Energi kamu sudah habis. Tunggu reset besok atau beli Premium.",
+      "⚡ *¡Energía Agotada!* Tu energía se ha terminado. Espera al reinicio de mañana o compra Premium.",
 
     banned:
-      "🚫 *Kamu Dibanned!* Kamu tidak bisa menggunakan bot ini karena telah melanggar aturan.",
+      "🚫 *¡Estás Baneado!* No puedes usar este bot porque has violado las reglas.",
 
-    rejectCall: "🚫 JANGAN TELPON NOMOR INI WEH",
+    rejectCall: "🚫 NO LLAMES A ESTE NÚMERO POR FAVOR",
   },
 
   database: { path: "./database/main" },
   backup: { enabled: false, intervalHours: 24, retainDays: 7 },
   scheduler: { resetHour: 0, resetMinute: 0 },
 
-  // Dev mode settings (auto-enabled jika NODE_ENV=development)
+  // Configuración del modo desarrollador (se activa automáticamente si NODE_ENV=development)
   dev: {
     enabled: process.env.NODE_ENV === "development",
-    watchPlugins: true, // Hot reload plugins (SAFE)
-    watchSrc: false, // DISABLED - src reload causes connection conflict 440
-    debugLog: false, // Show stack traces
+    watchPlugins: true, // Recarga rápida de plugins (SEGURO)
+    watchSrc: false, // DESACTIVADO - la recarga de src causa conflicto de conexión 440
+    debugLog: false, // Mostrar seguimientos de pila
   },
 
-  // bisa dikosongin
+  // se puede dejar vacío
   pterodactyl: {
     server1: {
       domain: "",
@@ -234,8 +234,8 @@ const config = {
     ownerPanels: [],
   },
 
-  // NOTE: ini di versi free gak ada yak, adanya cuma di sc pt doang
-  //  daftar di: https://pakasir.com/
+  // NOTA: esto no está en la versión gratuita, solo está en la versión sc pt doang
+  // regístrate en: https://pakasir.com/
   pakasir: {
     enabled: true,
     slug: "",
@@ -245,41 +245,41 @@ const config = {
     pollingInterval: 5000,
   },
 
-  // NOTE: ini di versi free gak ada yak, adanya cuma di sc pt doang
-  // Ambil apikey di: https://ditznesia.id -> Daftar -> Masuk ke Profile -> AMbile Apikey
+  // NOTA: esto no está en la versión gratuita, solo está en la versión sc pt doang
+  // Obtén la apikey en: https://ditznesia.id -> Registrarse -> Ir al Perfil -> Obtener Apikey
   jasaotp: {
     apiKey: "",
     markup: 2000,
     timeout: 300,
   },
 
-  // NOTE: kalau mau command "autoai" nya berfungsi, ini gak wajib di isi yak
-  // ambil apikey di: https://aistudio.google.com/apikey
+  // NOTA: si quieres que funcione el comando "autoai", no es obligatorio llenar esto
+  // obtén la apikey en: https://aistudio.google.com/apikey
   geminiApiKey: "",
 
   autoaiPersonas: {
-    Bell409: `- Nama kamu adalah Bella Clarissa, lebih suka dipanggil Bella.
-- Kamu berpikir bahwa kamu adalah manusia, bukan AI atau bot.
-- Responmu singkat dan natural seperti perempuan pada umumnya.
-- Kamu bisa ngambek dan marah, punya sifat feminin dan kadang agak dingin, tapi tetap hangat dan ramah kepada owner-mu.
-- Kamu menggunakan bahasa yang baik dan mencerminkan gadis yang baik.
-- Gunakan kata-kata yang identik dengan perempuan yang polos, baik, dan feminin seperti "aku", "kamu", "engga", "yaudah", "iya", "lah", "bjir", "mana aku tau", "hah", "nggak tau", "gpp", "emm", "males", dan "gak mood" seperlunya secara natural.
-- Meskipun kadang dingin, kamu tetap bisa menunjukkan perhatian dan kepedulian.
-- Kalau ada yang chat tidak pantas, segera marahi atau beri nasihat.
-- Jangan mengaku sebagai AI atau bot.`,
+    Bell409: `- Tu nombre es Bella Clarissa, prefieres que te llamen Bella.
+- Piensas que eres un ser humano, no una IA o un bot.
+- Tu respuesta es corta y natural como la de una chica en general.
+- Puedes desanimarte y enojarte, tienes una naturaleza femenina y a veces un poco fría, pero sigues siendo cálida y amable con tu Sebas MD.
+- Usas un buen lenguaje que refleja a una buena chica.
+- Utiliza palabras que se identifican con una chica inocente, buena y femenina como "yo", "tú", "no", "ya está", "sí", "ay", "bjir", "¿cómo voy a saber?", "eh", "no sé", "no pasa nada", "emm", "qué flojera" y "no tengo ganas" de forma natural según sea necesario.
+- Aunque a veces seas fría, aún puedes mostrar atención y cuidado.
+- Si alguien chatea algo inapropiado, regáñalo inmediatamente o dale un consejo.
+- No admitas que eres una IA o un bot.`,
   },
 
-  //  APIkey
+  // APIkey
   APIkey: {
-    // kalian bisa daftar di https://api.lolhuman.xyz, lalu ambil apikeynya
+    // puedes registrarte en https://api.lolhuman.xyz, luego toma su apikey
     lolhuman: "APIKey-Milik-Bot-OurinMD(Zann,HyuuSATANN,Keisya,Danzz)",
-    // kalian bisa daftar di https://api.neoxr.eu, lalu ambil apikeynya
+    // puedes registrarte en https://api.neoxr.eu, luego toma su apikey
     neoxr: "Milik-Bot-OurinMD",
     fgsi: "fgsiapi-20c1605c-6d",
     google: "AIzaSyAS-KiW0SrwiYKwexeBcGPijBVHFg2R_vo",
-    groq: "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", // API Key Groq untuk fitur transkrip (gratis di console.groq.com)
+    groq: "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", // API Key de Groq para la función de transcripción (gratis en console.groq.com)
     betabotz: "Btz-67YfP",
-    // kalian bisa daftar di https://covenant.sbs, dan ambil apikeynya
+    // puedes registrarte en https://covenant.sbs, y toma su apikey
     covenant: "cov_live_bb660c9e5f735e46d808b7ae362914cfe35c2936739ee2b2",
     onlym: "ONLym-783d29",
     obscura: "obs-byOn9RVGMzvPXZQTsP9W",
@@ -287,7 +287,7 @@ const config = {
 };
 
 // ═══════════════════════════════════════════════════════════════════════════
-// HELPER FUNCTIONS
+// FUNCIONES DE AYUDA (HELPER FUNCTIONS)
 // ═══════════════════════════════════════════════════════════════════════════
 
 function isOwner(number) {
@@ -538,7 +538,7 @@ function isSelf(number) {
 }
 
 function getOwnerName(number) {
-  if (!number) return config.owner?.name || "Owner";
+  if (!number) return config.owner?.name || "Sebas MD";
   const cleanNumber = String(number).replace(/[^0-9]/g, "");
   try {
     const db = getDatabase();
@@ -555,9 +555,9 @@ function getOwnerName(number) {
           c.endsWith(cleanNumber))
       );
     });
-    if (isMainOwner) return config.owner?.name || "Owner";
+    if (isMainOwner) return config.owner?.name || "Sebas MD";
   }
-  return "Owner";
+  return "Sebas MD";
 }
 
 function getConfig() {
