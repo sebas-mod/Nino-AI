@@ -2,6 +2,7 @@ import moment from "moment-timezone";
 import config from "../../config.js";
 import { getDatabase } from "../../src/lib/ourin-database.js";
 import { resolveAnyLidToJid } from "../../src/lib/ourin-lid.js";
+import axios from "axios";
 import te from "../../src/lib/ourin-error.js";
 import { saluranCtx } from "../../src/lib/ourin-context.js";
 
@@ -93,30 +94,6 @@ function createWelcomeImageUrl() {
     height: "720",
     backgroundUrl: "https://imagenes-one.vercel.app/fondo-nino-AI.jpg",
     profileUrl: "https://imagenes-one.vercel.app/perfil-nino-AI.jpg",
-    profileSize: "230",
-    profileX: "640",
-    profileY: "130",
-    borderColor: "#ff0066",
-    borderWidth: "8",
-
-    text1: "Bienvenido Usuario",
-    text1X: "640",
-    text1Y: "350",
-    text1Size: "60",
-    text1Color: "#f9f5f8",
-    text1Font: "Arial",
-    text1Bold: "true",
-    text1Align: "center",
-
-    text2: "Un nuevo miembro ha llegado",
-    text2X: "640",
-    text2Y: "410",
-    text2Size: "30",
-    text2Color: "#0d0d0d",
-    text2Font: "Arial",
-    text2Bold: "false",
-    text2Align: "center",
-
     apiKey: "Sebas-Md-2004",
   });
 
@@ -155,8 +132,22 @@ async function sendWelcomeMessage(sock, groupJid, participant, groupMeta) {
       const apiUrl = createWelcomeImageUrl();
 
       try {
+        const response = await axios.get(apiUrl, {
+          responseType: "arraybuffer",
+          timeout: 30000,
+        });
+
+        const contentType = response.headers?.["content-type"] || "";
+
+        if (!contentType.includes("image")) {
+          const errorText = Buffer.from(response.data).toString("utf8");
+          throw new Error(errorText || "La API no devolvió una imagen.");
+        }
+
+        const imageBuffer = Buffer.from(response.data);
+
         await sock.sendMessage(groupJid, {
-          image: { url: apiUrl },
+          image: imageBuffer,
           caption: text,
           mentions: [realParticipant],
         });
