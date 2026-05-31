@@ -67,11 +67,24 @@ async function getPlayAudioDownload(url) {
   throw new Error(fallback?.mess || "No se pudo obtener la URL del audio");
 }
 
+async function downloadBuffer(url) {
+  const { data } = await axios.get(url, {
+    responseType: "arraybuffer",
+    timeout: 60000,
+    headers: {
+      "User-Agent":
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0 Safari/537.36",
+    },
+  });
+
+  return Buffer.from(data);
+}
+
 async function handler(m, { sock, text }) {
   const query = text?.trim() || m.text?.trim();
 
   if (!query) {
-    return m.reply(`🎵 *PLAY*\n\n> Ejemplo:\n\`${m.prefix}play gura\``);
+    return m.reply(`🎵 *PLAY*\n\n> Ejemplo:\n\`${m.prefix}play2 gura\``);
   }
 
   m.react("🕐");
@@ -100,8 +113,28 @@ async function handler(m, { sock, text }) {
     const audio = await getPlayAudioDownload(video.url);
     const fileName = `${audio.title || video.title || "audio"}.mp3`;
 
-    if (audio.isFallback) {
-      const mp3Buffer = await fallbackToMp3Buffer(audio.download);
+    try {
+      const audioMessage = audio.isFallback
+        ? await fallbackToMp3Buffer(audio.download)
+        : { url: audio.download };
+
+      await sock.sendMessage(
+        m.chat,
+        {
+          audio: audioMessage,
+          mimetype: "audio/mpeg",
+          ptt: false,
+          fileName,
+        },
+        { quoted: m },
+      );
+    } catch (sendError) {
+      console.error("[Play send url]", sendError);
+
+      const mp3Buffer = audio.isFallback
+        ? await fallbackToMp3Buffer(audio.download)
+        : await downloadBuffer(audio.download);
+
       await sock.sendMessage(
         m.chat,
         {
@@ -112,10 +145,6 @@ async function handler(m, { sock, text }) {
         },
         { quoted: m },
       );
-    } else {
-      await sock.sendMedia(m.chat, audio.download, video.title, m, {
-        type: "audio",
-      });
     }
 
     m.react("✅");
