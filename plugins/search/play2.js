@@ -83,9 +83,9 @@ function cleanTitle(title) {
 
 function buildInfo(video) {
   return `
-╔═════════════════════╗
-║  ♔ 𝐍𝐈𝐍𝐎 𝐏𝐋𝐀𝐘 ♔
-╚═════════════════════╝
+╔════════════════╗
+║ ♔ *𝐍𝐈𝐍𝐎 𝐏𝐋𝐀𝐘* ♔
+╚════════════════╝
 
 🎵 𝐓𝐈𝐓𝐔𝐋𝐎 ➥ ${video.title}
 👤 𝐂𝐀𝐍𝐀𝐋 ➥ ${video.author?.name || 'Desconocido'}
