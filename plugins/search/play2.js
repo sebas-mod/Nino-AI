@@ -83,32 +83,18 @@ function cleanTitle(title) {
 
 function buildInfo(video) {
   return `
-╔══════════════════════╗
-║      ♔ 𝐍𝐈𝐍𝐎 𝐏𝐋𝐀𝐘 ♔
-╚══════════════════════╝
+╔═════════════════════╗
+║  ♔ 𝐍𝐈𝐍𝐎 𝐏𝐋𝐀𝐘 ♔
+╚═════════════════════╝
 
-🎵 𝐓𝐈𝐓𝐔𝐋𝐎
-➥ ${video.title}
-
-👤 𝐂𝐀𝐍𝐀𝐋
-➥ ${video.author?.name || 'Desconocido'}
-
-⏱️ 𝐃𝐔𝐑𝐀𝐂𝐈𝐎𝐍
-➥ ${video.timestamp || '0:00'}
-
-🔗 𝐔𝐑𝐋
-➥ ${video.url}
+🎵 𝐓𝐈𝐓𝐔𝐋𝐎 ➥ ${video.title}
+👤 𝐂𝐀𝐍𝐀𝐋 ➥ ${video.author?.name || 'Desconocido'}
+⏱️ 𝐃𝐔𝐑𝐀𝐂𝐈𝐎𝐍 ➥ ${video.timestamp || '0:00'}
+🔗 𝐔𝐑𝐋 ➥ ${video.url}
 
 ℹ️ 𝐈𝐍𝐅𝐎
 ➥ Elige si deseas descargar este contenido
 ➥ en formato Audio MP3 o Video MP4.
-
-╭━━━━━━━━━━━━━━━━━━━━╮
-┃     ꧁ 𝐍𝐈𝐍𝐎 𝐏𝐋𝐀𝐘 ꧂
-╰━━━━━━━━━━━━━━━━━━━━╯
-
-✦҈͜͡➳ ❖ 𝑴𝒖𝒔𝒊𝒄 • 𝑽𝒊𝒅𝒆𝒐 • 𝑫𝒐𝒘𝒏𝒍𝒐𝒂𝒅 ❖
-༈ ࿗᭄🌀 🎶 🎬 🎧
 
 ⚡ Selecciona una opción:
 🎧 Audio MP3
