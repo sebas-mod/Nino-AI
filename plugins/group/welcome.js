@@ -2,7 +2,6 @@ import moment from "moment-timezone";
 import config from "../../config.js";
 import { getDatabase } from "../../src/lib/ourin-database.js";
 import { resolveAnyLidToJid } from "../../src/lib/ourin-lid.js";
-import axios from "axios";
 import te from "../../src/lib/ourin-error.js";
 import { saluranCtx } from "../../src/lib/ourin-context.js";
 
@@ -88,7 +87,7 @@ async function buildWelcomeMessage(
   return msg;
 }
 
-async function createWelcomeImage() {
+function createWelcomeImageUrl() {
   const params = new URLSearchParams({
     width: "1280",
     height: "720",
@@ -121,14 +120,7 @@ async function createWelcomeImage() {
     apiKey: "Sebas-Md-2004",
   });
 
-  const apiUrl = `https://yosoyyo-api-ofc.onrender.com/api/image/welcome-banner?${params.toString()}`;
-
-  const response = await axios.get(apiUrl, {
-    responseType: "arraybuffer",
-    timeout: 30000,
-  });
-
-  return Buffer.from(response.data);
+  return `https://yosoyyo-api-ofc.onrender.com/api/image/welcome-banner?${params.toString()}`;
 }
 
 async function sendWelcomeMessage(sock, groupJid, participant, groupMeta) {
@@ -160,18 +152,28 @@ async function sendWelcomeMessage(sock, groupJid, participant, groupMeta) {
     );
 
     if (welcomeType === 1) {
-      try {
-        const imageBuffer = await createWelcomeImage();
+      const apiUrl = createWelcomeImageUrl();
 
+      try {
         await sock.sendMessage(groupJid, {
-          image: imageBuffer,
+          image: { url: apiUrl },
           caption: text,
           mentions: [realParticipant],
         });
 
         return true;
       } catch (e) {
-        console.error("Welcome API Error:", e.message);
+        console.error("Welcome image error:", e.message);
+
+        await sock.sendMessage(groupJid, {
+          text:
+            `⚠️ No pude generar la imagen de bienvenida.\n\n` +
+            `Error: ${e.message}\n\n` +
+            text,
+          mentions: [realParticipant],
+        });
+
+        return true;
       }
     }
 
