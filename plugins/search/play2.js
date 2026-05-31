@@ -12,12 +12,12 @@ const API_KEY = "Sebas-Md-2004";
 const API_URL = "https://yososyyo-api-ofc.onrender.com/api/youtube";
 
 const pluginConfig = {
-  name: "play",
+  name: "play2",
   alias: ["playaudio"],
   category: "search",
   description: "Reproducir musica desde YouTube",
-  usage: ".play <query>",
-  example: ".play gura",
+  usage: ".play2 <query>",
+  example: ".play2 gura",
   cooldown: 15,
   energi: 1,
   isEnabled: true,
@@ -40,7 +40,7 @@ async function searchYoutube(query) {
     title: data.result.title || "Video encontrado",
     url: data.result.url,
     thumbnail: data.result.thumbnail || data.result.image || null,
-    creator: data.creator || "YO SOY YO",
+    creator: data.creator || "sebas MD",
   };
 }
 
