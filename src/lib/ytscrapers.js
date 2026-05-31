@@ -116,7 +116,7 @@ export async function yt2mate(videoUrl, format = 'mp3') {
           id: videoId,
           title: p.title,
           format,
-          download: data.downloadURL
+          download: p.downloadURL || data.downloadURL
         };
       }
     }
@@ -138,8 +138,7 @@ function savetubeDecrypt(enc) {
 }
 
 export async function ytSearch(query) {
-  const url = `https://yosoyyo-api-ofc.onrender.com/api/youtube?q=${encodeURIComponent(query)}&apiKey=Sebas-Md-2004
-`;
+  const url = `https://yosoyyo-api-ofc.onrender.com/api/youtube?q=${encodeURIComponent(query)}&apiKey=Sebas-Md-2004`;
   for (let i = 0; i < 3; i++) {
     try {
       const res = await axios.get(url);
