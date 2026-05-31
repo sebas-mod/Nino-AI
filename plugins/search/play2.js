@@ -15,7 +15,7 @@ const pluginConfig = {
   name: 'play2',
   alias: ['video'],
   category: 'descargas',
-  description: 'Descargar video desde YouTube',
+  description: 'Buscar en YouTube y elegir audio o video',
   usage: '.play2 <busqueda>',
   example: '.play2 never gonna give you up',
   cooldown: 15,
@@ -77,28 +77,180 @@ async function ytdl(url) {
   }
 }
 
-async function handler(m, { sock, args, text }) {
+function cleanTitle(title) {
+  return String(title || 'audio').replace(/[^\w\s-]/g, '').trim() || 'audio';
+}
+
+function buildInfo(video) {
+  return [
+    '*Nino play*',
+    '',
+    `Titulo: ${video.title}`,
+    `Canal: ${video.author?.name || 'Desconocido'}`,
+    `Duracion: ${video.timestamp || '0:00'}`,
+    `Link: ${video.url}`,
+    '',
+    'Elige si quieres recibir audio o video.'
+  ].join('\n');
+}
+
+async function sendChoiceButtons(m, sock, video, prefix) {
+  const buttons = [
+    {
+      name: 'quick_reply',
+      buttonParamsJson: JSON.stringify({
+        display_text: 'Audio',
+        id: `${prefix}play2 audio ${video.title}`
+      })
+    },
+    {
+      name: 'quick_reply',
+      buttonParamsJson: JSON.stringify({
+        display_text: 'Video',
+        id: `${prefix}play2 video ${video.title}`
+      })
+    }
+  ];
+
+  const caption = buildInfo(video);
+  if (typeof sock.sendButton === 'function' && video.image) {
+    return sock.sendButton(m.chat, video.image || null, caption, m, {
+      buttons,
+      footer: 'Audio o video',
+      type: 'image'
+    });
+  }
+
+  const message = {
+    caption,
+    footer: 'Audio o video',
+    interactiveButtons: buttons
+  };
+  if (video.image) message.image = { url: video.image };
+  else message.text = caption;
+  return sock.sendMessage(m.chat, message, { quoted: m });
+}
+
+async function downloadVideo(video, filePath) {
+  if (video.download?.mp4) {
+    try {
+      console.log('Trying yosoyyo-api video...');
+      await downloadToFile(video.download.mp4, filePath);
+      return true;
+    } catch (err) {
+      console.error('yosoyyo-api video error:', err.message);
+    }
+  }
+
+  try {
+    console.log('Trying vidssave video...');
+    const data = await ytdl(video.url);
+    const videoFormat = data?.formats?.find((f) => f?.type === 'video' && f?.format === 'mp4') ||
+      data?.formats?.find((f) => f?.format === 'mp4');
+    if (videoFormat?.url) {
+      await downloadToFile(videoFormat.url, filePath, 'https://vidssave.com/');
+      return true;
+    }
+  } catch (err) {
+    console.error('Vidssave video failed:', err.message);
+  }
+
+  try {
+    console.log('Trying yt2mate video...');
+    const res = await yt2mate(video.url, 'mp4');
+    if (res?.download) {
+      await downloadToFile(res.download, filePath, 'https://v1.y2mate.nu/');
+      return true;
+    }
+  } catch (err) {
+    console.error('yt2mate video error:', err.message);
+  }
+
+  try {
+    console.log('Trying savetube video...');
+    const res = await savetube(video.url);
+    if (res?.status && res.videos?.length > 0) {
+      const videoFormat = res.videos.find((v) => v.quality === '360') || res.videos[0];
+      if (videoFormat?.url) {
+        await downloadToFile(videoFormat.url, filePath, 'https://save-tube.com/');
+        return true;
+      }
+    }
+  } catch (err) {
+    console.error('savetube video error:', err.message);
+  }
+
+  return false;
+}
+
+async function downloadAudio(video, filePath) {
+  if (video.download?.mp3) {
+    try {
+      console.log('Trying yosoyyo-api audio...');
+      await downloadToFile(video.download.mp3, filePath);
+      return true;
+    } catch (err) {
+      console.error('yosoyyo-api audio error:', err.message);
+    }
+  }
+
+  try {
+    console.log('Trying yt2mate audio...');
+    const res = await yt2mate(video.url, 'mp3');
+    if (res?.download) {
+      await downloadToFile(res.download, filePath, 'https://v1.y2mate.nu/');
+      return true;
+    }
+  } catch (err) {
+    console.error('yt2mate audio error:', err.message);
+  }
+
+  try {
+    console.log('Trying savetube audio...');
+    const res = await savetube(video.url);
+    if (res?.status && res.audios?.length > 0) {
+      const audioFormat = res.audios.find((a) => String(a.quality) === '128') || res.audios[0];
+      if (audioFormat?.url) {
+        await downloadToFile(audioFormat.url, filePath, 'https://save-tube.com/');
+        return true;
+      }
+    }
+  } catch (err) {
+    console.error('savetube audio error:', err.message);
+  }
+
+  try {
+    console.log('Trying vidssave audio...');
+    const data = await ytdl(video.url);
+    const audioFormat = data?.formats?.find((f) => f?.type === 'audio') ||
+      data?.formats?.find((f) => f?.format === 'mp3' || f?.format === 'm4a');
+    if (audioFormat?.url) {
+      await downloadToFile(audioFormat.url, filePath, 'https://vidssave.com/');
+      return true;
+    }
+  } catch (err) {
+    console.error('Vidssave audio failed:', err.message);
+  }
+
+  return false;
+}
+
+async function handler(m, { sock, args, text, prefix }) {
   console.log('\nPLAY2:', m.sender);
 
-  const query = (text || args.join(' ')).trim();
+  const firstArg = (args[0] || '').toLowerCase();
+  const mode = m.command === 'video' ? 'video' : ['audio', 'video'].includes(firstArg) ? firstArg : null;
+  const query = mode && m.command !== 'video'
+    ? args.slice(1).join(' ').trim()
+    : (text || args.join(' ')).trim();
+
   if (!query) {
     return sock.sendMessage(
       m.chat,
-      { text: 'Usa: .play2 nombre de video' },
+      { text: `Usa: ${prefix}play2 nombre de video` },
       { quoted: m }
     );
   }
-
-  if (userRequests.has(m.sender)) {
-    return sock.sendMessage(
-      m.chat,
-      { text: 'Ya tienes una descarga en proceso.' },
-      { quoted: m }
-    );
-  }
-
-  userRequests.add(m.sender);
-  let videoPath;
 
   try {
     await sock.sendMessage(m.chat, { react: { text: '⏳', key: m.key } });
@@ -107,101 +259,73 @@ async function handler(m, { sock, args, text }) {
     const video = search.videos[0];
     if (!video) throw new Error('Sin resultados');
 
-    const caption = `Video: ${video.title}\nDuracion: ${video.timestamp}\n\nProcesando...`;
-    if (video.image?.trim()) {
-      await sock.sendMessage(
-        m.chat,
-        { image: { url: video.image }, caption },
-        { quoted: m }
-      );
-    } else {
-      await sock.sendMessage(m.chat, { text: caption }, { quoted: m });
+    if (!mode) {
+      await sendChoiceButtons(m, sock, video, prefix);
+      await sock.sendMessage(m.chat, { react: { text: '✅', key: m.key } });
+      return;
     }
 
+    if (userRequests.has(m.sender)) {
+      return sock.sendMessage(
+        m.chat,
+        { text: 'Ya tienes una descarga en proceso.' },
+        { quoted: m }
+      );
+    }
+
+    userRequests.add(m.sender);
     const randomId = crypto.randomBytes(8).toString('hex');
-    videoPath = path.join(TMP_DIR, `${randomId}.mp4`);
-    let success = false;
+    const extension = mode === 'audio' ? 'mp3' : 'mp4';
+    const filePath = path.join(TMP_DIR, `${randomId}.${extension}`);
 
-    if (video.download?.mp4) {
-      try {
-        console.log('Trying yosoyyo-api...');
-        await downloadToFile(video.download.mp4, videoPath);
-        success = true;
-      } catch (err) {
-        console.error('yosoyyo-api error:', err.message);
+    try {
+      const success = mode === 'audio'
+        ? await downloadAudio(video, filePath)
+        : await downloadVideo(video, filePath);
+
+      if (!success || !fs.existsSync(filePath) || fs.statSync(filePath).size === 0) {
+        throw new Error(`No se pudo descargar el ${mode} o el archivo esta vacio (0kb).`);
       }
-    }
 
-    if (!success) {
-      try {
-        console.log('Trying vidssave...');
-        const data = await ytdl(video.url);
-        const videoFormat = data?.formats?.find((f) => f?.type === 'video' && f?.format === 'mp4') ||
-          data?.formats?.find((f) => f?.format === 'mp4');
-        if (videoFormat?.url) {
-          await downloadToFile(videoFormat.url, videoPath, 'https://vidssave.com/');
-          success = true;
-        }
-      } catch (err) {
-        console.error('Vidssave failed:', err.message);
+      const safeTitle = cleanTitle(video.title);
+      if (mode === 'audio') {
+        await sock.sendMessage(
+          m.chat,
+          {
+            audio: { url: filePath },
+            mimetype: 'audio/mpeg',
+            ptt: false,
+            fileName: `${safeTitle}.mp3`
+          },
+          { quoted: m }
+        );
+      } else if (fs.statSync(filePath).size < WHATSAPP_VIDEO_LIMIT) {
+        await sock.sendMessage(
+          m.chat,
+          { video: { url: filePath }, mimetype: 'video/mp4', caption: video.title },
+          { quoted: m }
+        );
+      } else {
+        await sock.sendMessage(
+          m.chat,
+          {
+            document: { url: filePath },
+            mimetype: 'video/mp4',
+            fileName: `${safeTitle}.mp4`
+          },
+          { quoted: m }
+        );
       }
-    }
 
-    if (!success) {
+      await sock.sendMessage(m.chat, { react: { text: '✅', key: m.key } });
+    } finally {
       try {
-        console.log('Trying yt2mate...');
-        const res = await yt2mate(video.url, 'mp4');
-        if (res?.download) {
-          await downloadToFile(res.download, videoPath, 'https://v1.y2mate.nu/');
-          success = true;
-        }
+        if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
       } catch (err) {
-        console.error('yt2mate error:', err.message);
+        console.error('Error cleaning up file in play2.js:', err);
       }
+      userRequests.delete(m.sender);
     }
-
-    if (!success) {
-      try {
-        console.log('Trying savetube...');
-        const res = await savetube(video.url);
-        if (res?.status && res.videos?.length > 0) {
-          const videoFormat = res.videos.find((v) => v.quality === '360') || res.videos[0];
-          if (videoFormat?.url) {
-            await downloadToFile(videoFormat.url, videoPath, 'https://save-tube.com/');
-            success = true;
-          }
-        }
-      } catch (err) {
-        console.error('savetube error:', err.message);
-      }
-    }
-
-    if (!success || !fs.existsSync(videoPath) || fs.statSync(videoPath).size === 0) {
-      throw new Error('No se pudo descargar el video o el archivo esta vacio (0kb).');
-    }
-
-    const fileSizeInBytes = fs.statSync(videoPath).size;
-    const safeTitle = video.title.replace(/[^\w\s-]/g, '').trim() || 'video';
-
-    if (fileSizeInBytes < WHATSAPP_VIDEO_LIMIT) {
-      await sock.sendMessage(
-        m.chat,
-        { video: { url: videoPath }, mimetype: 'video/mp4', caption: video.title },
-        { quoted: m }
-      );
-    } else {
-      await sock.sendMessage(
-        m.chat,
-        {
-          document: { url: videoPath },
-          mimetype: 'video/mp4',
-          fileName: `${safeTitle}.mp4`
-        },
-        { quoted: m }
-      );
-    }
-
-    await sock.sendMessage(m.chat, { react: { text: '✅', key: m.key } });
   } catch (err) {
     console.log('ERROR PLAY2:', err.message);
     await sock.sendMessage(m.chat, { react: { text: '❌', key: m.key } });
@@ -210,13 +334,6 @@ async function handler(m, { sock, args, text }) {
       ? '*ERROR:* No queda espacio en el servidor para procesar esta descarga.'
       : `Error: ${err.message}`;
     await sock.sendMessage(m.chat, { text: errorMsg }, { quoted: m });
-  } finally {
-    try {
-      if (videoPath && fs.existsSync(videoPath)) fs.unlinkSync(videoPath);
-    } catch (err) {
-      console.error('Error cleaning up file in play2.js:', err);
-    }
-    userRequests.delete(m.sender);
   }
 }
 
