@@ -82,16 +82,38 @@ function cleanTitle(title) {
 }
 
 function buildInfo(video) {
-  return [
-    '*Nino play*',
-    '',
-    `Titulo: ${video.title}`,
-    `Canal: ${video.author?.name || 'Desconocido'}`,
-    `Duracion: ${video.timestamp || '0:00'}`,
-    `Link: ${video.url}`,
-    '',
-    'Elige si quieres recibir audio o video.'
-  ].join('\n');
+  return `
+╔══════════════════════╗
+║      ♔ 𝐍𝐈𝐍𝐎 𝐏𝐋𝐀𝐘 ♔
+╚══════════════════════╝
+
+🎵 𝐓𝐈𝐓𝐔𝐋𝐎
+➥ ${video.title}
+
+👤 𝐂𝐀𝐍𝐀𝐋
+➥ ${video.author?.name || 'Desconocido'}
+
+⏱️ 𝐃𝐔𝐑𝐀𝐂𝐈𝐎𝐍
+➥ ${video.timestamp || '0:00'}
+
+🔗 𝐔𝐑𝐋
+➥ ${video.url}
+
+ℹ️ 𝐈𝐍𝐅𝐎
+➥ Elige si deseas descargar este contenido
+➥ en formato Audio MP3 o Video MP4.
+
+╭━━━━━━━━━━━━━━━━━━━━╮
+┃     ꧁ 𝐍𝐈𝐍𝐎 𝐏𝐋𝐀𝐘 ꧂
+╰━━━━━━━━━━━━━━━━━━━━╯
+
+✦҈͜͡➳ ❖ 𝑴𝒖𝒔𝒊𝒄 • 𝑽𝒊𝒅𝒆𝒐 • 𝑫𝒐𝒘𝒏𝒍𝒐𝒂𝒅 ❖
+༈ ࿗᭄🌀 🎶 🎬 🎧
+
+⚡ Selecciona una opción:
+🎧 Audio MP3
+🎬 Video MP4
+`.trim();
 }
 
 async function sendChoiceButtons(m, sock, video, prefix) {
