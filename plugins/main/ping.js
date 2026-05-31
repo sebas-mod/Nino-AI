@@ -26,18 +26,20 @@ const pluginConfig = {
 };
 
 const fmtSize = (b) => {
-  if (!b || b === 0) return "0 B";
+  b = Number(b) || 0;
+  if (b <= 0) return "0 B";
   const u = ["B", "KB", "MB", "GB", "TB"];
-  const i = Math.floor(Math.log(b) / Math.log(1024));
-  return (b / Math.pow(1024, i)).toFixed(1) + " " + u[i];
+  const i = Math.min(Math.floor(Math.log(b) / Math.log(1024)), u.length - 1);
+  return `${(b / Math.pow(1024, i)).toFixed(1)} ${u[i]}`;
 };
 
 const fmtUp = (s) => {
-  s = Number(s);
-  const d = Math.floor(s / 86400),
-    h = Math.floor((s % 86400) / 3600),
-    m = Math.floor((s % 3600) / 60),
-    sc = Math.floor(s % 60);
+  s = Number(s) || 0;
+  const d = Math.floor(s / 86400);
+  const h = Math.floor((s % 86400) / 3600);
+  const m = Math.floor((s % 3600) / 60);
+  const sc = Math.floor(s % 60);
+
   if (d > 0) return `${d}d ${h}h ${m}m`;
   if (h > 0) return `${h}h ${m}m ${sc}s`;
   return `${m}m ${sc}s`;
@@ -45,14 +47,28 @@ const fmtUp = (s) => {
 
 function rr(ctx, x, y, w, h, r) {
   ctx.beginPath();
-  ctx.roundRect(x, y, w, h, r);
+  if (typeof ctx.roundRect === "function") {
+    ctx.roundRect(x, y, w, h, r);
+    return;
+  }
+
+  const radius = Math.min(r, w / 2, h / 2);
+  ctx.moveTo(x + radius, y);
+  ctx.lineTo(x + w - radius, y);
+  ctx.quadraticCurveTo(x + w, y, x + w, y + radius);
+  ctx.lineTo(x + w, y + h - radius);
+  ctx.quadraticCurveTo(x + w, y + h, x + w - radius, y + h);
+  ctx.lineTo(x + radius, y + h);
+  ctx.quadraticCurveTo(x, y + h, x, y + h - radius);
+  ctx.lineTo(x, y + radius);
+  ctx.quadraticCurveTo(x, y, x + radius, y);
 }
 
 // eslint-disable-next-line require-await
 async function render(s, pf) {
   const { createCanvas } = _canvas;
-  const W = 900,
-    H = 540;
+  const W = 980;
+  const H = 540;
   const canvas = createCanvas(W, H);
   const ctx = canvas.getContext("2d");
 
@@ -95,26 +111,25 @@ async function render(s, pf) {
   ctx.save();
   ctx.globalAlpha = 0.04;
   for (let i = 0; i < 12; i++) {
-    const x = 50 + Math.random() * (W - 100),
-      y = 30 + Math.random() * (H - 60),
-      r = 1 + Math.random() * 2;
+    const x = 50 + Math.random() * (W - 100);
+    const y = 30 + Math.random() * (H - 60);
+    const r = 1 + Math.random() * 2;
     ctx.beginPath();
     ctx.arc(x, y, r, 0, Math.PI * 2);
     ctx.fillStyle = "#fff";
     ctx.fill();
   }
-  ctx.globalAlpha = 1;
   ctx.restore();
 
   ctx.save();
   ctx.fillStyle = "#e2e8f0";
   ctx.font = "bold 22px Arial";
   ctx.textAlign = "left";
-  ctx.fillText("⚡ MONITOR DE RENDIMIENTO", 30, 38);
+  ctx.fillText("MONITOR DE RENDIMIENTO", 30, 38);
   ctx.fillStyle = "#64748b";
   ctx.font = "10px Arial";
   ctx.fillText(
-    `${config.bot?.name || "Nino AI"} • ${moment().tz("Asia/Jakarta").format("DD MMM YYYY, HH:mm:ss")} WIB`,
+    `${config.bot?.name || "Nino AI"} - ${moment().tz("Asia/Jakarta").format("DD MMM YYYY, HH:mm:ss")} WIB`,
     30,
     56,
   );
@@ -152,11 +167,11 @@ async function render(s, pf) {
   ctx.lineTo(W - 30, 68);
   ctx.stroke();
 
-  const P = 26,
-    topY = 85;
-  const ramPct = (s.ramUsed / s.ramTotal) * 100;
+  const P = 26;
+  const topY = 85;
+  const ramPct = s.ramTotal > 0 ? (s.ramUsed / s.ramTotal) * 100 : 0;
   const diskPct = s.diskTotal > 0 ? (s.diskUsed / s.diskTotal) * 100 : 0;
-  const cpuN = parseFloat(s.cpuLoad);
+  const cpuN = parseFloat(s.cpuLoad) || 0;
 
   function drawMeter(cx, cy, r, pct, color1, color2, label, val) {
     ctx.save();
@@ -194,36 +209,9 @@ async function render(s, pf) {
     ctx.restore();
   }
 
-  drawMeter(
-    85,
-    topY + 60,
-    40,
-    cpuN,
-    "#22d3ee",
-    "#06b6d4",
-    "CPU",
-    `${s.cpuLoad}%`,
-  );
-  drawMeter(
-    200,
-    topY + 60,
-    40,
-    ramPct,
-    "#a78bfa",
-    "#7c3aed",
-    "RAM",
-    `${ramPct.toFixed(0)}%`,
-  );
-  drawMeter(
-    315,
-    topY + 60,
-    40,
-    diskPct,
-    "#f472b6",
-    "#ec4899",
-    "DISK",
-    `${diskPct.toFixed(0)}%`,
-  );
+  drawMeter(85, topY + 60, 40, cpuN, "#22d3ee", "#06b6d4", "CPU", `${s.cpuLoad}%`);
+  drawMeter(200, topY + 60, 40, ramPct, "#a78bfa", "#7c3aed", "RAM", `${ramPct.toFixed(0)}%`);
+  drawMeter(315, topY + 60, 40, diskPct, "#f472b6", "#ec4899", "DISK", `${diskPct.toFixed(0)}%`);
 
   function glassPanel(x, y, w, h, ac) {
     ctx.save();
@@ -245,7 +233,6 @@ async function render(s, pf) {
     ctx.shadowColor = ac;
     ctx.shadowBlur = 8;
     ctx.stroke();
-    ctx.shadowBlur = 0;
     ctx.restore();
   }
 
@@ -266,7 +253,6 @@ async function render(s, pf) {
   ctx.font = "bold 10px Arial";
   ctx.textAlign = "left";
   ctx.fillText("RED", 405, topY + 16);
-  ctx.fillStyle = "#22d3ee";
   ctx.font = "bold 14px Arial";
   ctx.fillText(`↓ ${fmtSize(s.networkRx)}`, 405, topY + 40);
   ctx.fillStyle = "#f472b6";
@@ -283,12 +269,11 @@ async function render(s, pf) {
   ctx.font = "9px Arial";
   ctx.fillText(s.ping < 100 ? " En linea" : " Estable", 412, topY + 80);
 
-  glassPanel(650, topY, 225, 105, "#a78bfa");
+  glassPanel(650, topY, 305, 105, "#a78bfa");
   ctx.fillStyle = "#a78bfa";
   ctx.font = "bold 10px Arial";
   ctx.textAlign = "left";
   ctx.fillText("TIEMPO ACTIVO", 665, topY + 16);
-  ctx.fillStyle = "#a78bfa";
   ctx.font = "bold 18px Arial";
   ctx.fillText(s.uptimeBot, 665, topY + 44);
   ctx.fillStyle = "#94a3b8";
@@ -296,10 +281,10 @@ async function render(s, pf) {
   ctx.fillText("Tiempo del bot", 665, topY + 64);
   ctx.fillText(`Servidor: ${s.uptimeServer}`, 665, topY + 80);
 
-  const cy = 210,
-    cw = 210,
-    ch = 125,
-    cg = 10;
+  const cy = 210;
+  const cw = 210;
+  const ch = 125;
+  const cg = 10;
 
   glassPanel(P, cy, cw, ch, "#a78bfa");
   ctx.fillStyle = "#a78bfa";
@@ -328,14 +313,7 @@ async function render(s, pf) {
   ry += 16;
   sRow(cx2, ry, "Nucleos", `${s.cpuCores}C @ ${s.cpuSpeed}MHz`, "#22d3ee", 175);
   ry += 16;
-  sRow(
-    cx2,
-    ry,
-    "Carga",
-    `${s.cpuLoad}%`,
-    cpuN > 80 ? "#f87171" : "#4ade80",
-    175,
-  );
+  sRow(cx2, ry, "Carga", `${s.cpuLoad}%`, cpuN > 80 ? "#f87171" : "#4ade80", 175);
   ry += 16;
   sRow(cx2, ry, "Carga prom.", s.loadAvg, "#fbbf24", 175);
   ry += 20;
@@ -343,7 +321,7 @@ async function render(s, pf) {
   ctx.fillStyle = "#1e293b";
   ctx.fill();
   if (cpuN > 0) {
-    const fw = Math.max(4, (175 * cpuN) / 100);
+    const fw = Math.max(4, (175 * Math.min(cpuN, 100)) / 100);
     ctx.save();
     rr(ctx, cx2, ry, fw, 4, 2);
     const bg2 = ctx.createLinearGradient(cx2, 0, cx2 + fw, 0);
@@ -375,7 +353,7 @@ async function render(s, pf) {
   ctx.fillStyle = "#1e293b";
   ctx.fill();
   if (ramPct > 0) {
-    const fw2 = Math.max(4, (175 * ramPct) / 100);
+    const fw2 = Math.max(4, (175 * Math.min(ramPct, 100)) / 100);
     ctx.save();
     rr(ctx, mx, ry, fw2, 4, 2);
     const bg3 = ctx.createLinearGradient(mx, 0, mx + fw2, 0);
@@ -395,33 +373,19 @@ async function render(s, pf) {
   ctx.fillText("TRAZA DE RENDIMIENTO", P + (cw + cg) * 3 + 14, cy + 16);
   ry = cy + 34;
   const px = P + (cw + cg) * 3 + 14;
-  sRow(
-    px,
-    ry,
-    "WA Roundtrip",
-    `${pf.waRoundtrip}ms`,
-    pf.waRoundtrip < 150 ? "#4ade80" : "#fbbf24",
-    175,
-  );
+  sRow(px, ry, "WA Roundtrip", `${pf.waRoundtrip}ms`, pf.waRoundtrip < 150 ? "#4ade80" : "#fbbf24", 175);
   ry += 16;
   sRow(px, ry, "Muestra CPU", `${pf.cpuSample}ms`, "#22d3ee", 175);
   ry += 16;
   sRow(px, ry, "Canvas", `${pf.canvasTime}ms`, "#a78bfa", 175);
   ry += 16;
-  sRow(
-    px,
-    ry,
-    "Ejecucion total",
-    `${pf.totalExec}ms`,
-    pf.totalExec < 2000 ? "#4ade80" : "#fbbf24",
-    175,
-  );
+  sRow(px, ry, "Ejecucion total", `${pf.totalExec}ms`, pf.totalExec < 2000 ? "#4ade80" : "#fbbf24", 175);
   ry += 16;
   sRow(px, ry, "Pausa GC", `${pf.gcPause}ms`, "#f472b6", 175);
 
-  const by = 355,
-    bw = 280,
-    bh = 100;
+  const by = 355;
+  const bw = 280;
+  const bh = 100;
 
   glassPanel(P, by, bw, bh, "#fbbf24");
   ctx.fillStyle = "#fbbf24";
@@ -447,14 +411,7 @@ async function render(s, pf) {
   const sx = P + bw + cg + 14;
   sRow(sx, ry, "Total", fmtSize(s.diskTotal), "#e2e8f0", 240);
   ry += 16;
-  sRow(
-    sx,
-    ry,
-    "Usado",
-    `${fmtSize(s.diskUsed)} (${diskPct.toFixed(1)}%)`,
-    "#fbbf24",
-    240,
-  );
+  sRow(sx, ry, "Usado", `${fmtSize(s.diskUsed)} (${diskPct.toFixed(1)}%)`, "#fbbf24", 240);
   ry += 16;
   sRow(sx, ry, "Libre", fmtSize(s.diskTotal - s.diskUsed), "#4ade80", 240);
 
@@ -475,7 +432,7 @@ async function render(s, pf) {
   ctx.font = "8px Arial";
   ctx.textAlign = "center";
   ctx.fillText(
-    `${config.bot?.name || "Nino AI"} Monitor de rendimiento • renderizado en ${pf.canvasTime}ms`,
+    `${config.bot?.name || "Nino AI"} Monitor de rendimiento - renderizado en ${pf.canvasTime}ms`,
     W / 2,
     H - 8,
   );
@@ -488,17 +445,21 @@ async function getNetwork() {
   try {
     const ifaces = os.networkInterfaces();
     let active = "N/A";
+
     for (const [name, addrs] of Object.entries(ifaces)) {
       if (name.toLowerCase().includes("lo")) continue;
-      for (const a of addrs) {
+      for (const a of addrs || []) {
         if (a.family === "IPv4" && !a.internal) {
           active = name;
           break;
         }
       }
+      if (active !== "N/A") break;
     }
-    let rx = 0,
-      tx = 0;
+
+    let rx = 0;
+    let tx = 0;
+
     try {
       if (process.platform === "linux") {
         const netDev = nd.readFileSync("/proc/net/dev", "utf8");
@@ -528,6 +489,7 @@ async function getNetwork() {
             break;
           }
         }
+
         if (active === "N/A") {
           const f = Object.keys(ifaces).find(
             (n) => !n.toLowerCase().includes("loopback"),
@@ -536,10 +498,47 @@ async function getNetwork() {
         }
       }
     } catch {}
+
     return { rx, tx, iface: active };
   } catch {
     return { rx: 0, tx: 0, iface: "N/A" };
   }
+}
+
+async function getDiskUsage() {
+  let diskTotal = 0;
+  let diskUsed = 0;
+
+  try {
+    if (process.platform === "win32") {
+      const w = execSync(
+        "wmic logicaldisk where \"DeviceID='C:'\" get Size,FreeSpace /format:value",
+        { encoding: "utf-8" },
+      );
+      const fm = w.match(/FreeSpace=(\d+)/);
+      const sm = w.match(/Size=(\d+)/);
+      if (sm && fm) {
+        diskTotal = parseInt(sm[1]);
+        diskUsed = diskTotal - parseInt(fm[1]);
+      }
+    } else {
+      const df = execSync("df -k /", { encoding: "utf-8" })
+        .trim()
+        .split("\n");
+      if (df.length > 1) {
+        const p = df[1].trim().split(/\s+/);
+        if (p.length >= 3) {
+          diskTotal = Number(p[1]) * 1024;
+          diskUsed = Number(p[2]) * 1024;
+        }
+      }
+    }
+  } catch {
+    diskTotal = 500e9;
+    diskUsed = 250e9;
+  }
+
+  return { diskTotal, diskUsed };
 }
 
 async function handler(m, { sock }) {
@@ -548,15 +547,16 @@ async function handler(m, { sock }) {
 
   try {
     sock.sendPresenceUpdate("composing", m.chat).catch(() => {});
-    const t0 = m.messageTimestamp ? m.messageTimestamp * 1000 : Date.now();
+    const t0 = m.messageTimestamp ? Number(m.messageTimestamp) * 1000 : Date.now();
     const waRoundtrip = Math.max(1, Date.now() - t0);
 
     const cpus = os.cpus();
-    const totalMem = os.totalmem(),
-      freeMem = os.freemem();
+    const totalMem = os.totalmem();
+    const freeMem = os.freemem();
 
     const cpuStart = performance.now();
     let cpuPct = 0;
+
     try {
       const c1 = os.cpus().reduce(
         (a, c) => {
@@ -567,7 +567,9 @@ async function handler(m, { sock }) {
         },
         { total: 0, idle: 0 },
       );
+
       await new Promise((r) => setTimeout(r, 400));
+
       const c2 = os.cpus().reduce(
         (a, c) => {
           const t = Object.values(c.times).reduce((x, y) => x + y, 0);
@@ -577,75 +579,47 @@ async function handler(m, { sock }) {
         },
         { total: 0, idle: 0 },
       );
-      const td = c2.total - c1.total,
-        id = c2.idle - c1.idle;
+
+      const td = c2.total - c1.total;
+      const id = c2.idle - c1.idle;
       cpuPct =
         td > 0
           ? (((td - id) / td) * 100).toFixed(1)
           : Math.min(100, (os.loadavg()[0] / cpus.length) * 100).toFixed(1);
-      if (parseFloat(cpuPct) <= 0)
+
+      if (parseFloat(cpuPct) <= 0) {
         cpuPct = Math.max(
           1,
           Math.min(100, (os.loadavg()[0] / cpus.length) * 100),
         ).toFixed(1);
+      }
     } catch {
       cpuPct = Math.max(
         1,
         Math.min(100, (os.loadavg()[0] / cpus.length) * 100),
       ).toFixed(1);
     }
-    const cpuSample = Math.round(performance.now() - cpuStart);
 
-    let diskTotal = 0,
-      diskUsed = 0;
-    try {
-      if (process.platform === "win32") {
-        const w = execSync(
-          "wmic logicaldisk where \"DeviceID='C:'\" get Size,FreeSpace /format:value",
-          { encoding: "utf-8" },
-        );
-        const fm = w.match(/FreeSpace=(\d+)/),
-          sm = w.match(/Size=(\d+)/);
-        if (sm && fm) {
-          diskTotal = parseInt(sm[1]);
-          diskUsed = diskTotal - parseInt(fm[1]);
-        }
-      } else {
-        const df = execSync("df -k --output=size,used / 2>/dev/null")
-          .toString()
-          .trim()
-          .split("\n");
-        if (df.length > 1) {
-          const p = df[1].trim().split(/\s+/).map(Number);
-          if (p.length >= 2) {
-            diskTotal = p[0] * 1024;
-            diskUsed = p[1] * 1024;
-          }
-        }
-      }
-    } catch {
-      diskTotal = 500e9;
-      diskUsed = 250e9;
-    }
+    const cpuSample = Math.round(performance.now() - cpuStart);
+    const { diskTotal, diskUsed } = await getDiskUsage();
 
     const gcStart = performance.now();
     if (global.gc) global.gc();
     const gcPause = Math.round(performance.now() - gcStart);
 
     const net = await getNetwork();
-    const heap = process.memoryUso();
+    const heap = process.memoryUsage();
 
-    let dbUsuarios = 0,
-      dbGroups = 0,
-      dbPremium = 0;
+    let dbUsuarios = 0;
+    let dbGroups = 0;
+    let dbPremium = 0;
+
     try {
       const db = getDatabase();
       if (db?.data) {
         dbUsuarios = Object.keys(db.data.users || {}).length;
         dbGroups = Object.keys(db.data.groups || {}).length;
-        dbPremium = Object.values(db.data.users || {}).filter(
-          (u) => u.isPremium,
-        ).length;
+        dbPremium = Object.values(db.data.users || {}).filter((u) => u.isPremium).length;
       }
     } catch {}
 
@@ -659,21 +633,21 @@ async function handler(m, { sock }) {
       uptimeBot: fmtUp(process.uptime()),
       uptimeServer: fmtUp(os.uptime()),
       cpuModel: cpus[0]?.model?.trim() || "Desconocido",
-      cpuVelocidad: cpus[0]?.speed || 0,
-      cpuNucleos: cpus.length,
+      cpuSpeed: cpus[0]?.speed || 0,
+      cpuCores: cpus.length,
       cpuLoad: cpuPct,
       loadAvg: os
         .loadavg()
         .map((l) => l.toFixed(2))
         .join(", "),
       ramTotal: totalMem,
-      ramUsado: totalMem - freeMem,
+      ramUsed: totalMem - freeMem,
       diskTotal,
       diskUsed,
       networkRx: net.rx,
       networkTx: net.tx,
       networkInterface: net.iface,
-      heapUsado: fmtSize(heap.heapUsed),
+      heapUsed: fmtSize(heap.heapUsed),
       heapTotal: fmtSize(heap.heapTotal),
       rss: fmtSize(heap.rss),
       external: fmtSize(heap.external),
@@ -686,23 +660,28 @@ async function handler(m, { sock }) {
       dbPremium,
     };
 
-    const canvasStart = performance.now();
     const pf = {
       waRoundtrip,
       cpuSample,
-      canvasTime: "...",
-      totalExec: "...",
+      canvasTime: 0,
+      totalExec: 0,
       gcPause,
     };
-    const img = await render(s, pf);
+
+    const canvasStart = performance.now();
+    let img = await render(s, pf);
     const canvasTime = Math.round(performance.now() - canvasStart);
     const totalExec = Math.round(performance.now() - execStart);
 
+    pf.canvasTime = canvasTime;
+    pf.totalExec = totalExec;
+    img = await render(s, pf);
+
     const saluranId = config.saluran?.id || "120363400911374213@newsletter";
     const saluranName = config.saluran?.name || config.bot?.name || "Nino AI";
-    const ramPct = ((s.ramUsed / s.ramTotal) * 100).toFixed(1);
+    const ramPct = s.ramTotal > 0 ? ((s.ramUsed / s.ramTotal) * 100).toFixed(1) : "0.0";
     const diskPct =
-      s.diskTotal > 0 ? ((s.diskUsed / s.diskTotal) * 100).toFixed(1) : 0;
+      s.diskTotal > 0 ? ((s.diskUsed / s.diskTotal) * 100).toFixed(1) : "0.0";
     const ic = waRoundtrip < 80 ? "🟢" : waRoundtrip < 200 ? "🟡" : "🔴";
     const osL =
       {
